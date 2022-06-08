@@ -3,8 +3,10 @@
     display: flex;
     width: 100%;
     height: auto;
+    /*
     position: sticky;
     top: 0;
+    */
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;

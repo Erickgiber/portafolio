@@ -1,0 +1,56 @@
+.header-m
+{
+    display: flex;
+    width: 100%;
+    height: auto;
+    position: sticky;
+    top: 0;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    z-index: 10;
+}
+
+.header-m div:nth-child(1)
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #252525;
+    box-shadow: 0 2px 6px 2px #0004;
+}
+
+.header-m div:nth-child(1) .react-icon
+{
+    font-size: 25px;
+    color: var(--react-color);
+}
+
+.header-m div:nth-child(2)
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    transition: 0.2s ease-in;
+    cursor: pointer;
+    user-select: none;
+}
+
+.header-m div:nth-child(2):active
+{
+    transition: 0s;
+    background-color: var(--light);
+}
+
+
+.header-m img
+{
+    width: 24px;
+    height: 16px;
+}

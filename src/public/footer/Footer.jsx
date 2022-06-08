@@ -13,7 +13,7 @@ const Footer = () => {
     <footer className='footer-m'>
         <div className="left">
           <h2> <RiContactsBookLine /> Contacts </h2>
-            <a href="" target='_BLANK'> <BsWhatsapp /> Whastapp </a>
+            <a href="https://wa.link/wo1hx3" target='_BLANK'> <BsWhatsapp /> Whastapp </a>
             <a href="https://www.linkedin.com/in/erickgiber/" target='_BLANK'> <BsLinkedin /> Linkedin </a>
             <a href="https://www.instagram.com/erickgiber/" target='_BLANK'> <BsInstagram /> Instagram </a>
             <a href="https://twitter.com/Erickgiber" target='_BLANK'> <BsTwitter /> Twitter </a>

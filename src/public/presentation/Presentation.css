@@ -82,3 +82,42 @@
 {
     font-size: 25px;
 }
+
+.download
+{
+    color: #ededed;
+    border: 1px solid #505050;
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: 30px;
+    width: 240px;
+    height: 50px;
+    font-size: 20px;
+    display: grid;
+    place-items: center;
+    margin-top: 40px;
+    transition: 0.5s;
+    user-select: none;
+    font-weight: bold;
+}
+
+.download:active
+{
+    transition: 0.2s;
+    transform: scale(0.95);
+    background-color: var(--react-color);
+    color: #000;
+    border-color: #000;
+}
+
+@media (min-width: 1024px)
+{
+    .download:hover
+    {
+        transition: 0.2s;
+        transform: scale(0.95);
+        background-color: var(--react-color);
+        color: #000;
+        border-color: #000;
+    }
+}

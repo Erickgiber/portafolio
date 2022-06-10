@@ -20,6 +20,7 @@ body {
   background-color: var(--bg-2);
   background-image: url('./public/images/bg-texture.png');
   color: var(--white);
+  overflow: hidden;
 }
 
 ::-webkit-scrollbar

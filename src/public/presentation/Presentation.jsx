@@ -2,6 +2,7 @@ import React from 'react'
 import './Presentation.css'
 import profile_image from '../images/profile-image.png'
 import { Icon } from '@iconify/react';
+import cv from '../Erick-cv.pdf'
 
 const Presentation = () => {
   return (
@@ -28,6 +29,9 @@ const Presentation = () => {
                 <strong> App Developer </strong>
                 <span> Flutter </span>
             </div>
+            <a className='download' download="Erick CV" href={cv}>
+                Download CV
+            </a>
         </div>
     </main>
   )

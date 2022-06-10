@@ -50,5 +50,5 @@ window.addEventListener('load', ()=> {
             opacity: 1;
             transform: none;
         `
-    },500)  
+    }, 800)  
 })

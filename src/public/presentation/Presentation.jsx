@@ -2,7 +2,7 @@ import React from 'react'
 import './Presentation.css'
 import profile_image from '../images/profile-image.png'
 import { Icon } from '@iconify/react';
-import cv from '../Erick-CV.docx'
+import cv from '../Erick-CV.pdf'
 
 const Presentation = () => {
   return (
@@ -25,11 +25,8 @@ const Presentation = () => {
                 <span> Figma </span>
                 <Icon className='icon_down' icon="clarity:angle-double-line" color="#545454" vFlip={true} />
             </div>
-            <div className="app_developer">
-                <strong> App Developer </strong>
-                <span> Flutter </span>
-            </div>
-            <a className='download' download="Erick CV" href={cv}>
+            
+            <a className='download' download href={cv}>
                 Download CV
             </a>
         </div>
@@ -38,3 +35,10 @@ const Presentation = () => {
 }
 
 export default Presentation
+
+/*
+    <div className="app_developer">
+        <strong> App Developer </strong>
+        <span> Flutter </span>
+    </div>
+*/

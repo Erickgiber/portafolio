@@ -42,3 +42,13 @@ export default Presentation
         <span> Flutter </span>
     </div>
 */
+
+window.addEventListener('load', ()=> {
+    setTimeout(()=> {
+        document.querySelector('.profile-image')
+        .style.cssText = `
+            opacity: 1;
+            transform: none;
+        `
+    },500)  
+})

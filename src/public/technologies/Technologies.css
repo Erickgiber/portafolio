@@ -65,6 +65,8 @@
         border-radius: 40px;
         transform: translateY(-10px);
         background-color: var(--react-color);
+        color: #000;
+        font-weight: bold;
     }
 }
 
@@ -77,6 +79,8 @@
         border-radius: 40px;
         transform: translateY(-10px);
         background-color: var(--react-color);
+        color: #000;
+        font-weight: bold;
     }
 }
 
@@ -88,7 +92,7 @@
     background-color: #ededed;
 }
 
-.languages a span
+.languages a
 {
     color: #ededed;
     font-size: 20px;

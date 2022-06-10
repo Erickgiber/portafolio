@@ -3,6 +3,7 @@
     display: flex;
     flex-direction: column;
     height: auto;
+    position: relative;
 }
 
 .title_about_me

@@ -103,6 +103,7 @@
     transition: 0.5s;
     user-select: none;
     font-weight: bold;
+    z-index: 500;
 }
 
 .download:active

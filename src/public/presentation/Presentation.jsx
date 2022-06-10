@@ -2,7 +2,7 @@ import React from 'react'
 import './Presentation.css'
 import profile_image from '../images/profile-image.png'
 import { Icon } from '@iconify/react';
-import cv from '../Erick-cv.pdf'
+import cv from '../Erick-cv.docx'
 
 const Presentation = () => {
   return (

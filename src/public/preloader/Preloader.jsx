@@ -14,11 +14,13 @@ export default Preloader
 window.addEventListener('load', ()=> {
     document.body
         .style.overflow = 'auto'
-        document.querySelector('.preloader')
-            .style.opacity = '0'
     
     setTimeout(()=> {
+      document.querySelector('.preloader')
+            .style.opacity = '0'
+      setTimeout(()=> {
         document.querySelector('.preloader')
             .style.display = 'none'
-    }, 1000)
+      }, 1000)
+    }, 500)
 });

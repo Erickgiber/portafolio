@@ -1,6 +1,6 @@
 import React from 'react'
 import usa_flag from '../images/usa.png'
-import esp_flag from '../images/esp.png'
+// import esp_flag from '../images/esp.png'
 import './Header.css'
 import { GrReactjs } from 'react-icons/gr'
 
@@ -11,8 +11,8 @@ const Header = () => {
             <GrReactjs className='react-icon' />
         </div>
         <div className='language-btn'>
-            <span> ES </span>
-            <img src={esp_flag} alt="Spanish" />
+            <span> EN </span>
+            <img src={usa_flag} alt="Spanish" />
         </div>
     </header>
   )

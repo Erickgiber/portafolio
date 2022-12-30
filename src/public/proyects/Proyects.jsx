@@ -6,7 +6,7 @@ const Proyects = () => {
     <div className="main-proyects">
         <h2> You can see mine projects in Github </h2>
         <div className="github">
-          <a href="" className="link">
+          <a target="_blank" href="https://github.com/Erickgiber" className="link">
             <img src={github} alt="Github" />
             <span> Github </span>
           </a>

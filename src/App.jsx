@@ -6,6 +6,7 @@ import About_me from './public/about_me/About_me'
 import Technologies from './public/technologies/Technologies'
 import Footer from './public/footer/Footer'
 import Preloader from './public/preloader/Preloader'
+import Proyects from './public/proyects/Proyects'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Presentation />
       <About_me />
       <Technologies />
+      <Proyects />
       <Footer />
       <Preloader />
       <ul class="circles">

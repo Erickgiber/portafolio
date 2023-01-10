@@ -1,6 +1,5 @@
 import React from 'react'
 import { FaNodeJs } from 'react-icons/fa'
-import './Technologies.css'
 import html5 from '../images/html5.png'
 import css3 from '../images/css3.png'
 import js from '../images/js.png'
@@ -12,6 +11,7 @@ import sass from '../images/sass.png'
 import bootstrap from '../images/bootstrap.png'
 import figma from '../images/figma.png'
 import mysql from '../images/mysql.png'
+import './Technologies.css'
 
 const border = {
   border: '8px solid #ededed'

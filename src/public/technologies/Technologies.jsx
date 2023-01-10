@@ -4,6 +4,7 @@ import './Technologies.css'
 import html5 from '../images/html5.png'
 import css3 from '../images/css3.png'
 import js from '../images/js.png'
+import ts from '../images/ts.png'
 import stylus from '../images/stylus.png'
 import react_logo from '../images/react.png'
 import node_js from '../images/node.png'
@@ -56,6 +57,12 @@ const Technologies = () => {
               <img style={border} src={js} alt="JavaScript" />
               <span> JavaScript </span>
             </a>
+
+            <a href='https://es.wikipedia.org/wiki/TypeScript' target="_BLANK">
+              <img style={border} src={ts} alt="TypeScript" />
+              <span> TypeScript </span>
+            </a>
+
             <a href='https://es.reactjs.org/' target="_BLANK">
               <img style={object_fit} src={react_logo} alt="React JS" />
               <span> React JS </span>

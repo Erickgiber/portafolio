@@ -17,7 +17,7 @@ const Presentation = () => {
         <div className="habilities_1">
             <div className="web_developer">
                 <strong> Web Developer </strong>
-                <span> Front-End </span>
+                <span> Full Stack </span>
                 <Icon className='icon_down' icon="clarity:angle-double-line" color="#545454" vFlip={true} />
             </div>
             <div className="web_designer">

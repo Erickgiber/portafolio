@@ -19,7 +19,7 @@ export function Presentation() {
   return (
     <main className="main-m">
       <div className="title">
-        <h1> Hello Im </h1>
+        <h1> Hello I am </h1>
         <strong> Erick Ramírez </strong>
       </div>
       <div className="profile-image" style={photoAnimation}>

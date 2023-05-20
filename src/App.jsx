@@ -1,37 +1,27 @@
-import logo from './logo.png'
-import './App.css'
-import Header from './public/header/Header'
-import Presentation from './public/presentation/Presentation'
-import About_me from './public/about_me/About_me'
-import Technologies from './public/technologies/Technologies'
-import Footer from './public/footer/Footer'
-import Preloader from './public/preloader/Preloader'
-import Proyects from './public/proyects/Proyects'
+import './App.css';
+import { AboutMe } from './application/shared/ui/AboutMe';
+import { BgAnimated } from './application/shared/ui/BgAnimated';
+import { Footer } from './application/shared/ui/Footer';
+import { Header } from './application/shared/ui/Header';
+import { Preloader } from './application/shared/ui/Preloader';
+import { Presentation } from './application/shared/ui/Presentation';
+import { Proyects } from './application/shared/ui/Proyects';
+import { Technologies } from './application/shared/ui/Technologies';
 
 function App() {
   return (
-    <div className="App">
+    <>
       <Header />
       <Presentation />
-      <About_me />
+      <AboutMe />
       <Technologies />
       <Proyects />
       <Footer />
+
       <Preloader />
-      <ul class="circles">
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-            </ul>
-    </div>
-  )
+      <BgAnimated />
+    </>
+  );
 }
 
-export default App
+export default App;

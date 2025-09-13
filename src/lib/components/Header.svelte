@@ -58,7 +58,7 @@
 
     <!-- Mobile Navigation -->
     {#if isMenuOpen}
-      <div class="md:hidden mt-4 pb-4 border-t border-border">
+      <div class="md:hidden mt-4 pb-4 border-t border-border animate-mobile-menu-enter origin-top" role="menu" aria-label="Mobile navigation">
         <div class="flex flex-col space-y-4 pt-4">
           <button onclick={() => scrollToSection('about')} class="text-left text-muted-foreground hover:text-primary transition-colors" aria-label="Sobre mí">
             Sobre mí

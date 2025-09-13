@@ -87,6 +87,26 @@ body {
   transition: background-color .3s ease, color .3s ease;
 }
 
+/* Animación menú móvil (slide & fade + ligero scale) */
+@keyframes mobileMenuIn {
+  0% { opacity: 0; transform: translateY(-0.75rem) scale(.96); }
+  60% { opacity: 1; transform: translateY(0) scale(1.01); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes mobileMenuOut {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-0.5rem) scale(.96); }
+}
+
+/* Clase utilitaria; Tailwind v4 permite custom properties con animate-[...] pero usamos clase dedicada para mayor control */
+.animate-mobile-menu-enter {
+  animation: mobileMenuIn .38s cubic-bezier(.4,0,.2,1);
+}
+.animate-mobile-menu-leave {
+  animation: mobileMenuOut .25s cubic-bezier(.4,0,.2,1);
+}
+
 html {
   scroll-behavior: smooth;
 }

@@ -6,7 +6,17 @@
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
 
   /* Light mode design tokens (Tailwind v4 expects --color-* to map to bg-* text-* utilities) */
-  --color-background: #ffffff;
+  /* Fondo base (fallback) blanco y gradiente suave para modo claro */
+  --color-background: #ffffff; /* fallback simple */
+  /* Gradiente pensado para ser muy sutil: un tono aqua muy claro hacia un verde menta apenas visible
+     Usamos alpha baja para no distraer contenido. */
+  --color-background-gradient: linear-gradient(
+    145deg,
+    color-mix(in srgb, #ecfeff 85%, #ffffff) 0%,
+    color-mix(in srgb, #f0fdfa 90%, #ffffff) 30%,
+    color-mix(in srgb, #f0f9ff 88%, #ffffff) 65%,
+    #ffffff 100%
+  );
   --color-foreground: #4b5563;
   --color-card: #f9fafb;
   --color-card-foreground: #374151;
@@ -82,9 +92,18 @@
 }
 
 body {
+  /* Usamos ambos: color de fondo sólido + imagen gradiente para compatibilidad y suavidad. */
   background-color: var(--color-background);
+  background-image: var(--color-background-gradient);
+  background-attachment: fixed;
+  background-size: cover;
   color: var(--color-foreground);
-  transition: background-color .3s ease, color .3s ease;
+  transition: background-color .3s ease, color .3s ease, background-image .6s ease;
+}
+
+/* En modo oscuro mantenemos color plano (evita ruido visual) */
+.dark body {
+  background-image: none;
 }
 
 /* Animación menú móvil (slide & fade + ligero scale) */

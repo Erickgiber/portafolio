@@ -107,6 +107,47 @@ body {
   animation: mobileMenuOut .25s cubic-bezier(.4,0,.2,1);
 }
 
+/* Links navegación header */
+.nav-link {
+  position: relative;
+  font-weight: 500;
+  color: var(--color-foreground);
+  transition: color .25s ease, text-shadow .35s ease;
+  @apply md:cursor-pointer;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(90deg,var(--color-primary),var(--color-secondary));
+  border-radius: 999px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .35s cubic-bezier(.65,.05,.36,1);
+  box-shadow: 0 0 0px 0 var(--color-primary);
+}
+
+.nav-link:hover {
+  color: var(--color-primary);
+  text-shadow: 0 0 8px color-mix(in srgb,var(--color-primary) 60%,transparent);
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+  box-shadow: 0 0 6px 1px color-mix(in srgb,var(--color-primary) 55%,transparent);
+}
+
+/* Preferencia: accesibilidad focus visible */
+.nav-link:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 html {
   scroll-behavior: smooth;
 }

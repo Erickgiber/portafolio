@@ -19,16 +19,16 @@
       
       <!-- Desktop Navigation -->
       <div class="hidden md:flex items-center space-x-8">
-        <button onclick={() => scrollToSection('about')} class="text-muted-foreground hover:text-primary transition-colors" aria-label="Sobre mí">
+        <button onclick={() => scrollToSection('about')} class="nav-link" aria-label="Sobre mí">
           Sobre mí
         </button>
-        <button onclick={() => scrollToSection('skills')} class="text-muted-foreground hover:text-primary transition-colors" aria-label="Habilidades">
+        <button onclick={() => scrollToSection('skills')} class="nav-link" aria-label="Habilidades">
           Habilidades
         </button>
-        <button onclick={() => scrollToSection('projects')} class="text-muted-foreground hover:text-primary transition-colors" aria-label="Proyectos">
+        <button onclick={() => scrollToSection('projects')} class="nav-link" aria-label="Proyectos">
           Proyectos
         </button>
-        <button onclick={() => scrollToSection('contact')} class="text-muted-foreground hover:text-primary transition-colors" aria-label="Contacto">
+        <button onclick={() => scrollToSection('contact')} class="nav-link" aria-label="Contacto">
           Contacto
         </button>
         
@@ -60,16 +60,16 @@
     {#if isMenuOpen}
       <div class="md:hidden mt-4 pb-4 border-t border-border animate-mobile-menu-enter origin-top" role="menu" aria-label="Mobile navigation">
         <div class="flex flex-col space-y-4 pt-4">
-          <button onclick={() => scrollToSection('about')} class="text-left text-muted-foreground hover:text-primary transition-colors" aria-label="Sobre mí">
+          <button onclick={() => scrollToSection('about')} class="text-left nav-link" aria-label="Sobre mí">
             Sobre mí
           </button>
-          <button onclick={() => scrollToSection('skills')} class="text-left text-muted-foreground hover:text-primary transition-colors" aria-label="Habilidades">
+          <button onclick={() => scrollToSection('skills')} class="text-left nav-link" aria-label="Habilidades">
             Habilidades
           </button>
-          <button onclick={() => scrollToSection('projects')} class="text-left text-muted-foreground hover:text-primary transition-colors" aria-label="Proyectos">
+          <button onclick={() => scrollToSection('projects')} class="text-left nav-link" aria-label="Proyectos">
             Proyectos
           </button>
-          <button onclick={() => scrollToSection('contact')} class="text-left text-muted-foreground hover:text-primary transition-colors" aria-label="Contacto">
+          <button onclick={() => scrollToSection('contact')} class="text-left nav-link" aria-label="Contacto">
             Contacto
           </button>
           <button onclick={toggleTheme} class="flex items-center space-x-2 text-left text-muted-foreground hover:text-primary transition-colors" aria-label="Toggle theme">

@@ -5,6 +5,10 @@
   // y usar const darkMode = $derived(isDark());
   let { darkMode, toggleTheme } = $props();
   let isMenuOpen = $state(false);
+  import { animationsStore } from '../stores/animations.svelte';
+  let { animationsEnabled, toggleAnimations, initAnimations } = animationsStore();
+
+  $effect(() => { initAnimations(); });
 
   function scrollToSection(sectionId : string) {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
@@ -32,6 +36,22 @@
           Contacto
         </button>
         
+        <!-- Animations Toggle -->
+        <button onclick={toggleAnimations} class="p-2 rounded-lg hover:bg-muted transition-colors" aria-label={animationsEnabled ? 'Desactivar animaciones' : 'Activar animaciones'}>
+          {#if animationsEnabled}
+            <!-- waves icon off state -->
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12c2.5 0 2.5-4 5-4s2.5 4 5 4 2.5-4 5-4 2.5 4 5 4" />
+            </svg>
+            <span class="sr-only">Animaciones activadas</span>
+          {:else}
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12c2.5 0 2.5-4 5-4s2.5 4 5 4 2.5-4 5-4 2.5 4 5 4M3 18c2.5 0 2.5-4 5-4" />
+            </svg>
+            <span class="sr-only">Animaciones desactivadas</span>
+          {/if}
+        </button>
+
         <!-- Theme Toggle -->
         <button onclick={toggleTheme} class="p-2 rounded-lg hover:bg-muted transition-colors" aria-label={darkMode ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}>
           {#if darkMode}
@@ -72,7 +92,21 @@
           <button onclick={() => scrollToSection('contact')} class="text-left nav-link" aria-label="Contacto">
             Contacto
           </button>
-          <button onclick={toggleTheme} class="flex items-center space-x-2 text-left text-muted-foreground hover:text-primary transition-colors" aria-label="Toggle theme">
+          <div class="flex items-center space-x-4">
+            <button onclick={toggleAnimations} class="flex items-center space-x-2 text-left text-muted-foreground hover:text-primary transition-colors" aria-label={animationsEnabled ? 'Desactivar animaciones' : 'Activar animaciones'}>
+              {#if animationsEnabled}
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12c2.5 0 2.5-4 5-4s2.5 4 5 4 2.5-4 5-4 2.5 4 5 4" />
+                </svg>
+                <span>Animaciones: ON</span>
+              {:else}
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12c2.5 0 2.5-4 5-4s2.5 4 5 4 2.5-4 5-4 2.5 4 5 4M3 18c2.5 0 2.5-4 5-4" />
+                </svg>
+                <span>Animaciones: OFF</span>
+              {/if}
+            </button>
+            <button onclick={toggleTheme} class="flex items-center space-x-2 text-left text-muted-foreground hover:text-primary transition-colors" aria-label="Toggle theme">
             {#if darkMode}
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -84,7 +118,8 @@
               </svg>
               <span>Modo oscuro</span>
             {/if}
-          </button>
+            </button>
+          </div>
         </div>
       </div>
     {/if}

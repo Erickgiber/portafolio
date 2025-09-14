@@ -1,10 +1,13 @@
-<section id="contact" class="py-16 px-4">
+<script lang="ts">
+  import { reveal } from '../actions/reveal';
+</script>
+<section id="contact" class="py-16 px-4" use:reveal={{ direction: 'up', distance: 40 }}>
   <div class="container mx-auto">
     <div class="max-w-4xl mx-auto">
       <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Contacto</h2>
       
       <div class="grid md:grid-cols-2 gap-12">
-        <div>
+        <div use:reveal={{ delay: 80 }}>
           <h3 class="text-2xl font-semibold mb-6">¡Hablemos!</h3>
           <p class="text-muted-foreground mb-8 leading-relaxed">
             Estoy siempre abierto a nuevas oportunidades y proyectos interesantes. 
@@ -50,7 +53,7 @@
           </div>
         </div>
         
-        <div class="bg-card border border-border rounded-lg p-6">
+  <div class="bg-card border border-border rounded-lg p-6" use:reveal={{ delay: 200 }}>
           <form class="space-y-6">
             <div>
               <label for="name" class="block text-sm font-medium mb-2">Nombre</label>

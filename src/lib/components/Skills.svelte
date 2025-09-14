@@ -1,11 +1,14 @@
-<section id="skills" class="py-16 px-4">
+<script lang="ts">
+  import { reveal } from '../actions/reveal';
+</script>
+<section id="skills" class="py-16 px-4" use:reveal={{ direction: 'up', distance: 40 }}>
   <div class="container mx-auto">
     <div class="max-w-6xl mx-auto">
       <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Habilidades Técnicas</h2>
       
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         <!-- Frontend -->
-        <div class="bg-card border border-border rounded-lg p-6 hover:shadow-lg transition-shadow">
+  <div class="bg-card border border-border rounded-lg p-6 hover:shadow-lg transition-shadow" use:reveal={{ delay: 50 }}>
           <div class="flex items-center space-x-3 mb-4">
             <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
               <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -32,7 +35,7 @@
         </div>
 
         <!-- Backend -->
-        <div class="bg-card border border-border rounded-lg p-6 hover:shadow-lg transition-shadow">
+  <div class="bg-card border border-border rounded-lg p-6 hover:shadow-lg transition-shadow" use:reveal={{ delay: 150 }}>
           <div class="flex items-center space-x-3 mb-4">
             <div class="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center">
               <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -59,7 +62,7 @@
         </div>
 
         <!-- Tools & Others -->
-        <div class="bg-card border border-border rounded-lg p-6 hover:shadow-lg transition-shadow">
+  <div class="bg-card border border-border rounded-lg p-6 hover:shadow-lg transition-shadow" use:reveal={{ delay: 250 }}>
           <div class="flex items-center space-x-3 mb-4">
             <div class="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center">
               <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">

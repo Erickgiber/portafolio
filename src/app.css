@@ -188,3 +188,28 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-primary);
 }
+
+/* =====================================================
+   UTILIDADES / ANIMACIONES GLOBALES
+   ===================================================== */
+@keyframes floatSlow {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float-slow { animation: floatSlow 9s ease-in-out infinite; }
+
+/* Fade slide base (para fallback sin action si se deshabilita js) */
+.reveal-base { opacity: 0; transform: translate3d(0,32px,0); }
+.reveal-in { opacity: 1 !important; transform: none !important; }
+
+/* Estado global cuando las animaciones están desactivadas */
+:root[data-animations='off'] .reveal-base { opacity: 1 !important; transform: none !important; transition: none !important; }
+
+/* Preferencia de usuario reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: 0ms !important; scroll-behavior: auto !important; }
+  .reveal-base { opacity: 1 !important; transform: none !important; }
+}
+

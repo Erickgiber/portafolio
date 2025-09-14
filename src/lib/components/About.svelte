@@ -1,4 +1,7 @@
-<section id="about" class="py-16 px-4 bg-secondary/5 dark:bg-muted/20">
+<script lang="ts">
+  import { reveal } from '../actions/reveal';
+</script>
+<section id="about" class="py-16 px-4 bg-secondary/5 dark:bg-muted/20" use:reveal={{ direction: 'up', distance: 40 }}>
   <div class="container mx-auto">
     <div class="max-w-4xl mx-auto">
       <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Sobre mí</h2>

@@ -16,17 +16,21 @@
   import Contact from "./lib/components/Contact.svelte";
   import Footer from "./lib/components/Footer.svelte";
   import { themeStore } from "./lib/stores/theme.svelte";
+  import AnimatedBackground from './lib/components/AnimatedBackground.svelte';
+  import { animationsStore } from './lib/stores/animations.svelte';
+
+  let { initAnimations } = animationsStore();
 
   let { initTheme, isDark, toggleTheme } = themeStore();
 
   onMount(() => {
     initTheme();
+    initAnimations();
   });
 </script>
 
-<div
-  class="min-h-screen bg-background text-foreground transition-colors duration-300"
->
+<div class="min-h-screen bg-background text-foreground transition-colors duration-300 relative overflow-hidden">
+  <AnimatedBackground />
   <Header darkMode={isDark} toggleTheme={toggleTheme} />
   <main>
     <Hero />

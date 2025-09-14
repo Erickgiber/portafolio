@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { reveal } from '../actions/reveal';
 
   const prefix = 'Hola, soy ';
   const name = 'Erick Ramírez';
@@ -29,8 +30,7 @@
 
   onMount(type);
 </script>
-
-<section class="pt-24 pb-16 px-4">
+<section class="pt-24 pb-16 px-4" use:reveal={{ direction: 'up', distance: 50 }}>
   <div class="container mx-auto text-center">
     <div class="max-w-4xl mx-auto">
       <h1 class="text-5xl md:text-7xl font-bold mb-6 text-balance leading-tight">

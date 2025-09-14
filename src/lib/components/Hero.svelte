@@ -1,15 +1,19 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { reveal } from "../actions/reveal";
+  import { animationsStore } from "../stores/animations.svelte";
+  // Reactivo al store global de animaciones
+  let animationsEnabled = $derived(animationsStore.animationsEnabled);
 
   const prefix = "Hola, soy ";
   const name = "Erick Ramírez";
   const fullText = prefix + name;
 
-  let displayText = "";
+  let displayText = $state("");
   let index = 0;
   const typingSpeed = 50; // ms per character
-  let finished = false;
+  let finished = $state(false);
+  let started = false; // para no relanzar varias veces
 
   function colorize(text: string) {
     if (!text) return "";
@@ -20,32 +24,59 @@
   }
 
   async function type() {
-    while (index < fullText.length) {
+    started = true;
+    while (index < fullText.length && animationsEnabled) {
       displayText = fullText.slice(0, index + 1);
       index++;
       await new Promise((r) => setTimeout(r, typingSpeed));
     }
-    finished = true;
+    if (index >= fullText.length || !animationsEnabled) {
+      // Si se desactiva en medio, completar inmediatamente
+      displayText = fullText;
+      finished = true;
+    }
   }
 
-  onMount(type);
+  onMount(() => {
+    if (animationsEnabled) {
+      type();
+    } else {
+      // Sin animaciones: mostrar todo ya
+      displayText = fullText;
+      finished = true;
+    }
+  });
+
+  // Reaccionar a cambios posteriores (si se desactiva mientras escribe, o si se activa antes de terminar)
+  $effect(() => {
+    if (!animationsEnabled && !finished) {
+      displayText = fullText;
+      finished = true;
+    } else if (animationsEnabled && !started && !finished) {
+      // Caso raro: activan animaciones antes de comenzar
+      type();
+    }
+  });
 </script>
 
 <section
   id="hero"
   class="pt-24 pb-16 px-4 z-10"
-  use:reveal={{ direction: "up", distance: 50 }}
+  use:reveal={animationsEnabled ? { direction: "up", distance: 50 } : undefined}
+  data-animations={animationsEnabled ? "on" : "off"}
 >
   <div class="container mx-auto text-center">
     <div class="max-w-4xl mx-auto">
       <h1
-        class="text-5xl md:text-7xl font-bold mb-6 text-balance leading-tight"
+        class="text-5xl md:text-7xl font-bold mb-6 text-balance leading-tight hero-heading"
       >
         <span class="sr-only">Hola, soy Erick Ramírez</span>
-        <span aria-hidden="true">{@html colorize(displayText)}</span>
-        {#if !finished}
-          <span class="caret" aria-hidden="true">|</span>
-        {/if}
+        <span class="type-wrapper" aria-hidden="true"
+          >{@html colorize(displayText)}{#if !finished}<span
+              class="caret"
+              aria-hidden="true">|</span
+            >{/if}</span
+        >
       </h1>
       <p class="text-xl md:text-2xl text-muted-foreground mb-8 text-pretty">
         Desarrollador Semi-Full Stack de Venezuela, creando experiencias
@@ -76,6 +107,26 @@
 </section>
 
 <style>
+  /* Evita que el navegador "ajuste" la posición del scroll (scroll anchoring)
+     cuando cambia incrementalmente la altura del título mientras se escribe.
+     Esto era la causa típica del pequeño auto desplazamiento inicial. */
+  #hero {
+    overflow-anchor: none;
+  }
+
+  /* Reserva de altura: asegura que el h1 no cambie su altura mientras se escribe */
+  .hero-heading {
+    min-height: clamp(3.2rem, 10vw, 6.5rem);
+  }
+  @media (min-width: 768px) {
+    .hero-heading {
+      min-height: 7.5rem;
+    }
+  }
+  .type-wrapper {
+    display: inline-block;
+  }
+
   :global(html:not(.dark) #hero) {
     background-color: color-mix(
       in oklab,

@@ -235,6 +235,12 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Desactiva scroll anchoring globalmente (previene micro saltos cuando
+   elementos arriba cambian su altura incrementalmente, como el efecto typewriter) */
+html, body {
+  overflow-anchor: none;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

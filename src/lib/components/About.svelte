@@ -1,11 +1,11 @@
-<section id="about" class="py-16 px-4 bg-muted/30">
+<section id="about" class="py-16 px-4 bg-secondary/5 dark:bg-muted/20">
   <div class="container mx-auto">
     <div class="max-w-4xl mx-auto">
       <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Sobre mí</h2>
       <div class="grid md:grid-cols-2 gap-12 items-center">
         <div>
-          <div class="w-64 h-64 mx-auto bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center">
-            <div class="w-56 h-56 bg-background rounded-full flex items-center justify-center">
+          <div class="w-72 h-72 mx-auto bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center">
+            <div class="w-64 h-64 bg-background rounded-full flex items-center justify-center">
               <span class="text-6xl font-bold text-primary">
                 <img src="/erick-ramirez.jpg" alt="Erick Ramírez" class="w-full h-full object-cover rounded-full"/>
               </span>

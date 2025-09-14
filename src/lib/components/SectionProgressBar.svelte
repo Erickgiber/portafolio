@@ -78,20 +78,3 @@
     </div>
   </div>
 </div>
-
-<style>
-  /* Local keyframes for shimmer */
-  @keyframes spb-shine {
-    0% { transform: translateX(-30%); opacity: 0; }
-    10% { opacity: .35; }
-    50% { opacity: .55; }
-    90% { opacity: .35; }
-    100% { transform: translateX(130%); opacity: 0; }
-  }
-  :global([data-animations="on"]) .shine {
-    animation: spb-shine 4.5s linear infinite;
-  }
-  :global([data-animations="off"]) .shine {
-    display: none;
-  }
-</style>

@@ -9,17 +9,11 @@
   import Footer from "./lib/components/Footer.svelte";
   import { themeStore } from "./lib/stores/theme.svelte";
   import AnimatedBackground from "./lib/components/AnimatedBackground.svelte";
-  import { animationsStore } from "./lib/stores/animations.svelte";
 
-  let { initAnimations } = animationsStore();
-
-  // themeStore ahora es una instancia singleton con getters reactivos
-  // Accedemos a sus propiedades vía themeStore.isDark en markup y lógica
   const { initTheme, toggleTheme } = themeStore;
 
   onMount(() => {
     initTheme();
-    initAnimations();
   });
 </script>
 

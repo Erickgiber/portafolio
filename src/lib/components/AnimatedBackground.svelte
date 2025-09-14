@@ -1,7 +1,8 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
   import { animationsStore } from "../stores/animations.svelte";
-  let { animationsEnabled } = animationsStore();
+  // Valor reactivo desde el singleton
+  let animationsEnabled = $derived(animationsStore.animationsEnabled);
 
   let canvas: HTMLCanvasElement | undefined;
   let ctx: CanvasRenderingContext2D | null = null;

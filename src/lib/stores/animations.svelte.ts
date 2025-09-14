@@ -1,34 +1,68 @@
-// Store para controlar animaciones globales (Svelte 5 runes style inside components will consume this)
-// Provee: animationsEnabled (boolean), toggleAnimations(), initAnimations()
-// Respeta 'prefers-reduced-motion' del usuario y persiste preferencia en localStorage
+// Store singleton para controlar animaciones globales (similar a themeStore)
+// Expone siempre la misma instancia y mantiene reactividad al desestructurar usando getters.
+// API: animationsStore.animationsEnabled (boolean), toggleAnimations(), enable(), disable(), initAnimations()
+// Respeta 'prefers-reduced-motion' y guarda preferencia en localStorage.
 
-export const animationsStore = () => {
+function createAnimationsStore() {
   let animationsEnabled = $state(true);
+
+  function persist(value: 'on' | 'off') {
+    try { localStorage.setItem('animations', value); } catch {}
+    document.documentElement.dataset.animations = value;
+  }
 
   function enable() {
     animationsEnabled = true;
-    try { localStorage.setItem('animations', 'on'); } catch {}
-    document.documentElement.dataset.animations = 'on';
+    persist('on');
   }
+
   function disable() {
     animationsEnabled = false;
-    try { localStorage.setItem('animations', 'off'); } catch {}
-    document.documentElement.dataset.animations = 'off';
+    persist('off');
   }
+
   function toggleAnimations() {
     animationsEnabled ? disable() : enable();
   }
+
   function initAnimations() {
-    // Prefiere reducido
+    // 1. Respeto a prefers-reduced-motion
     const media = matchMedia('(prefers-reduced-motion: reduce)');
     if (media.matches) {
       disable();
     }
+    // 2. Preferencia guardada
     try {
       const stored = localStorage.getItem('animations');
-      if (stored === 'off') disable();
-      else if (stored === 'on') enable();
+      if (stored === 'off') {
+        disable();
+      } else if (stored === 'on') {
+        enable();
+      } else {
+        // Si no hay guardada, sincronizar dataset actual
+        persist(animationsEnabled ? 'on' : 'off');
+      }
+    } catch {}
+
+    // 3. Listener opcional para cambios del media query
+    // (Si el usuario cambia su preferencia del SO en tiempo real)
+    try {
+      media.addEventListener?.('change', (e) => {
+        if (e.matches) {
+          // Usuario pide reducir movimiento -> desactivar
+            disable();
+        }
+      });
     } catch {}
   }
-  return { animationsEnabled, toggleAnimations, enable, disable, initAnimations };
-};
+
+  return {
+    get animationsEnabled() { return animationsEnabled; },
+    toggleAnimations,
+    enable,
+    disable,
+    initAnimations
+  };
+}
+
+export const animationsStore = createAnimationsStore();

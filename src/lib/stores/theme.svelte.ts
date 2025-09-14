@@ -3,14 +3,30 @@
 function createThemeStore() {
   let theme = $state("light");
   let isDark = $derived(theme === "dark");
+  let themingTimer: number | null = null;
+
+  function beginUniformTransition() {
+    try {
+      const root = document.documentElement;
+      if (root.dataset.animations === 'off') return; // no transición si animaciones off
+      root.classList.add('theming');
+      if (themingTimer) clearTimeout(themingTimer);
+      themingTimer = window.setTimeout(() => {
+        root.classList.remove('theming');
+        themingTimer = null;
+      }, 320); // ligeramente > a 260ms para asegurar fin
+    } catch {}
+  }
 
   function toggleTheme() {
     theme = isDark ? "light" : "dark";
+    beginUniformTransition();
     updateBodyClass();
   }
 
   function setTheme(newTheme: "light" | "dark") {
     theme = newTheme;
+    beginUniformTransition();
     updateBodyClass();
   }
 
@@ -34,7 +50,9 @@ function createThemeStore() {
     try {
       const stored = localStorage.getItem("theme");
       if (stored === "light" || stored === "dark") {
-        setTheme(stored);
+        // En inicialización no queremos animación: aplicar directamente
+        theme = stored;
+        updateBodyClass();
         return;
       }
     } catch {}
@@ -42,7 +60,9 @@ function createThemeStore() {
     // 2. Preferencia del sistema
     if (typeof window !== "undefined") {
       const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches;
-      setTheme(prefersDark ? "dark" : "light");
+      // Igual que arriba, sin animación inicial
+      theme = prefersDark ? "dark" : "light";
+      updateBodyClass();
     }
   }
 

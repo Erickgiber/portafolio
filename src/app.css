@@ -2,9 +2,12 @@
 
 @theme {
   /* Fuente principal: Inter (variable). Fallbacks del sistema + emojis */
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Consolas,
+    "Liberation Mono", Menlo, monospace;
 
   /* Light mode design tokens (Tailwind v4 expects --color-* to map to bg-* text-* utilities) */
   /* Fondo base (fallback) blanco y gradiente suave para modo claro */
@@ -103,7 +106,8 @@ body {
   font-optical-sizing: auto; /* Aprovecha variable font */
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  transition: background-color .3s ease, color .3s ease, background-image .6s ease;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    background-image 0.6s ease;
 }
 
 /* En modo oscuro mantenemos color plano (evita ruido visual) */
@@ -113,22 +117,37 @@ body {
 
 /* Animación menú móvil (slide & fade + ligero scale) */
 @keyframes mobileMenuIn {
-  0% { opacity: 0; transform: translateY(-0.75rem) scale(.96); }
-  60% { opacity: 1; transform: translateY(0) scale(1.01); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
+  0% {
+    opacity: 0;
+    transform: translateY(-0.75rem) scale(0.96);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(0) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 @keyframes mobileMenuOut {
-  0% { opacity: 1; transform: translateY(0) scale(1); }
-  100% { opacity: 0; transform: translateY(-0.5rem) scale(.96); }
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-0.5rem) scale(0.96);
+  }
 }
 
 /* Clase utilitaria; Tailwind v4 permite custom properties con animate-[...] pero usamos clase dedicada para mayor control */
 .animate-mobile-menu-enter {
-  animation: mobileMenuIn .38s cubic-bezier(.4,0,.2,1);
+  animation: mobileMenuIn 0.38s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .animate-mobile-menu-leave {
-  animation: mobileMenuOut .25s cubic-bezier(.4,0,.2,1);
+  animation: mobileMenuOut 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Links navegación header */
@@ -136,20 +155,44 @@ body {
   position: relative;
   font-weight: 500;
   color: var(--color-foreground);
-  transition: color .25s ease, text-shadow .35s ease;
+  transition: color 0.25s ease, text-shadow 0.35s ease;
   @apply md:cursor-pointer;
 }
 
 /* Jerarquía tipográfica básica */
-h1, .h1 { font-weight: 700; letter-spacing: -0.02em; }
-h2, .h2 { font-weight: 600; letter-spacing: -0.01em; }
-h3, .h3 { font-weight: 600; }
-h4, .h4 { font-weight: 600; }
-p, li { line-height: 1.55; }
-small { font-size: 0.85rem; }
+h1,
+.h1 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+h2,
+.h2 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+h3,
+.h3 {
+  font-weight: 600;
+}
+h4,
+.h4 {
+  font-weight: 600;
+}
+p,
+li {
+  line-height: 1.55;
+}
+small {
+  font-size: 0.85rem;
+}
 
 /* Ajuste dark para mejorar contraste percibido */
-.dark h1, .dark h2, .dark h3, .dark h4 { color: var(--color-foreground); }
+.dark h1,
+.dark h2,
+.dark h3,
+.dark h4 {
+  color: var(--color-foreground);
+}
 
 .nav-link::after {
   content: "";
@@ -158,22 +201,27 @@ small { font-size: 0.85rem; }
   bottom: -4px;
   height: 2px;
   width: 100%;
-  background: linear-gradient(90deg,var(--color-primary),var(--color-secondary));
+  background: linear-gradient(
+    90deg,
+    var(--color-primary),
+    var(--color-secondary)
+  );
   border-radius: 999px;
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform .35s cubic-bezier(.65,.05,.36,1);
+  transition: transform 0.35s cubic-bezier(0.65, 0.05, 0.36, 1);
   box-shadow: 0 0 0px 0 var(--color-primary);
 }
 
 .nav-link:hover {
   color: var(--color-primary);
-  text-shadow: 0 0 8px color-mix(in srgb,var(--color-primary) 60%,transparent);
+  text-shadow: 0 0 8px color-mix(in srgb, var(--color-primary) 60%, transparent);
 }
 
 .nav-link:hover::after {
   transform: scaleX(1);
-  box-shadow: 0 0 6px 1px color-mix(in srgb,var(--color-primary) 55%,transparent);
+  box-shadow: 0 0 6px 1px
+    color-mix(in srgb, var(--color-primary) 55%, transparent);
 }
 
 /* Preferencia: accesibilidad focus visible */
@@ -209,23 +257,51 @@ html {
    UTILIDADES / ANIMACIONES GLOBALES
    ===================================================== */
 @keyframes floatSlow {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
-  100% { transform: translateY(0px); }
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }
 
-.animate-float-slow { animation: floatSlow 9s ease-in-out infinite; }
+.animate-float-slow {
+  animation: floatSlow 9s ease-in-out infinite;
+}
 
 /* Fade slide base (para fallback sin action si se deshabilita js) */
-.reveal-base { opacity: 0; transform: translate3d(0,32px,0); }
-.reveal-in { opacity: 1 !important; transform: none !important; }
+.reveal-base {
+  opacity: 0;
+  transform: translate3d(0, 32px, 0);
+}
+.reveal-in {
+  opacity: 1 !important;
+  transform: none !important;
+}
 
 /* Estado global cuando las animaciones están desactivadas */
-:root[data-animations='off'] .reveal-base { opacity: 1 !important; transform: none !important; transition: none !important; }
+:root[data-animations="off"] .reveal-base {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
 
 /* Preferencia de usuario reduce motion */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; transition-duration: 0ms !important; scroll-behavior: auto !important; }
-  .reveal-base { opacity: 1 !important; transform: none !important; }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal-base {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
+
 

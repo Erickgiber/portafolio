@@ -5,7 +5,7 @@
 <section
   id="about"
   class="py-16 px-4 dark:bg-muted/20 z-10"
-  use:reveal={{ direction: "up", distance: 40 }}
+  use:reveal={{ direction: "up", distance: 40, replayOnEnable: true }}
 >
   <div class="container mx-auto z-10">
     <div class="max-w-4xl mx-auto">

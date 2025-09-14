@@ -1,14 +1,14 @@
 <script lang="ts">
   import { reveal } from '../actions/reveal';
 </script>
-<section id="projects" class="py-16 px-4 bg-muted/30" use:reveal={{ direction: 'up', distance: 40 }}>
+<section id="projects" class="py-16 px-4 bg-muted/30" use:reveal={{ direction: 'up', distance: 40, replayOnEnable: true }}>
   <div class="container mx-auto">
     <div class="max-w-6xl mx-auto">
       <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Proyectos Destacados</h2>
       
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         <!-- Project 1 -->
-  <div class="bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow group" use:reveal={{ delay: 50 }}>
+  <div class="bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow group" use:reveal={{ delay: 50, replayOnEnable: true }}>
           <div class="h-48 bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
             <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
@@ -42,7 +42,7 @@
         </div>
 
         <!-- Project 2 -->
-  <div class="bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow group" use:reveal={{ delay: 150 }}>
+  <div class="bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow group" use:reveal={{ delay: 150, replayOnEnable: true }}>
           <div class="h-48 bg-gradient-to-br from-secondary to-accent flex items-center justify-center">
             <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -76,7 +76,7 @@
         </div>
 
         <!-- Project 3 -->
-  <div class="bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow group" use:reveal={{ delay: 250 }}>
+  <div class="bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow group" use:reveal={{ delay: 250, replayOnEnable: true }}>
           <div class="h-48 bg-gradient-to-br from-accent to-primary flex items-center justify-center">
             <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />

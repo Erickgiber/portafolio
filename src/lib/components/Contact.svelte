@@ -5,14 +5,14 @@
 <section
   id="contact"
   class="py-16 px-4"
-  use:reveal={{ direction: "up", distance: 40 }}
+  use:reveal={{ direction: "up", distance: 40, replayOnEnable: true }}
 >
   <div class="container mx-auto">
     <div class="max-w-4xl mx-auto">
       <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Contacto</h2>
 
       <div class="grid md:grid-cols-2 gap-12">
-        <div use:reveal={{ delay: 80 }}>
+  <div use:reveal={{ delay: 80, replayOnEnable: true }}>
           <h3 class="text-2xl font-semibold mb-6">¡Hablemos!</h3>
           <p class="text-muted-foreground mb-8 leading-relaxed">
             Estoy siempre abierto a nuevas oportunidades y proyectos
@@ -89,7 +89,7 @@
 
         <div
           class="bg-card z-20 border border-border rounded-lg p-6"
-          use:reveal={{ delay: 200 }}
+          use:reveal={{ delay: 200, replayOnEnable: true }}
         >
           <form class="space-y-6">
             <div>

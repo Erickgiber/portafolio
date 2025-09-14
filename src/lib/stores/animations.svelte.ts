@@ -14,11 +14,13 @@ function createAnimationsStore() {
   function enable() {
     animationsEnabled = true;
     persist('on');
+    try { window.dispatchEvent(new CustomEvent('animations:enabled')); } catch {}
   }
 
   function disable() {
     animationsEnabled = false;
     persist('off');
+    try { window.dispatchEvent(new CustomEvent('animations:disabled')); } catch {}
   }
 
   function toggleAnimations() {

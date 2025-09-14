@@ -1,4 +1,6 @@
-export const themeStore = () => {
+// Implementación como singleton para evitar perder reactividad al desestructurar.
+// Se usan $state/$derived (Svelte 5 Runes) y se expone siempre la misma instancia.
+function createThemeStore() {
   let theme = $state("light");
   let isDark = $derived(theme === "dark");
 
@@ -17,6 +19,7 @@ export const themeStore = () => {
   }
 
   function updateBodyClass() {
+    if (typeof document === "undefined") return; // SSR safety
     if (isDark) {
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
@@ -27,7 +30,7 @@ export const themeStore = () => {
   }
 
   function initTheme() {
-    // Intentar cargar preferencia guardada
+    // 1. Preferencia guardada
     try {
       const stored = localStorage.getItem("theme");
       if (stored === "light" || stored === "dark") {
@@ -35,7 +38,15 @@ export const themeStore = () => {
         return;
       }
     } catch {}
+
+    // 2. Preferencia del sistema
+    if (typeof window !== "undefined") {
+      const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches;
+      setTheme(prefersDark ? "dark" : "light");
+    }
   }
 
-  return { theme, isDark, toggleTheme, setTheme, getTheme, initTheme };
-};
+  return { get theme() { return theme; }, get isDark() { return isDark; }, toggleTheme, setTheme, getTheme, initTheme };
+}
+
+export const themeStore = createThemeStore();

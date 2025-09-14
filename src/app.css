@@ -304,4 +304,25 @@ html {
   }
 }
 
-
+/* =====================================================
+   ANIMATED BACKGROUND (canvas)
+   ===================================================== */
+.animated-bg {
+  opacity: 0.2;
+  transition: opacity 0.6s ease;
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0; /* base layer */
+}
+:root[data-animations="off"] .animated-bg {
+  opacity: 0.2;
+}
+.dark .animated-bg {
+  opacity: 0.15;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animated-bg {
+    display: none;
+  }
+}

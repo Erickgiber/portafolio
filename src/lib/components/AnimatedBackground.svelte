@@ -27,6 +27,8 @@
     connectDistance: 140,
     mouseInfluence: 120,
     parallaxStrength: 0.06,
+    scrollStrength: 0.25, // intensidad del desplazamiento inducido por scroll
+    scrollDecay: 0.92, // decaimiento por frame del efecto scroll
     dprMax: 2,
     bgOpacity: 0.12,
     lineBaseAlpha: 0.18,
@@ -39,6 +41,9 @@
   const mouse = { x: innerWidth / 2, y: innerHeight / 2, active: false };
   let parallaxX = 0,
     parallaxY = 0;
+  // Variables para el drift vertical generado por scroll
+  let scrollDriftY = 0;
+  let lastScrollY = window.scrollY;
 
   function computeParticleTargetCount() {
     // Escalar número según ancho (ej: más partículas en desktop grande)
@@ -93,12 +98,22 @@
     for (const p of particles) {
       p.x += p.vx + parallaxX * CONFIG.parallaxStrength * (p.seed - 0.5);
       p.y += p.vy + parallaxY * CONFIG.parallaxStrength * (p.seed - 0.5);
+      // Aplicar drift de scroll (partículas con menor seed reaccionan un poco menos)
+      if (scrollDriftY !== 0) {
+        const influence = 0.3 + p.seed * 0.7; // 0.3..1
+        p.y += scrollDriftY * influence;
+        // leve componente horizontal para dar sensación de flujo diagonal
+        p.x += scrollDriftY * 0.12 * (p.seed - 0.5);
+      }
       // envolvente
       if (p.x < -50) p.x = w + 50;
       else if (p.x > w + 50) p.x = -50;
       if (p.y < -50) p.y = h + 50;
       else if (p.y > h + 50) p.y = -50;
     }
+    // Decaimiento exponencial del drift
+    scrollDriftY *= CONFIG.scrollDecay;
+    if (Math.abs(scrollDriftY) < 0.01) scrollDriftY = 0;
   }
 
   function drawBackground() {
@@ -191,6 +206,17 @@
     raf = requestAnimationFrame(animate);
   }
 
+  // Convertir delta de scroll en impulso suave
+  function handleScroll() {
+    const current = window.scrollY;
+    const delta = current - lastScrollY; // positivo cuando se baja
+    lastScrollY = current;
+    // Invertimos para que al bajar el contenido las partículas fluyan ligeramente hacia arriba
+    scrollDriftY += -delta * CONFIG.scrollStrength * 0.60; // escala pequeña
+    // Limitar drift acumulado
+    if (scrollDriftY > 3) scrollDriftY = 3; else if (scrollDriftY < -3) scrollDriftY = -3;
+  }
+
   function handlePointerMove(e: PointerEvent) {
     mouse.x = e.clientX;
     mouse.y = e.clientY;
@@ -241,6 +267,7 @@
     adjustParticleCount();
     animate();
     addEventListener("resize", onResize);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("pointermove", handlePointerMove, {
       passive: true,
     });
@@ -252,6 +279,7 @@
   onDestroy(() => {
     cancelAnimationFrame(raf);
     removeEventListener("resize", onResize);
+    window.removeEventListener("scroll", handleScroll);
     window.removeEventListener("pointermove", handlePointerMove);
     window.removeEventListener("pointerleave", handlePointerLeave);
     window.removeEventListener("click", handleClick);
@@ -260,24 +288,6 @@
 
 <canvas
   bind:this={canvas}
-  class="animated-bg pointer-events-none fixed inset-0"
+  class="animated-bg pointer-events-none fixed inset-0 z-0"
   aria-hidden="true"
 ></canvas>
-
-<style>
-  :global(.animated-bg) {
-    opacity: 0.3;
-    transition: opacity 0.6s ease;
-  }
-  :root[data-animations="off"] .animated-bg {
-    opacity: 0.45;
-  }
-  :global(.dark) .animated-bg {
-    opacity: 0.3;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .animated-bg {
-      display: none;
-    }
-  }
-</style>

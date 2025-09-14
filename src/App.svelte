@@ -9,6 +9,7 @@
   import Footer from "./lib/components/Footer.svelte";
   import { themeStore } from "./lib/stores/theme.svelte";
   import AnimatedBackground from "./lib/components/AnimatedBackground.svelte";
+  import SectionProgressBar from "./lib/components/SectionProgressBar.svelte";
 
   const { initTheme, toggleTheme } = themeStore;
 
@@ -22,6 +23,7 @@
 >
   <AnimatedBackground />
   <Header darkMode={themeStore.isDark} {toggleTheme} />
+  <SectionProgressBar />
   <main>
     <Hero />
     <About />

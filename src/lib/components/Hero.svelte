@@ -61,7 +61,7 @@
 
 <section
   id="hero"
-  class="pt-24 pb-16 px-4 z-10"
+  class="relative pt-24 pb-16 px-4 z-10 h-[100lvh] justify-center flex items-center"
   use:reveal={animationsEnabled ? { direction: "up", distance: 50 } : undefined}
   data-animations={animationsEnabled ? "on" : "off"}
 >

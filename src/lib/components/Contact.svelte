@@ -41,7 +41,13 @@
               </div>
               <div>
                 <p class="font-medium">Email</p>
-                <p class="text-muted-foreground">erickgiber.dev@gmail.com</p>
+                <a
+                  href="mailto:erickgiber.dev@gmail.com"
+                  class="text-muted-foreground hover:underline focus:outline-none focus:ring-2 focus:ring-ring rounded-sm"
+                  aria-label="Enviar correo a erickgiber.dev@gmail.com"
+                >
+                  erickgiber.dev@gmail.com
+                </a>
               </div>
             </div>
 
@@ -61,7 +67,29 @@
               </div>
               <div>
                 <p class="font-medium">GitHub</p>
-                <p class="text-muted-foreground">github.com/erickgiber</p>
+                <a
+                  href="https://github.com/erickgiber"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="group inline-flex items-center gap-1 text-muted-foreground hover:underline focus:outline-none focus:ring-2 focus:ring-ring rounded-sm break-all"
+                  aria-label="Abrir perfil de GitHub de Erick Giber en una nueva pestaña"
+                >
+                  github.com/erickgiber
+                  <svg
+                    aria-hidden="true"
+                    class="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition-opacity"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                    <polyline points="15 3 21 3 21 9" />
+                    <line x1="10" y1="14" x2="21" y2="3" />
+                  </svg>
+                </a>
               </div>
             </div>
 
@@ -81,7 +109,29 @@
               </div>
               <div>
                 <p class="font-medium">LinkedIn</p>
-                <p class="text-muted-foreground">linkedin.com/in/erickgiber</p>
+                <a
+                  href="https://linkedin.com/in/erickgiber"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="group inline-flex items-center gap-1 text-muted-foreground hover:underline focus:outline-none focus:ring-2 focus:ring-ring rounded-sm break-all"
+                  aria-label="Abrir perfil de LinkedIn de Erick Giber en una nueva pestaña"
+                >
+                  linkedin.com/in/erickgiber
+                  <svg
+                    aria-hidden="true"
+                    class="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition-opacity"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                    <polyline points="15 3 21 3 21 9" />
+                    <line x1="10" y1="14" x2="21" y2="3" />
+                  </svg>
+                </a>
               </div>
             </div>
           </div>

@@ -1,11 +1,23 @@
 <script lang="ts">
   import { reveal } from "../actions/reveal";
+  import { visibilityProgress } from "../actions/visibilityProgress";
+
+  let visibilityRatio = 0; // bound to custom event to debug / if needed
+
+  function handleVisibility(e: CustomEvent<{ ratio: number }>) {
+    visibilityRatio = e.detail.ratio;
+  }
 </script>
 
 <section
   id="about"
-  class="py-16 px-4 dark:bg-muted/20 z-10"
-  use:reveal={{ direction: "up", distance: 40, replayOnEnable: true }}
+  class="relative py-16 px-4 dark:bg-muted/20 z-10 about-visibility"
+  use:reveal={{
+    direction: "up",
+    distance: 40,
+    replayOnEnable: true,
+    delay: 80,
+  }}
 >
   <div class="container mx-auto z-10">
     <div class="max-w-4xl mx-auto">
@@ -13,10 +25,21 @@
       <div class="grid md:grid-cols-2 gap-12 items-center">
         <div>
           <div
-            class="w-72 h-72 mx-auto bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center"
+            class="w-72 h-72 md:w-96 md:h-96 mx-auto bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center img-observer media-anim"
+            use:visibilityProgress={{
+              threshold: Array.from({ length: 40 }, (_, i) => i / 39),
+              rootMargin: "-20% 0px -20% 0px",
+            }}
+            on:visibilityprogress={handleVisibility}
+            use:reveal={{
+              direction: "up",
+              distance: 40,
+              replayOnEnable: true,
+              delay: 150,
+            }}
           >
             <div
-              class="z-20 w-64 h-64 bg-background rounded-full flex items-center justify-center"
+              class="z-20 w-64 h-64 md:w-82 md:h-82 bg-background rounded-full flex items-center justify-center overflow-hidden"
             >
               <span class="text-6xl font-bold text-primary">
                 <img
@@ -84,3 +107,41 @@
     </div>
   </div>
 </section>
+
+<style>
+  /* The section has the CSS variable --visibility-ratio set by the action (0 -> 1). */
+  .about-visibility {
+    /* fallback */
+    --visibility-ratio: 0;
+  }
+
+  /* We map ratio to grayscale. When ratio = 0 -> grayscale(100%), ratio = 1 -> grayscale(0%). */
+  /* Animación aplicada al contenedor completo (bg + imagen) */
+  .media-anim {
+    --visibility-ratio: var(--visibility-ratio, 0);
+    /* Solo transición de color (grayscale -> color) y saturación + sombra progresiva */
+    filter: grayscale(calc(100% - (var(--visibility-ratio) * 100%)))
+      saturate(calc(0.9 + (var(--visibility-ratio) * 0.25)));
+    box-shadow:
+      0 0 0 0 rgba(0, 0, 0, 0.05),
+      0 8px 20px -6px rgba(0, 0, 0, calc(0.08 + (var(--visibility-ratio) * 0.18)));
+    transition:
+      filter 300ms linear,
+      box-shadow 380ms ease;
+    will-change: filter, box-shadow;
+  }
+
+  /* Cuando las animaciones globales están desactivadas */
+  :root[data-animations="off"] .media-anim {
+    filter: none !important;
+    box-shadow: none !important;
+    transition: none !important;
+  }
+
+  /* Progressive enhancement: if prefers-reduced-motion, remove transition */
+  @media (prefers-reduced-motion: reduce) {
+    .media-anim {
+      transition: none !important;
+    }
+  }
+</style>

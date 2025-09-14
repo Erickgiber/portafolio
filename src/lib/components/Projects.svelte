@@ -1,7 +1,7 @@
 <script lang="ts">
   import { reveal } from '../actions/reveal';
 </script>
-<section id="projects" class="py-16 px-4 bg-muted/30" use:reveal={{ direction: 'up', distance: 40, replayOnEnable: true }}>
+<section id="projects" class="relative py-16 px-4 bg-muted/30" use:reveal={{ direction: 'up', distance: 40, replayOnEnable: true }}>
   <div class="container mx-auto">
     <div class="max-w-6xl mx-auto">
       <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Proyectos Destacados</h2>

@@ -1,5 +1,155 @@
 <script lang="ts">
   import { reveal } from "../actions/reveal";
+
+  type SubmitStatus =
+    | { type: "idle" }
+    | { type: "sending" }
+    | { type: "success"; message: string }
+    | { type: "error"; message: string };
+
+  const EMAILJS_ENDPOINT = "https://api.emailjs.com/api/v1.0/email/send";
+
+  const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID as string | undefined;
+  const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string | undefined;
+  const EMAILJS_AUTOREPLY_TEMPLATE_ID = import.meta.env
+    .VITE_EMAILJS_AUTOREPLY_TEMPLATE_ID as string | undefined;
+  const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string | undefined;
+
+  let name = "";
+  let email = "";
+  let message = "";
+
+  let company = "";
+
+  let status: SubmitStatus = { type: "idle" };
+
+  function normalize(value: string) {
+    return value.trim().replace(/\s+/g, " ");
+  }
+
+  function escapeHtml(value: string) {
+    return value
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/\"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function isConfigured() {
+    return Boolean(EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY);
+  }
+
+  async function handleSubmit(event: SubmitEvent) {
+    event.preventDefault();
+
+    if (status.type === "sending") return;
+
+    if (company.trim().length > 0) {
+      status = { type: "success", message: "¡Mensaje enviado! Te responderé pronto." };
+      return;
+    }
+
+    if (!isConfigured()) {
+      status = {
+        type: "error",
+        message:
+          "El formulario no está configurado todavía. Falta definir VITE_EMAILJS_SERVICE_ID / VITE_EMAILJS_TEMPLATE_ID / VITE_EMAILJS_PUBLIC_KEY.",
+      };
+      return;
+    }
+
+    const cleanName = normalize(name);
+    const cleanEmail = normalize(email);
+    const cleanMessage = message.trim();
+
+    if (cleanName.length < 2 || cleanEmail.length < 5 || cleanMessage.length < 10) {
+      status = {
+        type: "error",
+        message: "Por favor completa tu nombre, email y un mensaje un poco más detallado.",
+      };
+      return;
+    }
+
+    status = { type: "sending" };
+
+    try {
+      const siteUrl = typeof window !== "undefined" ? window.location.origin : "";
+      const title = "Nuevo mensaje desde el portafolio";
+
+      const payload = {
+        service_id: EMAILJS_SERVICE_ID,
+        template_id: EMAILJS_TEMPLATE_ID,
+        user_id: EMAILJS_PUBLIC_KEY,
+        template_params: {
+          title,
+          from_name: escapeHtml(cleanName),
+          from_email: escapeHtml(cleanEmail),
+          reply_to: cleanEmail,
+          message: escapeHtml(cleanMessage),
+          site_url: siteUrl,
+          name: escapeHtml(cleanName),
+          email: escapeHtml(cleanEmail),
+        },
+      };
+
+      const response = await fetch(EMAILJS_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text().catch(() => "");
+        throw new Error(errorText || `Email send failed (${response.status})`);
+      }
+
+      if (EMAILJS_AUTOREPLY_TEMPLATE_ID) {
+        const autoReplyPayload = {
+          service_id: EMAILJS_SERVICE_ID,
+          template_id: EMAILJS_AUTOREPLY_TEMPLATE_ID,
+          user_id: EMAILJS_PUBLIC_KEY,
+          template_params: {
+            title,
+            to_name: escapeHtml(cleanName),
+            to_email: escapeHtml(cleanEmail),
+            reply_to: "erickgiber.dev@gmail.com",
+            message: escapeHtml(cleanMessage),
+            site_url: siteUrl,
+            name: escapeHtml(cleanName),
+            email: escapeHtml(cleanEmail),
+            from_name: escapeHtml(cleanName),
+            from_email: escapeHtml(cleanEmail),
+          },
+        };
+
+        await fetch(EMAILJS_ENDPOINT, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(autoReplyPayload),
+        }).catch(() => {
+          // Auto-reply is best-effort; ignore failures.
+        });
+      }
+
+      name = "";
+      email = "";
+      message = "";
+      company = "";
+
+      status = { type: "success", message: "¡Mensaje enviado! Te responderé pronto." };
+    } catch {
+      status = {
+        type: "error",
+        message:
+          "No pude enviar el mensaje en este momento. Inténtalo de nuevo en unos minutos.",
+      };
+    }
+  }
 </script>
 
 <section
@@ -126,14 +276,32 @@
           class="bg-card z-20 border border-border rounded-lg p-6"
           use:reveal={{ delay: 200, replayOnEnable: true }}
         >
-          <form class="space-y-6">
+          <form class="space-y-6" on:submit={handleSubmit}>
+            <div class="hidden" aria-hidden="true">
+              <label for="company">Company</label>
+              <input
+                id="company"
+                name="company"
+                type="text"
+                tabindex="-1"
+                autocomplete="off"
+                bind:value={company}
+              />
+            </div>
+
             <div>
               <label for="name" class="block text-sm font-medium mb-2">Nombre</label>
               <input
                 type="text"
                 id="name"
+                name="name"
                 class="w-full px-4 py-2 border border-border rounded-lg bg-input focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
                 placeholder="Tu nombre"
+                autocomplete="name"
+                required
+                minlength="2"
+                bind:value={name}
+                disabled={status.type === "sending"}
               />
             </div>
 
@@ -142,8 +310,13 @@
               <input
                 type="email"
                 id="email"
+                name="email"
                 class="w-full px-4 py-2 border border-border rounded-lg bg-input focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
                 placeholder="tu@email.com"
+                autocomplete="email"
+                required
+                bind:value={email}
+                disabled={status.type === "sending"}
               />
             </div>
 
@@ -151,17 +324,33 @@
               <label for="message" class="block text-sm font-medium mb-2">Mensaje</label>
               <textarea
                 id="message"
+                name="message"
                 rows="4"
                 class="w-full px-4 py-2 border border-border rounded-lg bg-input focus:ring-2 focus:ring-ring focus:border-transparent transition-colors resize-none"
                 placeholder="Cuéntame sobre tu proyecto..."
+                required
+                minlength="10"
+                bind:value={message}
+                disabled={status.type === "sending"}
               ></textarea>
             </div>
 
+            {#if status.type === "success"}
+              <p class="text-sm text-muted-foreground" role="status" aria-live="polite">
+                {status.message}
+              </p>
+            {:else if status.type === "error"}
+              <p class="text-sm text-muted-foreground" role="status" aria-live="polite">
+                {status.message}
+              </p>
+            {/if}
+
             <button
               type="submit"
-              class="w-full px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium"
+              class="w-full px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium disabled:opacity-60 disabled:cursor-not-allowed"
+              disabled={status.type === "sending"}
             >
-              Enviar mensaje
+              {status.type === "sending" ? "Enviando..." : "Enviar mensaje"}
             </button>
           </form>
         </div>

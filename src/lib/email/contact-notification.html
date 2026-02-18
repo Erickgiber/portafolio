@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="x-apple-disable-message-reformatting" />
+    <title>Nuevo mensaje de contacto</title>
+  </head>
+  <body style="margin:0; padding:0; background-color:#f6f6f7;">
+    <!-- Preheader (hidden preview text) -->
+    <div
+      style="display:none; overflow:hidden; line-height:1px; opacity:0; max-height:0; max-width:0; mso-hide:all;"
+    >
+      Nuevo mensaje desde el formulario de contacto.
+    </div>
+
+    <div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; font-size:16px; line-height:1.5; color:#0f172a;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#f6f6f7;">
+        <tr>
+          <td align="center" style="padding:28px 16px;">
+            <table
+              role="presentation"
+              width="600"
+              cellspacing="0"
+              cellpadding="0"
+              border="0"
+              style="max-width:600px; width:100%; background-color:#ffffff; border:1px solid #e7e7ea; border-radius:16px;"
+            >
+              <tr>
+                <td style="padding:22px 22px 10px 22px;">
+                  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                      <td style="vertical-align:middle;">
+                        <a
+                          href="{{site_url}}"
+                          target="_blank"
+                          rel="noopener"
+                          style="text-decoration:none; color:#0f172a;"
+                        >
+                          <div style="font-size:18px; font-weight:700; letter-spacing:-0.01em;">Nuevo mensaje</div>
+                          <div style="font-size:13px; color:#475569;">Formulario de contacto</div>
+                        </a>
+                      </td>
+                      <td align="right" style="vertical-align:middle;">
+                        <div
+                          style="display:inline-block; font-size:12px; color:#0f172a; background-color:#ecfeff; border:1px solid #a5f3fc; padding:6px 10px; border-radius:999px;"
+                        >
+                          Acción requerida
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <tr>
+                <td style="padding:0 22px;">
+                  <div style="border-top:1px solid #eef2f7;"></div>
+                </td>
+              </tr>
+
+              <tr>
+                <td style="padding:18px 22px 0 22px;">
+                  <p style="margin:0 0 12px 0; color:#334155;">
+                    Recibiste un nuevo mensaje desde tu portafolio.
+                  </p>
+
+                  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-top:10px;">
+                    <tr>
+                      <td style="padding:12px 14px; background-color:#f8fafc; border:1px solid #e2e8f0; border-radius:12px;">
+                        <div style="font-size:12px; color:#475569; font-weight:600;">Contacto</div>
+                        <div style="margin-top:8px;">
+                          <div style="font-size:14px; color:#0f172a;"><span style="color:#64748b;">Nombre:</span> <strong>{{from_name}}</strong></div>
+                          <div style="font-size:14px; color:#0f172a; margin-top:4px;">
+                            <span style="color:#64748b;">Email:</span>
+                            <a href="mailto:{{reply_to}}" style="color:#0f172a; text-decoration:underline;">{{from_email}}</a>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+
+                  <div style="margin:14px 0 0 0; padding:14px 14px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:12px;">
+                    <div style="font-size:12px; color:#475569; font-weight:600; margin-bottom:6px;">Mensaje</div>
+                    <div style="font-size:14px; color:#0f172a; white-space:pre-wrap; word-break:break-word;">{{message}}</div>
+                  </div>
+
+                  <p style="margin:16px 0 0 0; color:#64748b; font-size:12px;">
+                    Tip: configura el campo <strong>Reply-To</strong> del template EmailJS a <strong>{{reply_to}}</strong> para responder con un click.
+                  </p>
+                </td>
+              </tr>
+
+              <tr>
+                <td style="padding:18px 22px 22px 22px;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin-top:6px;">
+                    <tr>
+                      <td style="border-radius:12px;" bgcolor="#0f172a">
+                        <a
+                          href="mailto:{{reply_to}}"
+                          style="display:inline-block; padding:12px 16px; font-size:14px; font-weight:600; color:#ffffff; text-decoration:none; border-radius:12px;"
+                        >
+                          Responder
+                        </a>
+                      </td>
+                      <td style="padding-left:12px;">
+                        <a
+                          href="{{site_url}}"
+                          target="_blank"
+                          rel="noopener"
+                          style="font-size:14px; color:#0f172a; text-decoration:underline;"
+                        >
+                          Ver sitio
+                        </a>
+                      </td>
+                    </tr>
+                  </table>
+
+                  <div style="margin-top:18px; border-top:1px solid #eef2f7; padding-top:14px; color:#64748b; font-size:12px;">
+                    Enviado desde {{site_url}}
+                  </div>
+                </td>
+              </tr>
+            </table>
+
+            <div style="max-width:600px; width:100%; padding:14px 6px 0 6px; color:#94a3b8; font-size:12px;">
+              Este correo fue generado automáticamente.
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

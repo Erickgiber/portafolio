@@ -1,0 +1,10 @@
+Hola {{to_name}},
+
+¡Gracias por tu mensaje! Ya lo recibí y te responderé lo antes posible.
+
+Tu mensaje:
+{{message}}
+
+Portafolio: {{site_url}}
+
+— Erick Giber

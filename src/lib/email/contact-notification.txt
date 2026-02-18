@@ -1,0 +1,10 @@
+Nuevo mensaje desde el formulario de contacto
+
+Nombre: {{from_name}}
+Email: {{from_email}}
+Responder a: {{reply_to}}
+
+Mensaje:
+{{message}}
+
+Sitio: {{site_url}}

@@ -32,14 +32,14 @@
     visible = !!nextElement;
   }
 
-  let buttonEl: HTMLButtonElement | null = null;
+  let buttonEl = $state<HTMLButtonElement | null>(null);
+  let cueClicked = $state(false);
 
   function handleClick() {
     if (!nextElement) return;
     if (animationsEnabled) {
-      // Add a temporary pulse/ripple class
-      buttonEl?.classList.add('cue-clicked');
-      setTimeout(() => buttonEl?.classList.remove('cue-clicked'), 450);
+      cueClicked = true;
+      setTimeout(() => (cueClicked = false), 450);
     }
     const top = nextElement.getBoundingClientRect().top + window.scrollY + offset;
     window.scrollTo({ top, behavior: animationsEnabled ? 'smooth' : 'auto' });
@@ -66,8 +66,9 @@
     type="button"
     aria-label="Ir a la siguiente sección"
     class="scroll-cue group"
+    class:cue-clicked={cueClicked}
     data-animations={animationsEnabled ? 'on' : 'off'}
-    on:click={handleClick}
+    onclick={handleClick}
   >
     <span class="icon-wrapper" aria-hidden="true">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">

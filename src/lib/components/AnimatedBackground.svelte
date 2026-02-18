@@ -275,7 +275,7 @@
     window.addEventListener("pointerleave", handlePointerLeave, {
       passive: true,
     });
-    window.addEventListener("click", handleClick, { passive: true });
+    window.addEventListener("pointerdown", handleClick, { passive: true });
   });
   onDestroy(() => {
     cancelAnimationFrame(raf);
@@ -283,7 +283,7 @@
     window.removeEventListener("scroll", handleScroll);
     window.removeEventListener("pointermove", handlePointerMove);
     window.removeEventListener("pointerleave", handlePointerLeave);
-    window.removeEventListener("click", handleClick);
+    window.removeEventListener("pointerdown", handleClick);
   });
 </script>
 

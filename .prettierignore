@@ -1,0 +1,16 @@
+# dependencies
+node_modules
+
+# build output
+dist
+build
+
+# tooling caches
+.vite
+.svelte-kit
+
+# coverage
+coverage
+
+# misc
+*.min.*

@@ -11,15 +11,14 @@
   "bracketSameLine": false,
   "arrowParens": "always",
   "endOfLine": "lf",
-  "plugins": ["prettier-plugin-svelte", "prettier-plugin-tailwindcss"],
+  "plugins": ["prettier-plugin-svelte"],
   "overrides": [
     {
       "files": "*.svelte",
       "options": {
         "parser": "svelte",
-        "svelteSortOrder": "scripts-markup-styles",
+        "svelteSortOrder": "scripts-markup-styles-options",
         "svelteStrictMode": true,
-        "svelteBracketNewLine": true,
         "svelteIndentScriptAndStyle": true
       }
     }

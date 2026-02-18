@@ -1,5 +1,8 @@
 <script lang="ts">
   import { reveal } from "../actions/reveal";
+  import Toast from "./Toast.svelte";
+  import AutoReplyPreviewModal from "./AutoReplyPreviewModal.svelte";
+  import autoReplyTemplateRaw from "../email/contact-autoreply.html?raw";
 
   type SubmitStatus =
     | { type: "idle" }
@@ -15,13 +18,20 @@
     .VITE_EMAILJS_AUTOREPLY_TEMPLATE_ID as string | undefined;
   const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string | undefined;
 
-  let name = "";
-  let email = "";
-  let message = "";
+  let name = $state("");
+  let email = $state("");
+  let message = $state("");
 
-  let company = "";
+  let company = $state("");
 
-  let status: SubmitStatus = { type: "idle" };
+  let status = $state<SubmitStatus>({ type: "idle" });
+
+  let toastOpen = $state(false);
+  let toastMessage = $state("");
+  let toastTimer: number | undefined;
+
+  let autoReplyModalOpen = $state(false);
+  let autoReplySrcdoc = $state("");
 
   function normalize(value: string) {
     return value.trim().replace(/\s+/g, " ");
@@ -40,13 +50,53 @@
     return Boolean(EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY);
   }
 
+  function showToast(message: string) {
+    toastMessage = message;
+    toastOpen = true;
+
+    if (toastTimer) {
+      window.clearTimeout(toastTimer);
+    }
+    toastTimer = window.setTimeout(() => {
+      toastOpen = false;
+    }, 3800);
+  }
+
+  function fillTemplate(raw: string, params: Record<string, string>) {
+    let output = raw;
+    for (const [key, value] of Object.entries(params)) {
+      output = output.replaceAll(`{{${key}}}`, value);
+    }
+    return output;
+  }
+
+  function openAutoReplyPreview(toName: string, userMessage: string) {
+    const siteUrl = typeof window !== "undefined" ? window.location.origin : "";
+    autoReplySrcdoc = fillTemplate(autoReplyTemplateRaw, {
+      site_url: escapeHtml(siteUrl),
+      to_name: escapeHtml(toName),
+      message: escapeHtml(userMessage),
+    });
+    autoReplyModalOpen = true;
+  }
+
+  function markSuccess(successMessage: string, previewName: string, previewMessage: string) {
+    status = { type: "success", message: successMessage };
+    showToast("Email enviado exitosamente");
+    openAutoReplyPreview(previewName, previewMessage);
+  }
+
   async function handleSubmit(event: SubmitEvent) {
     event.preventDefault();
 
     if (status.type === "sending") return;
 
     if (company.trim().length > 0) {
-      status = { type: "success", message: "¡Mensaje enviado! Te responderé pronto." };
+      markSuccess(
+        "¡Mensaje enviado! Te responderé pronto.",
+        normalize(name),
+        message.trim()
+      );
       return;
     }
 
@@ -106,6 +156,9 @@
         throw new Error(errorText || `Email send failed (${response.status})`);
       }
 
+      const previewName = cleanName;
+      const previewMessage = cleanMessage;
+
       if (EMAILJS_AUTOREPLY_TEMPLATE_ID) {
         const autoReplyPayload = {
           service_id: EMAILJS_SERVICE_ID,
@@ -141,7 +194,7 @@
       message = "";
       company = "";
 
-      status = { type: "success", message: "¡Mensaje enviado! Te responderé pronto." };
+      markSuccess("¡Mensaje enviado! Te responderé pronto.", previewName, previewMessage);
     } catch {
       status = {
         type: "error",
@@ -276,7 +329,7 @@
           class="bg-card z-20 border border-border rounded-lg p-6"
           use:reveal={{ delay: 200, replayOnEnable: true }}
         >
-          <form class="space-y-6" on:submit={handleSubmit}>
+          <form class="space-y-6" onsubmit={handleSubmit}>
             <div class="hidden" aria-hidden="true">
               <label for="company">Company</label>
               <input
@@ -358,3 +411,19 @@
     </div>
   </div>
 </section>
+
+<Toast
+  open={toastOpen}
+  message={toastMessage}
+  onDismiss={() => {
+    toastOpen = false;
+  }}
+/>
+
+<AutoReplyPreviewModal
+  open={autoReplyModalOpen}
+  srcdoc={autoReplySrcdoc}
+  onClose={() => {
+    autoReplyModalOpen = false;
+  }}
+/>

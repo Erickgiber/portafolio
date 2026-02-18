@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://erickgiber.vercel.app/</loc>
-    <lastmod>2026-02-18T05:17:21.582Z</lastmod>
+    <loc>http://localhost:5173/</loc>
+    <lastmod>2026-02-18T05:31:24.435Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>

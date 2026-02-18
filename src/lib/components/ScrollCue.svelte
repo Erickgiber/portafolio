@@ -1,10 +1,14 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { animationsStore } from '../stores/animations.svelte';
+  import { onMount } from "svelte";
+  import { animationsStore } from "../stores/animations.svelte";
   let animationsEnabled = $derived(animationsStore.animationsEnabled);
 
   // Props via $props (runes mode)
-  const { targetSelector = null, offset = 0, hideIfNoNext = true } = $props<{
+  const {
+    targetSelector = null,
+    offset = 0,
+    hideIfNoNext = true,
+  } = $props<{
     targetSelector?: string | null;
     offset?: number;
     hideIfNoNext?: boolean;
@@ -20,12 +24,13 @@
       return;
     }
     // Auto: find the parent section this button sits in and then the next sibling section
-    const hostSection = buttonEl?.closest('section');
+    const hostSection = buttonEl?.closest("section");
     if (!hostSection) return;
     let el = hostSection.nextElementSibling as HTMLElement | null;
     while (el) {
-      if (el.tagName.toLowerCase() === 'section') {
-        nextElement = el; break;
+      if (el.tagName.toLowerCase() === "section") {
+        nextElement = el;
+        break;
       }
       el = el.nextElementSibling as HTMLElement | null;
     }
@@ -42,11 +47,11 @@
       setTimeout(() => (cueClicked = false), 450);
     }
     const top = nextElement.getBoundingClientRect().top + window.scrollY + offset;
-    window.scrollTo({ top, behavior: animationsEnabled ? 'smooth' : 'auto' });
+    window.scrollTo({ top, behavior: animationsEnabled ? "smooth" : "auto" });
   }
 
   $effect(() => {
-    // Refetch next on mount or if animations flag toggles (layout might shift) 
+    // Refetch next on mount or if animations flag toggles (layout might shift)
     findNextSection();
   });
 
@@ -67,13 +72,21 @@
     aria-label="Ir a la siguiente sección"
     class="scroll-cue group"
     class:cue-clicked={cueClicked}
-    data-animations={animationsEnabled ? 'on' : 'off'}
+    data-animations={animationsEnabled ? "on" : "off"}
     onclick={handleClick}
   >
     <span class="icon-wrapper" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
-        <path d="M12 5v14" />
-        <path d="M19 12l-7 7-7-7" />
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="icon"
+      >
+        <path d="M12 5v14"></path>
+        <path d="M19 12l-7 7-7-7"></path>
       </svg>
     </span>
   </button>
@@ -92,44 +105,73 @@
     align-items: center;
     justify-content: center;
     color: hsl(var(--foreground));
-    background: linear-gradient(var(--background), var(--background)) padding-box,
+    background:
+      linear-gradient(var(--background), var(--background)) padding-box,
       linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary))) border-box;
     border: 1px solid transparent;
     cursor: pointer;
     font-size: 0.875rem;
     outline: none;
-    box-shadow: 0 4px 10px -4px rgba(0,0,0,0.25);
+    box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.25);
   }
-  .scroll-cue:hover { background: linear-gradient(var(--muted), var(--muted)) padding-box, linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary))) border-box; }
-  .scroll-cue:focus-visible { box-shadow: 0 0 0 3px hsl(var(--ring) / 0.5); }
+  .scroll-cue:hover {
+    background:
+      linear-gradient(var(--muted), var(--muted)) padding-box,
+      linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary))) border-box;
+  }
+  .scroll-cue:focus-visible {
+    box-shadow: 0 0 0 3px hsl(var(--ring) / 0.5);
+  }
 
-  .icon-wrapper { display: inline-flex; }
-  .icon { width: 1.4rem; height: 1.4rem; }
+  .icon-wrapper {
+    display: inline-flex;
+  }
+  .icon {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
 
   /* Idle animation (bounce + subtle glow) */
-  [data-animations='on'].scroll-cue .icon-wrapper {
+  [data-animations="on"].scroll-cue .icon-wrapper {
     animation: cue-bounce 2.4s ease-in-out infinite;
   }
   @keyframes cue-bounce {
-    0%, 100% { transform: translateY(0); }
-    40% { transform: translateY(4px); }
-    60% { transform: translateY(-2px); }
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(4px);
+    }
+    60% {
+      transform: translateY(-2px);
+    }
   }
 
   /* Click feedback */
-  [data-animations='on'].scroll-cue.cue-clicked {
+  [data-animations="on"].scroll-cue.cue-clicked {
     animation: cue-pulse 0.45s ease;
   }
   @keyframes cue-pulse {
-    0% { transform: translateX(-50%) scale(1); box-shadow: 0 4px 10px -4px rgba(0,0,0,0.25); }
-    50% { transform: translateX(-50%) scale(0.92); box-shadow: 0 6px 16px -6px rgba(0,0,0,0.35); }
-    100% { transform: translateX(-50%) scale(1); }
+    0% {
+      transform: translateX(-50%) scale(1);
+      box-shadow: 0 4px 10px -4px rgba(0, 0, 0, 0.25);
+    }
+    50% {
+      transform: translateX(-50%) scale(0.92);
+      box-shadow: 0 6px 16px -6px rgba(0, 0, 0, 0.35);
+    }
+    100% {
+      transform: translateX(-50%) scale(1);
+    }
   }
 
   /* Disable animations */
-  [data-animations='off'].scroll-cue .icon-wrapper, 
-  :root[data-animations='off'] .scroll-cue .icon-wrapper {
+  [data-animations="off"].scroll-cue .icon-wrapper,
+  :root[data-animations="off"] .scroll-cue .icon-wrapper {
     animation: none !important;
   }
-  [data-animations='off'].scroll-cue.cue-clicked { animation: none !important; }
+  [data-animations="off"].scroll-cue.cue-clicked {
+    animation: none !important;
+  }
 </style>

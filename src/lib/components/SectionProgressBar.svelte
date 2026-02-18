@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { animationsStore } from '../stores/animations.svelte';
+  import { onMount } from "svelte";
+  import { animationsStore } from "../stores/animations.svelte";
   let animationsEnabled = $derived(animationsStore.animationsEnabled);
 
   let progress = $state(0); // 0 -> 1
@@ -8,9 +8,7 @@
   const THRESHOLD = 30; // px
 
   // Tooltip positioning (clamped to avoid edges)
-  let tooltipLeftPercent = $derived(
-    Math.min(95, Math.max(5, progress * 100))
-  );
+  let tooltipLeftPercent = $derived(Math.min(95, Math.max(5, progress * 100)));
 
   function updateProgress() {
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
@@ -35,11 +33,11 @@
 
   onMount(() => {
     updateProgress();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', updateProgress);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", updateProgress);
     return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', updateProgress);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", updateProgress);
     };
   });
 </script>
@@ -51,19 +49,19 @@
   aria-valuemax={100}
   aria-valuenow={Math.round(progress * 100)}
   aria-label="Progreso de scroll"
-  data-animations={animationsEnabled ? 'on' : 'off'}
+  data-animations={animationsEnabled ? "on" : "off"}
 >
   <div
     class="group relative h-[3px] sm:h-1 w-full bg-border/60 dark:bg-border/40 overflow-visible pointer-events-auto"
     aria-describedby="scroll-progress-tooltip"
-    style={`${animationsEnabled ? 'transition:opacity .4s ease, transform .45s cubic-bezier(.4,0,.2,1);' : ''} ${scrolledPast ? 'opacity:1;transform:translateY(0);' : 'opacity:0;transform:translateY(-100%);'}`}
+    style={`${animationsEnabled ? "transition:opacity .4s ease, transform .45s cubic-bezier(.4,0,.2,1);" : ""} ${scrolledPast ? "opacity:1;transform:translateY(0);" : "opacity:0;transform:translateY(-100%);"}`}
   >
     <!-- Track (kept for structure) -->
     <div class="absolute inset-0 overflow-hidden">
       <!-- Filled bar -->
       <div
         class="h-full w-full origin-left bg-gradient-to-r from-primary to-secondary"
-        style={`transform:scaleX(${progress});${animationsEnabled ? 'transition:transform .35s cubic-bezier(.4,0,.2,1);' : ''}`}
+        style={`transform:scaleX(${progress});${animationsEnabled ? "transition:transform .35s cubic-bezier(.4,0,.2,1);" : ""}`}
       ></div>
     </div>
 
@@ -72,7 +70,7 @@
       id="scroll-progress-tooltip"
       role="tooltip"
       class="pointer-events-none absolute top-full mt-1 px-2 py-0.5 rounded-md bg-neutral-800/90 text-[10px] sm:text-xs text-white font-medium shadow-lg opacity-0 scale-75 origin-top transition duration-150 ease-out group-hover:opacity-100 group-hover:scale-100 select-none"
-      style={`left:${tooltipLeftPercent}%;transform:translate(-50%,0) scale(var(--scale,1));${animationsEnabled ? '' : 'transition:none;'}`}
+      style={`left:${tooltipLeftPercent}%;transform:translate(-50%,0) scale(var(--scale,1));${animationsEnabled ? "" : "transition:none;"}`}
     >
       {Math.round(progress * 100)}%
     </div>

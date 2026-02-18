@@ -8,11 +8,11 @@ function createThemeStore() {
   function beginUniformTransition() {
     try {
       const root = document.documentElement;
-      if (root.dataset.animations === 'off') return; // no transición si animaciones off
-      root.classList.add('theming');
+      if (root.dataset.animations === "off") return; // no transición si animaciones off
+      root.classList.add("theming");
       if (themingTimer) clearTimeout(themingTimer);
       themingTimer = window.setTimeout(() => {
-        root.classList.remove('theming');
+        root.classList.remove("theming");
         themingTimer = null;
       }, 320); // ligeramente > a 260ms para asegurar fin
     } catch {}
@@ -66,7 +66,18 @@ function createThemeStore() {
     }
   }
 
-  return { get theme() { return theme; }, get isDark() { return isDark; }, toggleTheme, setTheme, getTheme, initTheme };
+  return {
+    get theme() {
+      return theme;
+    },
+    get isDark() {
+      return isDark;
+    },
+    toggleTheme,
+    setTheme,
+    getTheme,
+    initTheme,
+  };
 }
 
 export const themeStore = createThemeStore();

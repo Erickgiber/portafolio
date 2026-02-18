@@ -16,13 +16,9 @@
 >
   <div class="container mx-auto">
     <div class="max-w-6xl mx-auto">
-      <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">
-        Habilidades Técnicas
-      </h2>
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Habilidades Técnicas</h2>
 
-      <div
-        class={`grid gap-8 ${useFourCols ? "md:grid-cols-2" : "md:grid-cols-2"}`}
-      >
+      <div class={`grid gap-8 ${useFourCols ? "md:grid-cols-2" : "md:grid-cols-2"}`}>
         {#each skillCategories as category, i (category.key)}
           <SkillCard {category} index={i} spanFull={false} />
         {/each}

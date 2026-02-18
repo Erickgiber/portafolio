@@ -8,7 +8,7 @@ export interface VisibilityProgressDetail {
   entry: IntersectionObserverEntry;
 }
 
-import type { Action } from 'svelte/action';
+import type { Action } from "svelte/action";
 
 export const visibilityProgress: Action<HTMLElement, IntersectionObserverInit | undefined> = (
   node,
@@ -35,9 +35,9 @@ export const visibilityProgress: Action<HTMLElement, IntersectionObserverInit | 
   return {
     destroy() {
       observer.disconnect();
-    }
+    },
   };
-}
+};
 
 // Create a fine-grained array of thresholds for a smoother transition.
 function buildThresholds(steps = 50) {

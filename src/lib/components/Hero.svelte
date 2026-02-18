@@ -67,36 +67,28 @@
 >
   <div class="container mx-auto text-center">
     <div class="max-w-4xl mx-auto">
-      <h1
-        class="text-5xl md:text-7xl font-bold mb-6 text-balance leading-tight hero-heading"
-      >
+      <h1 class="text-5xl md:text-7xl font-bold mb-6 text-balance leading-tight hero-heading">
         <span class="sr-only">Hola, soy Erick Ramírez</span>
         <span class="type-wrapper" aria-hidden="true"
-          >{@html colorize(displayText)}{#if !finished}<span
-              class="caret"
-              aria-hidden="true">|</span
+          >{@html colorize(displayText)}{#if !finished}<span class="caret" aria-hidden="true"
+              >|</span
             >{/if}</span
         >
       </h1>
       <p class="text-xl md:text-2xl text-muted-foreground mb-8 text-pretty">
-        Desarrollador Semi-Full Stack de Venezuela, creando experiencias
-        digitales modernas y funcionales
+        Desarrollador Semi-Full Stack de Venezuela, creando experiencias digitales modernas y
+        funcionales
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <button
           onclick={() =>
-            document
-              .getElementById("projects")
-              ?.scrollIntoView({ behavior: "smooth" })}
+            document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
           class="z-20 px-8 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium"
         >
           Ver mis proyectos
         </button>
         <button
-          onclick={() =>
-            document
-              .getElementById("contact")
-              ?.scrollIntoView({ behavior: "smooth" })}
+          onclick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
           class="z-20 px-8 py-3 border bg-white dark:bg-transparent border-border rounded-lg hover:bg-muted transition-colors font-medium"
         >
           Contactarme
@@ -128,11 +120,7 @@
   }
 
   :global(html:not(.dark) #hero) {
-    background-color: color-mix(
-      in oklab,
-      var(--color-secondary) /* #10b981 */ 5%,
-      transparent
-    );
+    background-color: color-mix(in oklab, var(--color-secondary) /* #10b981 */ 5%, transparent);
   }
 
   .caret {

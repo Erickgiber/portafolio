@@ -86,8 +86,7 @@
   function adjustParticleCount() {
     const target = computeParticleTargetCount();
     if (particles.length < target) {
-      for (let i = particles.length; i < target; i++)
-        particles.push(spawnParticle());
+      for (let i = particles.length; i < target; i++) particles.push(spawnParticle());
     } else if (particles.length > target) {
       particles.length = target;
     }
@@ -175,14 +174,7 @@
   function drawMouseAura() {
     if (!ctx || !mouse.active) return;
     const radius = CONFIG.mouseInfluence;
-    const grd = ctx.createRadialGradient(
-      mouse.x,
-      mouse.y,
-      0,
-      mouse.x,
-      mouse.y,
-      radius
-    );
+    const grd = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, radius);
     grd.addColorStop(0, "hsla(180,90%,65%,0.35)");
     grd.addColorStop(1, "hsla(200,80%,55%,0)");
     ctx.beginPath();
@@ -213,9 +205,10 @@
     const delta = current - lastScrollY; // positivo cuando se baja
     lastScrollY = current;
     // Invertimos para que al bajar el contenido las partículas fluyan ligeramente hacia arriba
-    scrollDriftY += -delta * CONFIG.scrollStrength * 0.60; // escala pequeña
+    scrollDriftY += -delta * CONFIG.scrollStrength * 0.6; // escala pequeña
     // Limitar drift acumulado
-    if (scrollDriftY > 3) scrollDriftY = 3; else if (scrollDriftY < -3) scrollDriftY = -3;
+    if (scrollDriftY > 3) scrollDriftY = 3;
+    else if (scrollDriftY < -3) scrollDriftY = -3;
   }
 
   function handlePointerMove(e: PointerEvent) {

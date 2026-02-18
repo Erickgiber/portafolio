@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "seo:generate": "node scripts/generate-seo.mjs",
+    "build": "npm run seo:generate && vite build",
     "preview": "vite preview",
     "format": "prettier . --write",
     "format:check": "prettier . --check",

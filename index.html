@@ -1,9 +1,66 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary SEO -->
+    <title>Erick Ramírez | Desarrollador Full Stack</title>
+    <meta
+      name="description"
+      content="Desarrollador Full Stack de Venezuela, creando experiencias digitales modernas y funcionales."
+    />
+    <meta name="author" content="Erick Ramírez" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <link rel="canonical" href="%VITE_SITE_URL%/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_VE" />
+    <meta property="og:url" content="%VITE_SITE_URL%/" />
+    <meta property="og:site_name" content="Erick Ramírez" />
+    <meta property="og:title" content="Erick Ramírez | Desarrollador Full Stack" />
+    <meta
+      property="og:description"
+      content="Desarrollador Full Stack de Venezuela, creando experiencias digitales modernas y funcionales."
+    />
+    <meta property="og:image" content="/erick-ramirez.jpg" />
+    <meta property="og:image:alt" content="Foto de Erick Ramírez" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Erick Ramírez | Desarrollador Full Stack" />
+    <meta
+      name="twitter:description"
+      content="Desarrollador Full Stack de Venezuela, creando experiencias digitales modernas y funcionales."
+    />
+    <meta name="twitter:image" content="/erick-ramirez.jpg" />
+
+    <!-- PWA -->
+    <meta name="theme-color" content="#0f172a" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <script>
+      (function () {
+        var absoluteUrl = window.location.origin + window.location.pathname;
+        var canonical = document.querySelector('link[rel="canonical"]');
+        if (canonical) {
+          var current = canonical.getAttribute("href") || "";
+          if (!current || current.indexOf("%VITE_SITE_URL%") !== -1) {
+            canonical.setAttribute("href", absoluteUrl);
+          }
+        }
+
+        var ogUrl = document.querySelector('meta[property="og:url"]');
+        if (ogUrl) {
+          var ogCurrent = ogUrl.getAttribute("content") || "";
+          if (!ogCurrent || ogCurrent.indexOf("%VITE_SITE_URL%") !== -1) {
+            ogUrl.setAttribute("content", absoluteUrl);
+          }
+        }
+      })();
+    </script>
     <!-- Preconnect para mejorar performance de carga de la fuente -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,7 +71,32 @@
     />
     <!-- Pinterest domain verification meta tag -->
     <meta name="p:domain_verify" content="06c616187998b87732451a61bd561338" />
-    <title>Erick Ramírez</title>
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "name": "Erick Ramírez",
+            "url": "%VITE_SITE_URL%/"
+          },
+          {
+            "@type": "Person",
+            "name": "Erick Ramírez",
+            "jobTitle": "Desarrollador Full Stack",
+            "email": "mailto:erickgiber.dev@gmail.com",
+            "image": "/erick-ramirez.jpg",
+            "url": "%VITE_SITE_URL%/",
+            "sameAs": [
+              "https://github.com/erickgiber",
+              "https://linkedin.com/in/erickgiber"
+            ]
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="app"></div>

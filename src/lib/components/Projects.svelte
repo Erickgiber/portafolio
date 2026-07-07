@@ -34,12 +34,12 @@
               <h3 class="text-xl font-semibold mb-2">{project.title}</h3>
               <p class="text-muted-foreground mb-4">{project.description}</p>
               <div class="flex flex-wrap gap-2 mb-4">
-                {#each project.tech as t (t)}
+                {#each project.tech as t, idx (idx)}
                   <span class="px-2 py-1 bg-muted text-xs rounded">{t}</span>
                 {/each}
               </div>
               <div class="flex space-x-3">
-                {#each project.links as link (link.href)}
+                {#each project.links as link, idx (idx)}
                   <a
                     href={link.href}
                     target="_blank"

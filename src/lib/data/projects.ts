@@ -78,4 +78,24 @@ export const projects: Project[] = [
     icon: "mdi:music-note",
     gradientClass: "from-accent to-primary",
   },
+  {
+    id: 'noteblock-js',
+    title: 'NoteBlock JS',
+    description: 'na potente librería de JavaScript diseñada para crear experiencias sonoras interactivas y reactivas en aplicaciones web. Permite secuenciar notas musicales, reproducir efectos de sonido y sincronizar animaciones en tiempo real.',
+    tech: ["JavaScript", "Audio Context", "NPM"],
+    links: [
+      {
+        label: "Demo",
+        href: "https://www.npmjs.com/package/@noteblocks.js/noteblock-js",
+        variant: "primary",
+      },
+      {
+        label: "Código",
+        href: "https://www.npmjs.com/package/@noteblocks.js/noteblock-js",
+        variant: "muted",
+      },
+    ],
+    icon: "mdi:music-note",
+    gradientClass: "from-accent to-primary"
+  }
 ];

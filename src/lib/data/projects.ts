@@ -81,7 +81,7 @@ export const projects: Project[] = [
   {
     id: 'noteblock-js',
     title: 'NoteBlock JS',
-    description: 'na potente librería de JavaScript diseñada para crear experiencias sonoras interactivas y reactivas en aplicaciones web. Permite secuenciar notas musicales, reproducir efectos de sonido y sincronizar animaciones en tiempo real.',
+    description: 'Una potente librería de JavaScript diseñada para crear experiencias sonoras interactivas y reactivas en aplicaciones web. Permite secuenciar notas musicales, reproducir efectos de sonido y sincronizar animaciones en tiempo real.',
     tech: ["JavaScript", "Audio Context", "NPM"],
     links: [
       {

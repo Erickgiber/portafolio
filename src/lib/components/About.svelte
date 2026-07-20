@@ -98,7 +98,7 @@
                   d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m8 6V9a2 2 0 00-2-2H10a2 2 0 00-2 2v3.1M15 13l-3-3-3 3"
                 ></path>
               </svg>
-              <span class="text-muted-foreground">Semi-Full Stack</span>
+              <span class="text-muted-foreground">Full Stack</span>
             </div>
           </div>
         </div>

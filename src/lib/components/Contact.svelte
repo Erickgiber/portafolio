@@ -14,8 +14,9 @@
 
   const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID as string | undefined;
   const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string | undefined;
-  const EMAILJS_AUTOREPLY_TEMPLATE_ID = import.meta.env
-    .VITE_EMAILJS_AUTOREPLY_TEMPLATE_ID as string | undefined;
+  const EMAILJS_AUTOREPLY_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_AUTOREPLY_TEMPLATE_ID as
+    | string
+    | undefined;
   const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string | undefined;
 
   let name = $state("");
@@ -92,11 +93,7 @@
     if (status.type === "sending") return;
 
     if (company.trim().length > 0) {
-      markSuccess(
-        "¡Mensaje enviado! Te responderé pronto.",
-        normalize(name),
-        message.trim()
-      );
+      markSuccess("¡Mensaje enviado! Te responderé pronto.", normalize(name), message.trim());
       return;
     }
 
@@ -198,8 +195,7 @@
     } catch {
       status = {
         type: "error",
-        message:
-          "No pude enviar el mensaje en este momento. Inténtalo de nuevo en unos minutos.",
+        message: "No pude enviar el mensaje en este momento. Inténtalo de nuevo en unos minutos.",
       };
     }
   }
@@ -262,13 +258,13 @@
               <div>
                 <p class="font-medium">GitHub</p>
                 <a
-                  href="https://github.com/erickgiber"
+                  href="https://github.com/Erickgiber"
                   target="_blank"
                   rel="noopener noreferrer"
                   class="group inline-flex items-center gap-1 text-muted-foreground hover:underline focus:outline-none focus:ring-2 focus:ring-ring rounded-sm break-all"
-                  aria-label="Abrir perfil de GitHub de Erick Giber en una nueva pestaña"
+                  aria-label="Abrir perfil de GitHub de Erick Ramírez en una nueva pestaña"
                 >
-                  github.com/erickgiber
+                  github.com/Erickgiber
                   <svg
                     aria-hidden="true"
                     class="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition-opacity"
@@ -302,9 +298,45 @@
                   target="_blank"
                   rel="noopener noreferrer"
                   class="group inline-flex items-center gap-1 text-muted-foreground hover:underline focus:outline-none focus:ring-2 focus:ring-ring rounded-sm break-all"
-                  aria-label="Abrir perfil de LinkedIn de Erick Giber en una nueva pestaña"
+                  aria-label="Abrir perfil de LinkedIn de Erick Ramírez en una nueva pestaña"
                 >
                   linkedin.com/in/erickgiber
+                  <svg
+                    aria-hidden="true"
+                    class="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition-opacity"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            <div class="flex items-center space-x-4">
+              <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M3.609 1.814L13.792 12 3.61 22.186a2.38 2.38 0 0 1-.61-.986c-.134-.41-.2-.843-.199-1.28V4.08c0-.437.065-.87.199-1.28.14-.403.35-.77.61-.986zm11.238 11.24l2.58 2.58-12.18 7.03 9.6-9.61zm2.58-2.108l-2.58 2.58-9.6-9.61 12.18 7.03zm1.054.606l3.22 1.86a1.44 1.44 0 0 1 0 2.496l-3.22 1.86-2.23-2.23 2.23-2.986z"
+                  ></path>
+                </svg>
+              </div>
+              <div>
+                <p class="font-medium">Google Play</p>
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.wallettrack.giber"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="group inline-flex items-center gap-1 text-muted-foreground hover:underline focus:outline-none focus:ring-2 focus:ring-ring rounded-sm break-all"
+                  aria-label="Abrir WalletTrack en Google Play en una nueva pestaña"
+                >
+                  WalletTrack App
                   <svg
                     aria-hidden="true"
                     class="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition-opacity"

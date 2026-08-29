@@ -27,45 +27,48 @@ const ICON_TESTING =
 export const skillCategories: SkillCategory[] = [
   {
     key: "frontend",
-    title: "Frontend",
+    title: "Frontend & UI",
     color: "primary",
     icon: ICON_FRONTEND,
     groups: [
-      ["React", "Svelte", "Vue.js", "Angular"],
+      ["Svelte / SvelteKit", "React", "Angular"],
       ["TypeScript", "JavaScript"],
-      ["Tailwind CSS", "CSS3"],
-      ["Astro", "Nextjs", "Gatsby"],
+      ["Tailwind CSS", "Sass", "CSS3 / HTML5"],
+      ["Astro", "Next.js"],
     ],
   },
   {
     key: "backend",
-    title: "Backend",
+    title: "Backend & Mobile",
     color: "secondary",
     icon: ICON_BACKEND,
     groups: [
-      ["Node.js", "Express", "Python"],
+      ["Node.js", "Express.js", "Android"],
+      ["Google Play", "REST APIs", "WebSockets"],
       ["PostgreSQL", "MongoDB", "MySQL"],
-      ["REST APIs", "GraphQL", "Supabase"],
-      ["Firebase", "Socket"],
+      ["Supabase", "Firebase"],
     ],
   },
   {
     key: "tools",
-    title: "Herramientas",
+    title: "Herramientas & Entorno",
     color: "accent",
     icon: ICON_TOOLS,
     groups: [
-      ["Git", "Docker", "AWS"],
-      ["Figma", "Postman"],
-      ["Linux", "VS Code"],
+      ["Vite", "Git", "GitHub"],
+      ["Docker", "Postman", "Linux"],
+      ["VS Code", "Figma"],
     ],
   },
   {
     key: "testing",
-    title: "Testing",
+    title: "Testing & QA",
     color: "primary",
     icon: ICON_TESTING,
-    groups: [["Jest", "Vitest", "Cypress", "Playwright", "Puppeteer"]],
+    groups: [
+      ["Playwright", "Vitest", "Jest"],
+      ["Cypress", "Puppeteer"],
+    ],
   },
 ];
 

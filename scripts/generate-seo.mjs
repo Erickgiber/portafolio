@@ -5,7 +5,10 @@ function normalizeSiteUrl(raw) {
   if (!raw) return "";
   const trimmed = String(raw).trim();
   if (!trimmed) return "";
-  const withProtocol = trimmed.startsWith("http://") || trimmed.startsWith("https://") ? trimmed : `https://${trimmed}`;
+  const withProtocol =
+    trimmed.startsWith("http://") || trimmed.startsWith("https://")
+      ? trimmed
+      : `https://${trimmed}`;
   return withProtocol.replace(/\/+$/, "");
 }
 

@@ -53,15 +53,16 @@
         </div>
         <div class="space-y-6">
           <p class="text-lg text-muted-foreground leading-relaxed">
-            Soy un desarrollador apasionado por la tecnología y la innovación. Con experiencia en
-            desarrollo tanto frontend como backend, me especializo en crear soluciones web modernas
-            y eficientes.
+            ¡Hola! 👋 Soy <strong class="text-foreground font-semibold">Erick Ramírez</strong>,
+            Desarrollador Full Stack con enfoque en la creación de herramientas para
+            desarrolladores, librerías modernas y aplicaciones web/móviles eficientes. Me encanta
+            resolver problemas complejos y transformar ideas en productos open source funcionales y
+            de alto rendimiento.
           </p>
-          <p class="text-lg text-muted-foreground leading-relaxed">
-            Desde Venezuela, trabajo con las últimas tecnologías para construir aplicaciones que no
-            solo funcionen bien, sino que también brinden una excelente experiencia de usuario.
-          </p>
-          <div class="flex flex-wrap gap-4">
+          <blockquote class="border-l-2 border-primary pl-4 text-muted-foreground italic">
+            "La tecnología no tiene fronteras, y tampoco mis sueños."
+          </blockquote>
+          <div class="flex flex-wrap gap-4 pt-2">
             <div class="flex items-center space-x-2">
               <svg
                 class="w-5 h-5 text-primary"
@@ -95,10 +96,26 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m8 6V9a2 2 0 00-2-2H10a2 2 0 00-2 2v3.1M15 13l-3-3-3 3"
+                  d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
                 ></path>
               </svg>
-              <span class="text-muted-foreground">Semi-Full Stack</span>
+              <span class="text-muted-foreground">Full Stack & Mobile</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <svg
+                class="w-5 h-5 text-primary"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                ></path>
+              </svg>
+              <span class="text-muted-foreground">Open Source Creator</span>
             </div>
           </div>
         </div>

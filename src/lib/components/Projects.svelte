@@ -19,7 +19,7 @@
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {#each projects as project, i (project.id)}
           <div
-            class="bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow group"
+            class="bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow group flex flex-col"
             use:reveal={{
               delay: revealBaseDelay + i * revealStepDelay,
               replayOnEnable: true,
@@ -30,7 +30,7 @@
             >
               <Icon icon={project.icon} class="w-16 h-16 text-white" />
             </div>
-            <div class="p-6">
+            <div class="p-6 flex flex-col flex-1">
               <h3 class="text-xl font-semibold mb-2">{project.title}</h3>
               <p class="text-muted-foreground mb-4">{project.description}</p>
               <div class="flex flex-wrap gap-2 mb-4">
@@ -38,7 +38,7 @@
                   <span class="px-2 py-1 bg-muted text-xs rounded">{t}</span>
                 {/each}
               </div>
-              <div class="flex space-x-3">
+              <div class="flex space-x-3 mt-auto pt-2">
                 {#each project.links as link, idx (idx)}
                   <a
                     href={link.href}

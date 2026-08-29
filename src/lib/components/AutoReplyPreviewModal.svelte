@@ -62,8 +62,8 @@
             stroke-linejoin="round"
             aria-hidden="true"
           >
-            <path d="M18 6 6 18" />
-            <path d="M6 6l12 12" />
+            <path d="M18 6 6 18"></path>
+            <path d="M6 6l12 12"></path>
           </svg>
         </button>
       </div>
@@ -72,7 +72,7 @@
         <iframe
           class="w-full h-[70vh] rounded-lg border border-border bg-background"
           title="Vista previa del email de auto-respuesta"
-          srcdoc={srcdoc}
+          {srcdoc}
         ></iframe>
       </div>
     </div>

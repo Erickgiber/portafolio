@@ -76,8 +76,8 @@
         >
       </h1>
       <p class="text-xl md:text-2xl text-muted-foreground mb-8 text-pretty">
-        Desarrollador Full Stack de Venezuela, creando experiencias digitales modernas y
-        funcionales
+        Desarrollador Full Stack & Mobile | Open Source Creator — Creando herramientas para
+        desarrolladores, librerías modernas y aplicaciones de alto rendimiento.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <button

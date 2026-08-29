@@ -18,9 +18,7 @@
     aria-live="polite"
     transition:fly={{ x: 24, y: -8, duration: 260, easing: cubicOut }}
   >
-    <div
-      class="bg-card border border-border rounded-lg shadow-lg px-4 py-3 flex items-start gap-3"
-    >
+    <div class="bg-card border border-border rounded-lg shadow-lg px-4 py-3 flex items-start gap-3">
       <svg
         class="w-5 h-5 text-primary mt-0.5 shrink-0"
         viewBox="0 0 24 24"
@@ -31,7 +29,7 @@
         stroke-linejoin="round"
         aria-hidden="true"
       >
-        <path d="M20 6 9 17l-5-5" />
+        <path d="M20 6 9 17l-5-5"></path>
       </svg>
 
       <p class="text-sm text-card-foreground leading-snug">{message}</p>
@@ -52,8 +50,8 @@
           stroke-linejoin="round"
           aria-hidden="true"
         >
-          <path d="M18 6 6 18" />
-          <path d="M6 6l12 12" />
+          <path d="M18 6 6 18"></path>
+          <path d="M6 6l12 12"></path>
         </svg>
       </button>
     </div>

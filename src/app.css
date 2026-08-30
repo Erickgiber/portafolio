@@ -10,86 +10,88 @@
   --font-mono:
     ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
 
-  /* Light mode design tokens (Tailwind v4 expects --color-* to map to bg-* text-* utilities) */
-  /* Fondo base (fallback) blanco y gradiente suave para modo claro */
-  --color-background: #ffffff; /* fallback simple */
-  /* Gradiente pensado para ser muy sutil: un tono aqua muy claro hacia un verde menta apenas visible
-     Usamos alpha baja para no distraer contenido. */
-  --color-background-gradient: linear-gradient(
-    145deg,
-    color-mix(in srgb, #ecfeff 85%, #ffffff) 0%,
-    color-mix(in srgb, #f0fdfa 90%, #ffffff) 30%,
-    color-mix(in srgb, #f0f9ff 88%, #ffffff) 65%,
-    #ffffff 100%
+  /* Light mode design tokens (Tailwind v4 maps --color-* to bg-*, text-*, border-*) */
+  --color-background: #fafcff;
+  --color-background-gradient: radial-gradient(
+    circle at 50% -10%,
+    rgba(224, 242, 254, 0.6) 0%,
+    rgba(236, 253, 245, 0.4) 35%,
+    #fafcff 80%
   );
-  --color-foreground: #4b5563;
-  --color-card: #f9fafb;
-  --color-card-foreground: #374151;
+  --color-foreground: #334155;
+  --color-card: #ffffff;
+  --color-card-foreground: #0f172a;
   --color-popover: #ffffff;
-  --color-popover-foreground: #4b5563;
-  --color-primary: #0891b2;
+  --color-popover-foreground: #0f172a;
+  --color-primary: #0284c7;
   --color-primary-foreground: #ffffff;
   --color-secondary: #10b981;
   --color-secondary-foreground: #ffffff;
-  --color-muted: #f9fafb;
-  --color-muted-foreground: #6b7280;
-  --color-accent: #10b981;
+  --color-muted: #f1f5f9;
+  --color-muted-foreground: #64748b;
+  --color-accent: #0ea5e9;
   --color-accent-foreground: #ffffff;
-  --color-destructive: #dc2626;
+  --color-destructive: #ef4444;
   --color-destructive-foreground: #ffffff;
-  --color-border: #e5e7eb;
-  --color-input: #f9fafb;
-  --color-ring: #0891b2;
-  --color-chart-1: #10b981;
-  --color-chart-2: #0891b2;
-  --color-chart-3: #dc2626;
-  --color-chart-4: #fbbf24;
-  --color-chart-5: #4b5563;
-  --radius: 0.5rem;
-  --color-sidebar: #f9fafb;
-  --color-sidebar-foreground: #4b5563;
+  --color-border: #e2e8f0;
+  --color-input: #ffffff;
+  --color-ring: #0284c7;
+  --color-chart-1: #0284c7;
+  --color-chart-2: #10b981;
+  --color-chart-3: #f59e0b;
+  --color-chart-4: #8b5cf6;
+  --color-chart-5: #64748b;
+  --radius: 0.75rem;
+  --color-sidebar: #f8fafc;
+  --color-sidebar-foreground: #334155;
   --color-sidebar-primary: #ffffff;
-  --color-sidebar-primary-foreground: #4b5563;
-  --color-sidebar-accent: #10b981;
+  --color-sidebar-primary-foreground: #334155;
+  --color-sidebar-accent: #0284c7;
   --color-sidebar-accent-foreground: #ffffff;
-  --color-sidebar-border: #e5e7eb;
-  --color-sidebar-ring: #0891b2;
+  --color-sidebar-border: #e2e8f0;
+  --color-sidebar-ring: #0284c7;
 }
 
 .dark {
-  /* Dark mode overrides */
-  --color-background: #0f172a;
-  --color-foreground: #f1f5f9;
-  --color-card: #1e293b;
-  --color-card-foreground: #f1f5f9;
-  --color-popover: #1e293b;
-  --color-popover-foreground: #f1f5f9;
-  --color-primary: #0891b2;
-  --color-primary-foreground: #ffffff;
-  --color-secondary: #10b981;
-  --color-secondary-foreground: #ffffff;
-  --color-muted: #1e293b;
+  /* Dark mode overrides: Deep Space Zinc/Slate aesthetic */
+  --color-background: #080c14;
+  --color-background-gradient: radial-gradient(
+    circle at 50% -10%,
+    rgba(14, 165, 233, 0.12) 0%,
+    rgba(16, 185, 129, 0.06) 40%,
+    #080c14 80%
+  );
+  --color-foreground: #cbd5e1;
+  --color-card: #101623;
+  --color-card-foreground: #f8fafc;
+  --color-popover: #101623;
+  --color-popover-foreground: #f8fafc;
+  --color-primary: #38bdf8;
+  --color-primary-foreground: #080c14;
+  --color-secondary: #34d399;
+  --color-secondary-foreground: #080c14;
+  --color-muted: #172033;
   --color-muted-foreground: #94a3b8;
-  --color-accent: #10b981;
-  --color-accent-foreground: #ffffff;
-  --color-destructive: #dc2626;
-  --color-destructive-foreground: #ffffff;
-  --color-border: #334155;
-  --color-input: #1e293b;
-  --color-ring: #0891b2;
-  --color-chart-1: #10b981;
-  --color-chart-2: #0891b2;
-  --color-chart-3: #dc2626;
-  --color-chart-4: #fbbf24;
+  --color-accent: #38bdf8;
+  --color-accent-foreground: #080c14;
+  --color-destructive: #f87171;
+  --color-destructive-foreground: #080c14;
+  --color-border: #1e293b;
+  --color-input: #101623;
+  --color-ring: #38bdf8;
+  --color-chart-1: #38bdf8;
+  --color-chart-2: #34d399;
+  --color-chart-3: #fbbf24;
+  --color-chart-4: #a78bfa;
   --color-chart-5: #94a3b8;
-  --color-sidebar: #1e293b;
-  --color-sidebar-foreground: #f1f5f9;
-  --color-sidebar-primary: #0f172a;
-  --color-sidebar-primary-foreground: #f1f5f9;
-  --color-sidebar-accent: #10b981;
-  --color-sidebar-accent-foreground: #ffffff;
-  --color-sidebar-border: #334155;
-  --color-sidebar-ring: #0891b2;
+  --color-sidebar: #101623;
+  --color-sidebar-foreground: #f8fafc;
+  --color-sidebar-primary: #080c14;
+  --color-sidebar-primary-foreground: #f8fafc;
+  --color-sidebar-accent: #38bdf8;
+  --color-sidebar-accent-foreground: #080c14;
+  --color-sidebar-border: #1e293b;
+  --color-sidebar-ring: #38bdf8;
 }
 
 * {

@@ -1,88 +1,135 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <!-- Script síncrono anti-parpadeo: Inicializa en Dark Mode por defecto si no hay preferencia light guardada -->
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem("theme");
+          if (theme === "light") {
+            document.documentElement.classList.remove("dark");
+          } else {
+            document.documentElement.classList.add("dark");
+          }
+          var lang = localStorage.getItem("portfolio_lang");
+          if (lang === "es" || lang === "en") {
+            document.documentElement.lang = lang;
+          }
+        } catch (e) {}
+      })();
+    </script>
 
     <!-- Primary SEO -->
     <title>Erick Ramírez | Desarrollador Full Stack & Mobile | Open Source Creator</title>
     <meta
+      name="title"
+      content="Erick Ramírez | Desarrollador Full Stack & Mobile | Open Source Creator"
+    />
+    <meta
       name="description"
-      content="Desarrollador Full Stack & Mobile de Venezuela. Creador del framework CanvApps, la librería ShareDOM y WalletTrack en Google Play."
+      content="Portafolio oficial de Erick Ramírez (Erickgiber) — Desarrollador Full Stack & Mobile de Venezuela. Creador del framework CanvApps, la librería ShareDOM y la app WalletTrack en Google Play."
     />
     <meta
       name="keywords"
-      content="Erick Ramírez, Erick, Ramírez, Erickgiber, desarrollador full stack, desarrollador mobile, CanvApps, ShareDOM, WalletTrack, Svelte, TypeScript, portafolio, open source"
+      content="Erick Ramírez, Erick, Ramírez, Erickgiber, Desarrollador Full Stack, Desarrollador Mobile, CanvApps, ShareDOM, WalletTrack, Svelte 5, TypeScript, React Native, Tailwind CSS, Open Source, Venezuela Developer"
     />
     <meta name="author" content="Erick Ramírez" />
+    <meta name="creator" content="Erick Ramírez" />
+    <meta name="publisher" content="Erick Ramírez" />
     <meta
       name="robots"
-      content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
     />
-    <link rel="canonical" href="%VITE_SITE_URL%/" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1" />
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="es_VE" />
+    <!-- Canonical & Multilingual Alternates -->
+    <link rel="canonical" href="%VITE_SITE_URL%/" />
+    <link rel="alternate" hreflang="es" href="%VITE_SITE_URL%/" />
+    <link rel="alternate" hreflang="en" href="%VITE_SITE_URL%/" />
+    <link rel="alternate" hreflang="x-default" href="%VITE_SITE_URL%/" />
+
+    <!-- Open Graph / Facebook / LinkedIn -->
+    <meta property="og:type" content="profile" />
+    <meta property="og:site_name" content="Erick Ramírez Portfolio" />
     <meta property="og:url" content="%VITE_SITE_URL%/" />
-    <meta property="og:site_name" content="Erick Ramírez" />
-    <meta
-      property="og:title"
-      content="Erick Ramírez | Desarrollador Full Stack & Mobile | Open Source Creator"
-    />
+    <meta property="og:title" content="Erick Ramírez | Full Stack & Mobile Developer" />
     <meta
       property="og:description"
       content="Desarrollador Full Stack & Mobile de Venezuela. Creador del framework CanvApps, la librería ShareDOM y WalletTrack en Google Play."
     />
-    <meta property="og:image" content="/erick-ramirez.jpg" />
-    <meta property="og:image:alt" content="Foto de Erick Ramírez" />
+    <meta property="og:image" content="%VITE_SITE_URL%/erick-ramirez.jpg" />
+    <meta property="og:image:secure_url" content="%VITE_SITE_URL%/erick-ramirez.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Erick Ramírez - Desarrollador Full Stack & Mobile" />
+    <meta property="og:locale" content="es_VE" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="profile:first_name" content="Erick" />
+    <meta property="profile:last_name" content="Ramírez" />
+    <meta property="profile:username" content="Erickgiber" />
 
-    <!-- Twitter -->
+    <!-- Twitter / X Cards -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="Erick Ramírez | Desarrollador Full Stack & Mobile | Open Source Creator"
-    />
+    <meta name="twitter:url" content="%VITE_SITE_URL%/" />
+    <meta name="twitter:title" content="Erick Ramírez | Full Stack & Mobile Developer" />
     <meta
       name="twitter:description"
-      content="Desarrollador Full Stack & Mobile de Venezuela. Creador del framework CanvApps, la librería ShareDOM y WalletTrack en Google Play."
+      content="Desarrollador Full Stack & Mobile de Venezuela. Creador de CanvApps, ShareDOM y WalletTrack en Google Play."
     />
-    <meta name="twitter:image" content="/erick-ramirez.jpg" />
+    <meta name="twitter:image" content="%VITE_SITE_URL%/erick-ramirez.jpg" />
+    <meta name="twitter:image:alt" content="Erick Ramírez" />
 
-    <!-- PWA -->
-    <meta name="theme-color" content="#0f172a" />
+    <!-- PWA & Color Schemes -->
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fafcff" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#080c14" />
+    <meta name="theme-color" content="#080c14" />
+    <meta name="color-scheme" content="dark light" />
     <link rel="manifest" href="/site.webmanifest" />
 
+    <!-- Dynamic URL Safety Fallback -->
     <script>
       (function () {
-        var absoluteUrl = window.location.origin + window.location.pathname;
+        var base = window.location.origin + window.location.pathname;
         var canonical = document.querySelector('link[rel="canonical"]');
-        if (canonical) {
-          var current = canonical.getAttribute("href") || "";
-          if (!current || current.indexOf("%VITE_SITE_URL%") !== -1) {
-            canonical.setAttribute("href", absoluteUrl);
-          }
+        if (
+          canonical &&
+          (!canonical.getAttribute("href") ||
+            canonical.getAttribute("href").indexOf("%VITE_SITE_URL%") !== -1)
+        ) {
+          canonical.setAttribute("href", base);
         }
-
         var ogUrl = document.querySelector('meta[property="og:url"]');
-        if (ogUrl) {
-          var ogCurrent = ogUrl.getAttribute("content") || "";
-          if (!ogCurrent || ogCurrent.indexOf("%VITE_SITE_URL%") !== -1) {
-            ogUrl.setAttribute("content", absoluteUrl);
-          }
+        if (
+          ogUrl &&
+          (!ogUrl.getAttribute("content") ||
+            ogUrl.getAttribute("content").indexOf("%VITE_SITE_URL%") !== -1)
+        ) {
+          ogUrl.setAttribute("content", base);
+        }
+        var twUrl = document.querySelector('meta[name="twitter:url"]');
+        if (
+          twUrl &&
+          (!twUrl.getAttribute("content") ||
+            twUrl.getAttribute("content").indexOf("%VITE_SITE_URL%") !== -1)
+        ) {
+          twUrl.setAttribute("content", base);
         }
       })();
     </script>
-    <!-- Preconnect para mejorar performance de carga de la fuente -->
+
+    <!-- Google Fonts & Domain Verification -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Fuente principal: Inter variable (pesos 100..900) -->
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
       rel="stylesheet"
     />
-    <!-- Pinterest domain verification meta tag -->
     <meta name="p:domain_verify" content="06c616187998b87732451a61bd561338" />
 
     <!-- Structured Data (JSON-LD) -->
@@ -92,16 +139,47 @@
         "@graph": [
           {
             "@type": "WebSite",
-            "name": "Erick Ramírez",
-            "url": "%VITE_SITE_URL%/"
+            "@id": "%VITE_SITE_URL%/#website",
+            "url": "%VITE_SITE_URL%/",
+            "name": "Erick Ramírez | Portfolio",
+            "description": "Portafolio oficial de Erick Ramírez, Desarrollador Full Stack & Mobile y creador de herramientas Open Source.",
+            "inLanguage": ["es", "en"]
+          },
+          {
+            "@type": "ProfilePage",
+            "@id": "%VITE_SITE_URL%/#profilepage",
+            "url": "%VITE_SITE_URL%/",
+            "name": "Erick Ramírez | Perfil Profesional",
+            "isPartOf": { "@id": "%VITE_SITE_URL%/#website" },
+            "mainEntity": { "@id": "%VITE_SITE_URL%/#person" }
           },
           {
             "@type": "Person",
+            "@id": "%VITE_SITE_URL%/#person",
             "name": "Erick Ramírez",
-            "jobTitle": "Desarrollador Full Stack & Mobile | Open Source Creator",
-            "email": "mailto:erickgiber.dev@gmail.com",
-            "image": "/erick-ramirez.jpg",
+            "alternateName": "Erickgiber",
+            "jobTitle": "Full Stack & Mobile Developer | Open Source Creator",
+            "description": "Desarrollador Full Stack & Mobile con enfoque en tooling para desarrolladores, librerías modernas y aplicaciones de alto rendimiento.",
+            "image": "%VITE_SITE_URL%/erick-ramirez.jpg",
             "url": "%VITE_SITE_URL%/",
+            "email": "mailto:erickgiber.dev@gmail.com",
+            "address": {
+              "@type": "PostalAddress",
+              "addressCountry": "Venezuela"
+            },
+            "knowsAbout": [
+              "Svelte",
+              "SvelteKit",
+              "TypeScript",
+              "JavaScript",
+              "React",
+              "React Native",
+              "Tailwind CSS",
+              "HTML5 Canvas",
+              "Node.js",
+              "Mobile App Development",
+              "Open Source Software"
+            ],
             "sameAs": [
               "https://github.com/Erickgiber",
               "https://linkedin.com/in/erickgiber",

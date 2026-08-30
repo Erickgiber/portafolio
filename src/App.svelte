@@ -8,13 +8,23 @@
   import Contact from "./lib/components/Contact.svelte";
   import Footer from "./lib/components/Footer.svelte";
   import { themeStore } from "./lib/stores/theme.svelte";
+  import { i18nStore } from "./lib/stores/i18n.svelte";
   import AnimatedBackground from "./lib/components/AnimatedBackground.svelte";
   import SectionProgressBar from "./lib/components/SectionProgressBar.svelte";
 
   const { initTheme, toggleTheme } = themeStore;
+  const { initLocale } = i18nStore;
+
+  $effect(() => {
+    if (typeof document !== "undefined" && i18nStore.t.meta.title) {
+      document.title = i18nStore.t.meta.title;
+      document.documentElement.lang = i18nStore.locale;
+    }
+  });
 
   onMount(() => {
     initTheme();
+    initLocale();
   });
 </script>
 

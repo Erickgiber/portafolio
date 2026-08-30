@@ -56,20 +56,20 @@
     aria-describedby="scroll-progress-tooltip"
     style={`${animationsEnabled ? "transition:opacity .4s ease, transform .45s cubic-bezier(.4,0,.2,1);" : ""} ${scrolledPast ? "opacity:1;transform:translateY(0);" : "opacity:0;transform:translateY(-100%);"}`}
   >
-    <!-- Track (kept for structure) -->
-    <div class="absolute inset-0 overflow-hidden">
-      <!-- Filled bar -->
+    <!-- Track con fondo primario suave -->
+    <div class="absolute inset-0 overflow-hidden bg-primary/10 dark:bg-primary/15 backdrop-blur-sm">
+      <!-- Filled bar con degradado primario a secundario y aura de brillo -->
       <div
-        class="h-full w-full origin-left bg-gradient-to-r from-primary to-secondary"
+        class="h-full w-full origin-left bg-gradient-to-r from-primary via-accent to-secondary shadow-[0_0_10px_color-mix(in_srgb,var(--color-primary)_60%,transparent)]"
         style={`transform:scaleX(${progress});${animationsEnabled ? "transition:transform .35s cubic-bezier(.4,0,.2,1);" : ""}`}
       ></div>
     </div>
 
-    <!-- Tooltip -->
+    <!-- Tooltip adaptativo a light y dark -->
     <div
       id="scroll-progress-tooltip"
       role="tooltip"
-      class="pointer-events-none absolute top-full mt-1 px-2 py-0.5 rounded-md bg-neutral-800/90 text-[10px] sm:text-xs text-white font-medium shadow-lg opacity-0 scale-75 origin-top transition duration-150 ease-out group-hover:opacity-100 group-hover:scale-100 select-none"
+      class="pointer-events-none absolute top-full mt-1.5 px-2.5 py-0.5 rounded-lg bg-card/95 backdrop-blur-md border border-primary/25 text-[11px] text-primary font-semibold shadow-lg shadow-primary/10 opacity-0 scale-75 origin-top transition duration-150 ease-out group-hover:opacity-100 group-hover:scale-100 select-none"
       style={`left:${tooltipLeftPercent}%;transform:translate(-50%,0) scale(var(--scale,1));${animationsEnabled ? "" : "transition:none;"}`}
     >
       {Math.round(progress * 100)}%

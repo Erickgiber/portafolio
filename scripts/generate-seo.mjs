@@ -16,7 +16,7 @@ const siteUrl =
   normalizeSiteUrl(process.env.SITE_URL) ||
   normalizeSiteUrl(process.env.VITE_SITE_URL) ||
   normalizeSiteUrl(process.env.VERCEL_URL) ||
-  "http://localhost:5173";
+  "https://erickgiber.dev";
 
 const publicDir = path.resolve(process.cwd(), "public");
 fs.mkdirSync(publicDir, { recursive: true });
@@ -24,11 +24,15 @@ fs.mkdirSync(publicDir, { recursive: true });
 const now = new Date().toISOString();
 
 const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>${siteUrl}/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="${siteUrl}/" />
+    <xhtml:link rel="alternate" hreflang="en" href="${siteUrl}/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="${siteUrl}/" />
     <lastmod>${now}</lastmod>
-    <changefreq>monthly</changefreq>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 </urlset>

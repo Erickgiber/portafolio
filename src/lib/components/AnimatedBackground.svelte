@@ -1,13 +1,12 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
   import { animationsStore } from "../stores/animations.svelte";
-  // Valor reactivo desde el singleton
   let animationsEnabled = $derived(animationsStore.animationsEnabled);
 
   let canvas: HTMLCanvasElement | undefined;
   let ctx: CanvasRenderingContext2D | null = null;
   let raf: number;
-  let frame = 0;
+  let lastTime = 0;
 
   interface Particle {
     x: number;
@@ -18,42 +17,70 @@
     hue: number;
     seed: number;
   }
-  let particles: Particle[] = [];
 
-  // Config centralizada para fácil ajuste
+  interface GlowOrb {
+    x: number;
+    y: number;
+    targetX: number;
+    targetY: number;
+    radius: number;
+    color: string;
+    speed: number;
+  }
+
+  let particles: Particle[] = [];
+  let orbs: GlowOrb[] = [];
+
   const CONFIG = {
-    baseCount: 80,
-    maxExtra: 40, // se suma según ancho pantallas grandes
-    maxSpeed: 0.35,
-    connectDistance: 140,
-    mouseInfluence: 120,
-    parallaxStrength: 0.06,
-    scrollStrength: 0.25, // intensidad del desplazamiento inducido por scroll
-    scrollDecay: 0.92, // decaimiento por frame del efecto scroll
+    baseCount: 65,
+    maxExtra: 35,
+    maxSpeed: 0.28,
+    connectDistance: 130,
+    mouseInfluence: 140,
+    parallaxStrength: 0.04,
+    scrollStrength: 0.2,
+    scrollDecay: 0.94,
     dprMax: 2,
-    bgOpacity: 0.12,
-    lineBaseAlpha: 0.18,
-    lineThick: 1.1,
   } as const;
 
-  const DPR = Math.min(CONFIG.dprMax, window.devicePixelRatio || 1);
-
-  // Cursor / interacción
-  const mouse = { x: innerWidth / 2, y: innerHeight / 2, active: false };
+  let DPR = 1;
+  const mouse = { x: 0, y: 0, active: false };
   let parallaxX = 0,
     parallaxY = 0;
-  // Variables para el drift vertical generado por scroll
   let scrollDriftY = 0;
-  let lastScrollY = window.scrollY;
+  let lastScrollY = 0;
+
+  function initOrbs() {
+    orbs = [
+      {
+        x: innerWidth * 0.25,
+        y: innerHeight * 0.3,
+        targetX: innerWidth * 0.35,
+        targetY: innerHeight * 0.4,
+        radius: Math.max(innerWidth, innerHeight) * 0.35,
+        color: "rgba(2, 132, 199, ", // primary (sky)
+        speed: 0.0008,
+      },
+      {
+        x: innerWidth * 0.75,
+        y: innerHeight * 0.7,
+        targetX: innerWidth * 0.65,
+        targetY: innerHeight * 0.6,
+        radius: Math.max(innerWidth, innerHeight) * 0.3,
+        color: "rgba(16, 185, 129, ", // secondary (emerald)
+        speed: 0.0006,
+      },
+    ];
+  }
 
   function computeParticleTargetCount() {
-    // Escalar número según ancho (ej: más partículas en desktop grande)
-    const ratio = Math.min(1, (innerWidth - 640) / 800); // desde 640 hasta 1440 aprox
-    return Math.round(CONFIG.baseCount + CONFIG.maxExtra * Math.max(0, ratio));
+    const ratio = Math.min(1, Math.max(0, (innerWidth - 640) / 800));
+    return Math.round(CONFIG.baseCount + CONFIG.maxExtra * ratio);
   }
 
   function resize() {
     if (!canvas) return;
+    DPR = Math.min(CONFIG.dprMax, window.devicePixelRatio || 1);
     const w = innerWidth;
     const h = innerHeight;
     canvas.width = w * DPR;
@@ -64,6 +91,7 @@
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.scale(DPR, DPR);
     }
+    initOrbs();
     adjustParticleCount();
   }
 
@@ -75,10 +103,10 @@
     return {
       x: Math.random() * innerWidth,
       y: Math.random() * innerHeight,
-      vx: Math.random() ** 1.5 * CONFIG.maxSpeed * randSign(),
-      vy: Math.random() ** 1.5 * CONFIG.maxSpeed * randSign(),
-      r: Math.random() * 2 + 0.8,
-      hue: 190 + Math.random() * 70, // gama azul/cyan a violeta ligero
+      vx: (Math.random() * 0.7 + 0.3) * CONFIG.maxSpeed * randSign(),
+      vy: (Math.random() * 0.7 + 0.3) * CONFIG.maxSpeed * randSign(),
+      r: Math.random() * 1.6 + 0.8,
+      hue: 195 + Math.random() * 45, // cyan to light azure
       seed: Math.random(),
     };
   }
@@ -92,64 +120,63 @@
     }
   }
 
-  function updateParticles() {
+  function updateParticles(dt: number) {
     const w = innerWidth;
     const h = innerHeight;
+    const timeScale = dt / 16.67;
+
     for (const p of particles) {
-      p.x += p.vx + parallaxX * CONFIG.parallaxStrength * (p.seed - 0.5);
-      p.y += p.vy + parallaxY * CONFIG.parallaxStrength * (p.seed - 0.5);
-      // Aplicar drift de scroll (partículas con menor seed reaccionan un poco menos)
+      p.x += (p.vx + parallaxX * CONFIG.parallaxStrength * (p.seed - 0.5)) * timeScale;
+      p.y += (p.vy + parallaxY * CONFIG.parallaxStrength * (p.seed - 0.5)) * timeScale;
+
       if (scrollDriftY !== 0) {
-        const influence = 0.3 + p.seed * 0.7; // 0.3..1
-        p.y += scrollDriftY * influence;
-        // leve componente horizontal para dar sensación de flujo diagonal
-        p.x += scrollDriftY * 0.12 * (p.seed - 0.5);
+        const influence = 0.4 + p.seed * 0.6;
+        p.y += scrollDriftY * influence * timeScale;
+        p.x += scrollDriftY * 0.1 * (p.seed - 0.5) * timeScale;
       }
-      // envolvente
-      if (p.x < -50) p.x = w + 50;
-      else if (p.x > w + 50) p.x = -50;
-      if (p.y < -50) p.y = h + 50;
-      else if (p.y > h + 50) p.y = -50;
+
+      if (p.x < -30) p.x = w + 30;
+      else if (p.x > w + 30) p.x = -30;
+      if (p.y < -30) p.y = h + 30;
+      else if (p.y > h + 30) p.y = -30;
     }
-    // Decaimiento exponencial del drift
+
     scrollDriftY *= CONFIG.scrollDecay;
     if (Math.abs(scrollDriftY) < 0.01) scrollDriftY = 0;
   }
 
-  function drawBackground() {
-    if (!ctx) return;
-    const isDark = document.documentElement.classList.contains("dark");
-    const g = ctx.createLinearGradient(0, 0, innerWidth, innerHeight);
-    if (isDark) {
-      g.addColorStop(0, "hsla(200,70%,30%,0.15)");
-      g.addColorStop(1, "hsla(160,70%,22%,0.10)");
-    } else {
-      g.addColorStop(0, "hsla(210,90%,75%,0.25)");
-      g.addColorStop(1, "hsla(170,90%,70%,0.18)");
+  function updateOrbs(t: number) {
+    for (let i = 0; i < orbs.length; i++) {
+      const orb = orbs[i];
+      const offsetX = Math.sin(t * orb.speed + i * 2) * (innerWidth * 0.12);
+      const offsetY = Math.cos(t * orb.speed * 0.8 + i) * (innerHeight * 0.12);
+      orb.x = orb.targetX + offsetX;
+      orb.y = orb.targetY + offsetY;
     }
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, innerWidth, innerHeight);
   }
 
-  function drawParticles() {
+  function drawOrbs(isDark: boolean) {
     if (!ctx) return;
-    frame++;
-    const pulse = (Math.sin(frame * 0.002) + 1) / 2; // 0..1 anim lenta
-    ctx.save();
-    ctx.globalCompositeOperation = "lighter";
-    for (const p of particles) {
-      const alpha = 0.35 + pulse * 0.25;
+    const baseAlpha = isDark ? 0.09 : 0.14;
+
+    for (const orb of orbs) {
+      const g = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.radius);
+      g.addColorStop(0, `${orb.color}${baseAlpha})`);
+      g.addColorStop(0.5, `${orb.color}${baseAlpha * 0.4})`);
+      g.addColorStop(1, `${orb.color}0)`);
+
+      ctx.fillStyle = g;
       ctx.beginPath();
-      ctx.fillStyle = `hsla(${p.hue + pulse * 20}, 85%, ${55 + pulse * 10}%, ${alpha})`;
-      ctx.arc(p.x, p.y, p.r + pulse * 1.1, 0, Math.PI * 2);
+      ctx.arc(orb.x, orb.y, orb.radius, 0, Math.PI * 2);
       ctx.fill();
     }
-    ctx.restore();
   }
 
-  function drawConnections() {
+  function drawConnections(isDark: boolean) {
     if (!ctx) return;
     const maxDist2 = CONFIG.connectDistance * CONFIG.connectDistance;
+    const baseAlpha = isDark ? 0.14 : 0.18;
+
     for (let i = 0; i < particles.length; i++) {
       const a = particles[i];
       for (let j = i + 1; j < particles.length; j++) {
@@ -159,9 +186,9 @@
         const d2 = dx * dx + dy * dy;
         if (d2 < maxDist2) {
           const t = 1 - d2 / maxDist2;
-          const alpha = (CONFIG.lineBaseAlpha + t * 0.3) * 0.9;
-          ctx.strokeStyle = `hsla(${(a.hue + b.hue) / 2},80%,60%,${alpha})`;
-          ctx.lineWidth = CONFIG.lineThick * (0.4 + t * 0.8);
+          const alpha = baseAlpha * t * t;
+          ctx.strokeStyle = isDark ? `rgba(56, 189, 248, ${alpha})` : `rgba(2, 132, 199, ${alpha})`;
+          ctx.lineWidth = 0.8 + t * 0.6;
           ctx.beginPath();
           ctx.moveTo(a.x, a.y);
           ctx.lineTo(b.x, b.y);
@@ -171,79 +198,81 @@
     }
   }
 
-  function drawMouseAura() {
+  function drawParticles(isDark: boolean, time: number) {
+    if (!ctx) return;
+    const pulse = (Math.sin(time * 0.0015) + 1) / 2;
+
+    for (const p of particles) {
+      const alpha = (isDark ? 0.35 : 0.45) + pulse * 0.2;
+      ctx.beginPath();
+      ctx.fillStyle = isDark
+        ? `hsla(${p.hue}, 80%, 65%, ${alpha})`
+        : `hsla(${p.hue}, 85%, 45%, ${alpha})`;
+      ctx.arc(p.x, p.y, p.r + pulse * 0.6, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function drawMouseGlow(isDark: boolean) {
     if (!ctx || !mouse.active) return;
     const radius = CONFIG.mouseInfluence;
     const grd = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, radius);
-    grd.addColorStop(0, "hsla(180,90%,65%,0.35)");
-    grd.addColorStop(1, "hsla(200,80%,55%,0)");
+    const alpha = isDark ? 0.12 : 0.16;
+    grd.addColorStop(0, isDark ? `rgba(56, 189, 248, ${alpha})` : `rgba(2, 132, 199, ${alpha})`);
+    grd.addColorStop(1, "rgba(2, 132, 199, 0)");
+
     ctx.beginPath();
     ctx.fillStyle = grd;
     ctx.arc(mouse.x, mouse.y, radius, 0, Math.PI * 2);
     ctx.fill();
   }
 
-  function animate() {
+  function animate(timestamp: number) {
     if (!ctx) return;
+    if (!lastTime) lastTime = timestamp;
+    const dt = Math.min(32, timestamp - lastTime);
+    lastTime = timestamp;
+
     ctx.clearRect(0, 0, innerWidth, innerHeight);
-    drawBackground();
+    const isDark = document.documentElement.classList.contains("dark");
+
+    updateOrbs(timestamp);
+    drawOrbs(isDark);
 
     if (animationsEnabled) {
-      updateParticles();
-      drawConnections();
-      drawParticles();
-      drawMouseAura();
-    } else {
-      // mostrar sólo gradiente suave
+      updateParticles(dt);
+      drawConnections(isDark);
+      drawParticles(isDark, timestamp);
+      drawMouseGlow(isDark);
     }
+
     raf = requestAnimationFrame(animate);
   }
 
-  // Convertir delta de scroll en impulso suave
   function handleScroll() {
     const current = window.scrollY;
-    const delta = current - lastScrollY; // positivo cuando se baja
+    const delta = current - lastScrollY;
     lastScrollY = current;
-    // Invertimos para que al bajar el contenido las partículas fluyan ligeramente hacia arriba
-    scrollDriftY += -delta * CONFIG.scrollStrength * 0.6; // escala pequeña
-    // Limitar drift acumulado
-    if (scrollDriftY > 3) scrollDriftY = 3;
-    else if (scrollDriftY < -3) scrollDriftY = -3;
+    scrollDriftY += -delta * CONFIG.scrollStrength * 0.5;
+    if (scrollDriftY > 2.5) scrollDriftY = 2.5;
+    else if (scrollDriftY < -2.5) scrollDriftY = -2.5;
   }
 
   function handlePointerMove(e: PointerEvent) {
     mouse.x = e.clientX;
     mouse.y = e.clientY;
     mouse.active = true;
-    // Parallax: centro -> 0
     const cx = innerWidth / 2;
     const cy = innerHeight / 2;
     parallaxX = (mouse.x - cx) / cx;
     parallaxY = (mouse.y - cy) / cy;
   }
+
   function handlePointerLeave() {
     mouse.active = false;
     parallaxX = parallaxY = 0;
   }
 
-  // Click: pequeña explosión / repulsión ligera
-  function handleClick(e: PointerEvent) {
-    const mx = e.clientX,
-      my = e.clientY;
-    for (const p of particles) {
-      const dx = p.x - mx;
-      const dy = p.y - my;
-      const dist2 = dx * dx + dy * dy;
-      if (dist2 < 240 * 240) {
-        const dist = Math.sqrt(dist2) || 1;
-        const force = (1 - dist / 240) * 2.2;
-        p.vx += (dx / dist) * force;
-        p.vy += (dy / dist) * force;
-      }
-    }
-  }
-
-  // Throttle de resize
   let resizePending = false;
   function onResize() {
     if (resizePending) return;
@@ -257,26 +286,24 @@
   onMount(() => {
     if (!canvas) return;
     ctx = canvas.getContext("2d");
+    lastScrollY = window.scrollY;
+    mouse.x = innerWidth / 2;
+    mouse.y = innerHeight / 2;
     resize();
-    adjustParticleCount();
-    animate();
-    addEventListener("resize", onResize);
+    raf = requestAnimationFrame(animate);
+
+    window.addEventListener("resize", onResize);
     window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("pointermove", handlePointerMove, {
-      passive: true,
-    });
-    window.addEventListener("pointerleave", handlePointerLeave, {
-      passive: true,
-    });
-    window.addEventListener("pointerdown", handleClick, { passive: true });
+    window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    window.addEventListener("pointerleave", handlePointerLeave, { passive: true });
   });
+
   onDestroy(() => {
     cancelAnimationFrame(raf);
-    removeEventListener("resize", onResize);
+    window.removeEventListener("resize", onResize);
     window.removeEventListener("scroll", handleScroll);
     window.removeEventListener("pointermove", handlePointerMove);
     window.removeEventListener("pointerleave", handlePointerLeave);
-    window.removeEventListener("pointerdown", handleClick);
   });
 </script>
 

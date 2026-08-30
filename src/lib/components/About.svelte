@@ -1,8 +1,10 @@
 <script lang="ts">
   import { reveal } from "../actions/reveal";
   import { visibilityProgress } from "../actions/visibilityProgress";
+  import { i18nStore } from "../stores/i18n.svelte";
 
-  let visibilityRatio = 0; // bound to custom event to debug / if needed
+  let t = $derived(i18nStore.t);
+  let visibilityRatio = 0;
 
   function handleVisibility(e: CustomEvent<{ ratio: number }>) {
     visibilityRatio = e.detail.ratio;
@@ -11,7 +13,7 @@
 
 <section
   id="about"
-  class="relative py-16 px-4 dark:bg-muted/20 z-10 about-visibility"
+  class="relative py-12 sm:py-16 px-4 z-10 about-visibility scroll-mt-16"
   use:reveal={{
     direction: "up",
     distance: 40,
@@ -21,16 +23,22 @@
 >
   <div class="container mx-auto z-10">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Sobre mí</h2>
-      <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div class="text-center mb-10">
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-3">{t.about.title}</h2>
+        <p class="text-muted-foreground max-w-xl mx-auto text-sm sm:text-base">
+          {t.about.subtitle}
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-10 md:gap-14 items-center">
         <div>
           <div
-            class="w-72 h-72 md:w-96 md:h-96 mx-auto bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center img-observer media-anim"
+            class="w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 mx-auto bg-gradient-to-tr from-primary to-secondary rounded-full p-1 shadow-xl shadow-primary/10 img-observer media-anim flex items-center justify-center"
             use:visibilityProgress={{
               threshold: Array.from({ length: 40 }, (_, i) => i / 39),
               rootMargin: "-20% 0px -20% 0px",
             }}
-            on:visibilityprogress={handleVisibility}
+            onvisibilityprogress={handleVisibility}
             use:reveal={{
               direction: "up",
               distance: 40,
@@ -38,34 +46,30 @@
               delay: 150,
             }}
           >
-            <div
-              class="z-20 w-64 h-64 md:w-82 md:h-82 bg-background rounded-full flex items-center justify-center overflow-hidden"
-            >
-              <span class="text-6xl font-bold text-primary">
-                <img
-                  src="/erick-ramirez.jpg"
-                  alt="Erick Ramírez"
-                  class="w-full h-full object-cover rounded-full"
-                />
-              </span>
+            <div class="w-full h-full bg-background rounded-full overflow-hidden p-1.5">
+              <img
+                src="/erick-ramirez.jpg"
+                alt="Erick Ramírez"
+                class="w-full h-full object-cover rounded-full"
+              />
             </div>
           </div>
         </div>
         <div class="space-y-6">
-          <p class="text-lg text-muted-foreground leading-relaxed">
-            ¡Hola! 👋 Soy <strong class="text-foreground font-semibold">Erick Ramírez</strong>,
-            Desarrollador Full Stack con enfoque en la creación de herramientas para
-            desarrolladores, librerías modernas y aplicaciones web/móviles eficientes. Me encanta
-            resolver problemas complejos y transformar ideas en productos open source funcionales y
-            de alto rendimiento.
+          <p class="text-base sm:text-lg text-muted-foreground leading-relaxed">
+            {t.about.bio}
           </p>
-          <blockquote class="border-l-2 border-primary pl-4 text-muted-foreground italic">
-            "La tecnología no tiene fronteras, y tampoco mis sueños."
+          <blockquote
+            class="border-l-2 border-primary/80 pl-4 py-1 text-muted-foreground italic text-sm sm:text-base bg-muted/20 rounded-r-lg"
+          >
+            "{t.about.quote}"
           </blockquote>
-          <div class="flex flex-wrap gap-4 pt-2">
-            <div class="flex items-center space-x-2">
+          <div class="flex flex-wrap gap-2.5 pt-2">
+            <div
+              class="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-muted/60 dark:bg-muted/30 border border-border/40 dark:border-white/[0.06] text-xs sm:text-sm font-medium"
+            >
               <svg
-                class="w-5 h-5 text-primary"
+                class="w-4 h-4 text-primary"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -83,11 +87,13 @@
                   d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                 ></path>
               </svg>
-              <span class="text-muted-foreground">Venezuela</span>
+              <span class="text-foreground/90">{t.about.badges.location}</span>
             </div>
-            <div class="flex items-center space-x-2">
+            <div
+              class="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-muted/60 dark:bg-muted/30 border border-border/40 dark:border-white/[0.06] text-xs sm:text-sm font-medium"
+            >
               <svg
-                class="w-5 h-5 text-primary"
+                class="w-4 h-4 text-primary"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -99,11 +105,13 @@
                   d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
                 ></path>
               </svg>
-              <span class="text-muted-foreground">Full Stack & Mobile</span>
+              <span class="text-foreground/90">{t.about.badges.role}</span>
             </div>
-            <div class="flex items-center space-x-2">
+            <div
+              class="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-muted/60 dark:bg-muted/30 border border-border/40 dark:border-white/[0.06] text-xs sm:text-sm font-medium"
+            >
               <svg
-                class="w-5 h-5 text-primary"
+                class="w-4 h-4 text-primary"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -115,7 +123,7 @@
                   d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
                 ></path>
               </svg>
-              <span class="text-muted-foreground">Open Source Creator</span>
+              <span class="text-foreground/90">{t.about.badges.creator}</span>
             </div>
           </div>
         </div>

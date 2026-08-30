@@ -11,6 +11,7 @@ declare global {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     interface HTMLAttributes<T> {
       "on:visibilityprogress"?: (event: CustomEvent<VisibilityProgressDetail>) => void;
+      onvisibilityprogress?: (event: CustomEvent<VisibilityProgressDetail>) => void;
     }
   }
 }

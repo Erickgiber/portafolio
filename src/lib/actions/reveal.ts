@@ -17,7 +17,7 @@ export function reveal(node: HTMLElement, options: RevealOptions = {}) {
   const {
     delay = 0,
     distance = 32,
-    duration = 600,
+    duration = 550,
     direction = "up",
     once = true,
     replayOnEnable = false,
@@ -46,8 +46,8 @@ export function reveal(node: HTMLElement, options: RevealOptions = {}) {
     }
   };
 
-  // Guardar si ya fue revelado
   let revealed = false;
+  let cleanupTimer: ReturnType<typeof setTimeout> | null = null;
 
   function prepareInitial() {
     if (isEnabled()) {
@@ -61,20 +61,36 @@ export function reveal(node: HTMLElement, options: RevealOptions = {}) {
 
   prepareInitial();
 
+  function triggerReveal() {
+    node.style.transition = `opacity ${duration}ms cubic-bezier(.4,0,.2,1) ${delay}ms, transform ${duration}ms cubic-bezier(.4,0,.2,1) ${delay}ms`;
+    node.style.opacity = "1";
+    node.style.transform = "none";
+    revealed = true;
+
+    // Limpiar estilos inline de transform y transition tras terminar la animación
+    // Esto permite que las reglas CSS nativas de hover (hover:-translate-y-1) funcionen fluidas
+    if (cleanupTimer) clearTimeout(cleanupTimer);
+    cleanupTimer = setTimeout(
+      () => {
+        if (revealed && isEnabled()) {
+          node.style.removeProperty("transform");
+          node.style.removeProperty("transition");
+        }
+      },
+      delay + duration + 50
+    );
+  }
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           if (!isEnabled()) {
-            // si se intersecta pero animaciones off, quedará visible sin transición
             node.style.opacity = "";
             node.style.transform = "";
-            revealed = true; // marcar como ya mostrada (sin animación)
-          } else if (!revealed) {
-            node.style.transition = `opacity ${duration}ms cubic-bezier(.4,0,.2,1) ${delay}ms, transform ${duration}ms cubic-bezier(.4,0,.2,1) ${delay}ms`;
-            node.style.opacity = "1";
-            node.style.transform = "none";
             revealed = true;
+          } else if (!revealed) {
+            triggerReveal();
           }
           if (once && !replayOnEnable && revealed) observer.unobserve(node);
         } else if (!once && isEnabled()) {
@@ -84,40 +100,31 @@ export function reveal(node: HTMLElement, options: RevealOptions = {}) {
         }
       });
     },
-    { threshold: 0.2 }
+    { threshold: 0.05, rootMargin: "0px 0px -20px 0px" }
   );
 
   observer.observe(node);
   observers.set(node, observer);
 
   function handleAnimationsEnabled() {
-    if (revealed && !replayOnEnable) return; // ya mostrada y no se pide replay
+    if (revealed && !replayOnEnable) return;
     if (replayOnEnable) {
-      // Resetear para un nuevo ciclo
       revealed = false;
       if (once) {
-        // si once=true pero queremos replay, aseguramos observar de nuevo
         try {
           observer.observe(node);
         } catch {}
       }
     }
-    // Verificar si el elemento está ahora visible para animar inmediatamente
     const rect = node.getBoundingClientRect();
-    const inViewport = rect.top < window.innerHeight * 0.8 && rect.bottom > 0; // margen similar a threshold
+    const inViewport = rect.top < window.innerHeight * 0.9 && rect.bottom > 0;
     if (inViewport && isEnabled()) {
-      node.style.transition = `opacity ${duration}ms cubic-bezier(.4,0,.2,1) ${delay}ms, transform ${duration}ms cubic-bezier(.4,0,.2,1) ${delay}ms`;
-      // Asegurar estado inicial antes de animar (en caso de que haya quedado sin estilos)
       node.style.opacity = "0";
       node.style.transform = axis(direction);
-      // Forzar un reflow rápido para que transición se aplique
-      void node.offsetWidth; // trigger reflow
-      node.style.opacity = "1";
-      node.style.transform = "none";
-      revealed = true;
+      void node.offsetWidth;
+      triggerReveal();
       if (once && !replayOnEnable) observer.unobserve(node);
     } else if (!revealed && isEnabled()) {
-      // Aún fuera de viewport: asegurar estado oculto
       node.style.opacity = "0";
       node.style.transform = axis(direction);
     }
@@ -127,6 +134,7 @@ export function reveal(node: HTMLElement, options: RevealOptions = {}) {
 
   return {
     destroy() {
+      if (cleanupTimer) clearTimeout(cleanupTimer);
       observer.disconnect();
       observers.delete(node);
       window.removeEventListener("animations:enabled", handleAnimationsEnabled);

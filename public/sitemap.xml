@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:5173/</loc>
-    <lastmod>2026-08-29T23:56:09.486Z</lastmod>
-    <changefreq>monthly</changefreq>
+    <loc>https://erickgiber.dev/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://erickgiber.dev/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://erickgiber.dev/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://erickgiber.dev/" />
+    <lastmod>2026-08-30T00:29:40.360Z</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 </urlset>

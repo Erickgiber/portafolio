@@ -20,7 +20,7 @@ export const projects: Project[] = [
     title: "WalletTrack: Control de Gastos",
     description:
       "Aplicación móvil para gestión de finanzas personales, presupuestos y control inteligente de gastos diarios.",
-    tech: ["Android", "Google Play", "Mobile", "Finanzas"],
+    tech: ["Android", "Google Play", "Mobile", "Finanzas", "Capacitor", "React", "Tailwind", "Typescript", "Vite"],
     links: [
       {
         label: "Google Play",

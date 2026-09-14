@@ -5,6 +5,7 @@
   import About from "./lib/components/About.svelte";
   import Skills from "./lib/components/Skills.svelte";
   import Projects from "./lib/components/Projects.svelte";
+  import Reviews from "./lib/components/Reviews.svelte";
   import Contact from "./lib/components/Contact.svelte";
   import Footer from "./lib/components/Footer.svelte";
   import { themeStore } from "./lib/stores/theme.svelte";
@@ -39,6 +40,7 @@
     <About />
     <Skills />
     <Projects />
+    <Reviews />
     <Contact />
   </main>
   <Footer />

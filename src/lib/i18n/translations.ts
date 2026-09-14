@@ -5,11 +5,19 @@ export interface ProjectTranslation {
   description: string;
 }
 
+export interface ReviewTranslation {
+  role: string;
+  company: string;
+  project: string;
+  content: string;
+}
+
 export interface Translations {
   nav: {
     about: string;
     skills: string;
     projects: string;
+    reviews: string;
     contact: string;
     home: string;
   };
@@ -48,6 +56,15 @@ export interface Translations {
     btnCode: string;
     btnStore: string;
     items: Record<string, ProjectTranslation>;
+  };
+  reviews: {
+    title: string;
+    subtitle: string;
+    verifiedBadge: string;
+    ratingScore: string;
+    satisfactionScore: string;
+    deliveryScore: string;
+    items: Record<string, ReviewTranslation>;
   };
   contact: {
     title: string;
@@ -98,6 +115,7 @@ export const translations: Record<Locale, Translations> = {
       about: "Sobre mí",
       skills: "Habilidades",
       projects: "Proyectos",
+      reviews: "Reseñas",
       contact: "Contacto",
       home: "Inicio",
     },
@@ -186,6 +204,45 @@ export const translations: Record<Locale, Translations> = {
         },
       },
     },
+    reviews: {
+      title: "Reseñas y Recomendaciones",
+      subtitle:
+        "Comentarios de clientes y colaboradores sobre la calidad técnica, comunicación y compromiso en cada proyecto.",
+      verifiedBadge: "Verificado",
+      ratingScore: "Calificación promedio",
+      satisfactionScore: "100% Satisfacción",
+      deliveryScore: "Entregas a tiempo",
+      items: {
+        "carlos-mendez": {
+          role: "Tech Lead",
+          company: "NovaTech Labs",
+          project: "Plataforma Web & Optimización",
+          content:
+            "Trabajar con Erick en el desarrollo de nuestra plataforma fue una experiencia excelente. Su dominio en TypeScript y optimización de rendimiento nos permitió acelerar los tiempos de carga y entregar antes de lo previsto. Es un desarrollador con gran criterio técnico y proactivo.",
+        },
+        "valentina-morales": {
+          role: "Product Lead",
+          company: "Kroma Studio",
+          project: "Aplicación Móvil & UI Interactiva",
+          content:
+            "Erick transformó nuestros diseños en una aplicación móvil fluida y reactiva. Su atención al detalle en animaciones, accesibilidad y experiencia de usuario es impresionante. La comunicación fue impecable de inicio a fin.",
+        },
+        "david-hoffmann": {
+          role: "Senior Frontend Architect",
+          company: "DevPulse Open Source",
+          project: "Librerías & Arquitectura Modular",
+          content:
+            "El trabajo de Erick en el desarrollo de librerías y componentes interactivos es de nivel internacional. Escribe código limpio, robusto y muy bien documentado. Resolver problemas complejos de arquitectura con elegancia es sin duda su fuerte.",
+        },
+        "sofia-alarcon": {
+          role: "Founder & CEO",
+          company: "Nexo Digital",
+          project: "Sistema Web & PWA",
+          content:
+            "Contratar a Erick fue una de las mejores decisiones técnicas que tomamos. Desarrolló una solución que superó todas nuestras expectativas en velocidad y facilidad de uso. Es un profesional confiable y sumamente comprometido con los resultados.",
+        },
+      },
+    },
     contact: {
       title: "Contacto",
       subtitle: "¿Tienes una idea, propuesta o proyecto en mente? ¡Hablemos y hagámoslo realidad!",
@@ -235,6 +292,7 @@ export const translations: Record<Locale, Translations> = {
       about: "About me",
       skills: "Skills",
       projects: "Projects",
+      reviews: "Reviews",
       contact: "Contact",
       home: "Home",
     },
@@ -319,6 +377,45 @@ export const translations: Record<Locale, Translations> = {
           title: "Video Downloader by Link",
           description:
             "Web platform to download videos from links with built-in preview and multi-provider media support.",
+        },
+      },
+    },
+    reviews: {
+      title: "Reviews & Testimonials",
+      subtitle:
+        "Feedback from clients and collaborators on code quality, technical execution, and commitment.",
+      verifiedBadge: "Verified",
+      ratingScore: "Average rating",
+      satisfactionScore: "100% Client satisfaction",
+      deliveryScore: "On-time delivery",
+      items: {
+        "carlos-mendez": {
+          role: "Tech Lead",
+          company: "NovaTech Labs",
+          project: "Web Platform & Optimization",
+          content:
+            "Working with Erick on our platform development was an outstanding experience. His deep expertise in TypeScript and performance optimization allowed us to boost load speeds and ship ahead of schedule. A highly skilled and proactive engineer.",
+        },
+        "valentina-morales": {
+          role: "Product Lead",
+          company: "Kroma Studio",
+          project: "Mobile App & Interactive UI",
+          content:
+            "Erick transformed our designs into a fluid, highly responsive mobile application. His attention to detail in animations, accessibility, and user experience is remarkable. Communication was flawless from start to finish.",
+        },
+        "david-hoffmann": {
+          role: "Senior Frontend Architect",
+          company: "DevPulse Open Source",
+          project: "Libraries & Modular Architecture",
+          content:
+            "Erick's work on modern libraries and interactive components is world-class. He writes clean, resilient, and thoroughly documented code. Solving complex architectural challenges with elegance is definitely his strength.",
+        },
+        "sofia-alarcon": {
+          role: "Founder & CEO",
+          company: "Nexo Digital",
+          project: "Web System & PWA",
+          content:
+            "Bringing Erick on board was one of the best technical decisions we made. He delivered a solution that exceeded all our expectations in speed and ease of use. A reliable professional who is genuinely committed to excellence.",
         },
       },
     },

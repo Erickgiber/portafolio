@@ -13,7 +13,7 @@
   let glowCenterX = $state(0);
   let glowOpacity = $state(0);
 
-  const sections = ["about", "skills", "projects", "contact"];
+  const sections = ["about", "skills", "projects", "reviews", "contact"];
 
   async function updateGlowPosition() {
     await tick();
@@ -188,6 +188,14 @@
           {t.nav.projects}
         </button>
         <button
+          data-section="reviews"
+          onclick={() => scrollToSection("reviews")}
+          class={`nav-pill ${activeSection === "reviews" ? "active" : ""}`}
+          aria-label={t.nav.reviews}
+        >
+          {t.nav.reviews}
+        </button>
+        <button
           data-section="contact"
           onclick={() => scrollToSection("contact")}
           class={`nav-pill ${activeSection === "contact" ? "active" : ""}`}
@@ -328,6 +336,21 @@
         >
           <span>{t.nav.projects}</span>
           {#if activeSection === "projects"}
+            <span class="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(56,189,248,0.95)]"
+            ></span>
+          {/if}
+        </button>
+        <button
+          onclick={() => scrollToSection("reviews")}
+          class={`w-full flex items-center justify-between px-4 py-2.5 text-sm rounded-xl transition-all ${
+            activeSection === "reviews"
+              ? "bg-primary/10 dark:bg-primary/15 font-semibold text-primary"
+              : "font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50"
+          }`}
+          aria-label={t.nav.reviews}
+        >
+          <span>{t.nav.reviews}</span>
+          {#if activeSection === "reviews"}
             <span class="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(56,189,248,0.95)]"
             ></span>
           {/if}

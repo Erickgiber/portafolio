@@ -13,6 +13,7 @@
   } from "./lib/download/installer";
   import { i18nStore } from "./lib/stores/i18n.svelte";
   import { themeStore } from "./lib/stores/theme.svelte";
+  import { router } from "./lib/stores/router.svelte";
 
   type Phase = "idle" | "preparing" | "downloading" | "saving" | "done" | "failed" | "canceled";
 
@@ -55,8 +56,22 @@
       }
     };
     window.addEventListener("beforeunload", warn);
-    return () => window.removeEventListener("beforeunload", warn);
+    const releaseGuard = router.guardLeave(() => !isBusy || confirm(copy.leaveWhileBusy));
+    return () => {
+      window.removeEventListener("beforeunload", warn);
+      releaseGuard();
+      controller?.abort();
+    };
   });
+
+  function goBack(event: MouseEvent) {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+      return;
+    }
+
+    event.preventDefault();
+    router.back("/");
+  }
 
   function megabytes(bytes: number): string {
     return (bytes / BYTES_PER_MEGABYTE).toFixed(bytes >= 100 * BYTES_PER_MEGABYTE ? 0 : 1);
@@ -113,6 +128,7 @@
   <header class="relative z-20 container mx-auto px-4 py-5 flex items-center justify-between">
     <a
       href="/"
+      onclick={goBack}
       class="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary transition-colors"
     >
       <Icon icon="mdi:arrow-left" class="w-4 h-4" />

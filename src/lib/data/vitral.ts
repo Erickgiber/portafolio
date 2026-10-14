@@ -30,6 +30,7 @@ export type VitralCopy = {
   retry: string;
   failed: string;
   canceled: string;
+  leaveWhileBusy: string;
   version: string;
   size: string;
   remaining: string;
@@ -67,6 +68,7 @@ export const vitralCopy: Record<Locale, VitralCopy> = {
     retry: "Reintentar",
     failed: "La descarga se interrumpió. Revisa tu conexión y vuelve a intentarlo.",
     canceled: "Descarga cancelada.",
+    leaveWhileBusy: "La descarga de Vitral sigue en curso. Si sales de esta página se cancelará. ¿Salir de todos modos?",
     version: "Versión",
     size: "Tamaño",
     remaining: "restante",
@@ -164,6 +166,7 @@ export const vitralCopy: Record<Locale, VitralCopy> = {
     retry: "Try again",
     failed: "The download was interrupted. Check your connection and try again.",
     canceled: "Download canceled.",
+    leaveWhileBusy: "Vitral is still downloading. Leaving this page will cancel it. Leave anyway?",
     version: "Version",
     size: "Size",
     remaining: "left",

@@ -332,6 +332,27 @@
       </ol>
     </section>
 
+    <section class="mt-20 sm:mt-28 max-w-4xl mx-auto" use:reveal={{ direction: "up", distance: 30 }}>
+      <h2 class="text-center text-3xl md:text-4xl font-bold tracking-tight mb-3">{copy.tipsTitle}</h2>
+      <p class="text-center text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto mb-8">{copy.tipsLead}</p>
+      <div class="grid md:grid-cols-2 gap-5">
+        {#each copy.tips as tip, index (tip.title)}
+          <div
+            class="rounded-2xl border border-border/50 dark:border-white/[0.08] bg-card/90 dark:bg-card/60 backdrop-blur-md p-6 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300"
+            use:reveal={{ delay: 40 + index * 90 }}
+          >
+            <div class="flex items-center gap-3 mb-3">
+              <span class="grid place-items-center w-11 h-11 shrink-0 rounded-xl bg-gradient-to-br from-sky-500/15 to-violet-600/15 text-primary">
+                <Icon icon={tip.icon} class="w-6 h-6" />
+              </span>
+              <h3 class="text-lg font-semibold tracking-tight">{tip.title}</h3>
+            </div>
+            <p class="text-sm text-muted-foreground leading-relaxed">{tip.text}</p>
+          </div>
+        {/each}
+      </div>
+    </section>
+
     <p class="mt-16 text-center text-xs text-muted-foreground">{copy.footer}</p>
   </main>
 </div>

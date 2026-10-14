@@ -42,6 +42,9 @@ export type VitralCopy = {
   shots: VitralShot[];
   stepsTitle: string;
   steps: string[];
+  tipsTitle: string;
+  tipsLead: string;
+  tips: VitralFeature[];
   footer: string;
 };
 
@@ -95,7 +98,7 @@ export const vitralCopy: Record<Locale, VitralCopy> = {
       {
         icon: "mdi:steam",
         title: "Tu biblioteca en un solo sitio",
-        text: "Reúne los juegos de Steam, Epic Games, Xbox y Riot con sus carátulas y fondos.",
+        text: "Reúne los juegos de Steam, Epic Games, Xbox, Riot y Rockstar con sus carátulas y fondos.",
       },
       {
         icon: "mdi:cloud-download-outline",
@@ -126,6 +129,20 @@ export const vitralCopy: Record<Locale, VitralCopy> = {
       "Descarga el instalador con el botón de arriba.",
       "Ábrelo y elige dónde instalar Vitral.",
       "Escribe tu clave de licencia, elige tu nombre y empieza a jugar.",
+    ],
+    tipsTitle: "Consejos para usarlo mejor",
+    tipsLead: "El botón central del mando lo usan varios programas a la vez. Para que solo abra la guía de Vitral:",
+    tips: [
+      {
+        icon: "mdi:steam",
+        title: "Desactiva el botón Guía en Steam",
+        text: "En Steam, abre Configuración → Mando y apaga la opción que hace que el botón Guía abra Steam (Guide Button Focuses Steam). Así Steam no se pone delante de tus juegos al pulsarlo.",
+      },
+      {
+        icon: "mdi:microsoft-xbox",
+        title: "Desactiva Xbox Game Bar en el mando",
+        text: "En la Configuración de Windows, entra en Juegos → Game Bar y apaga la opción que abre Game Bar con el botón del mando. Vitral intenta hacerlo solo al instalarse; si Game Bar sigue apareciendo, revísalo ahí.",
+      },
     ],
     footer: "Vitral es un proyecto de Erick Ramírez.",
   },
@@ -178,7 +195,7 @@ export const vitralCopy: Record<Locale, VitralCopy> = {
       {
         icon: "mdi:steam",
         title: "Your library in one place",
-        text: "Brings together your Steam, Epic Games, Xbox and Riot games with their covers and backgrounds.",
+        text: "Brings together your Steam, Epic Games, Xbox, Riot and Rockstar games with their covers and backgrounds.",
       },
       {
         icon: "mdi:cloud-download-outline",
@@ -209,6 +226,20 @@ export const vitralCopy: Record<Locale, VitralCopy> = {
       "Download the installer with the button above.",
       "Open it and choose where to install Vitral.",
       "Type your license key, choose your name and start playing.",
+    ],
+    tipsTitle: "Tips for a better experience",
+    tipsLead: "Several programs listen to the controller's home button. To make it open only the Vitral guide:",
+    tips: [
+      {
+        icon: "mdi:steam",
+        title: "Turn off the Guide button in Steam",
+        text: "In Steam, open Settings → Controller and turn off Guide Button Focuses Steam. That way Steam won't jump in front of your games when you press it.",
+      },
+      {
+        icon: "mdi:microsoft-xbox",
+        title: "Turn off Xbox Game Bar on the controller",
+        text: "In Windows Settings, go to Gaming → Game Bar and turn off the option that opens Game Bar with the controller button. Vitral tries to do this by itself when installed; if Game Bar still shows up, check it there.",
+      },
     ],
     footer: "Vitral is a project by Erick Ramírez.",
   },

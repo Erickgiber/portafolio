@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { closestInDirection, directionalScore, type Box } from "../../src/lib/gamepad/spatial";
+import {
+  closestInDirection,
+  directionalScore,
+  edgeAnchor,
+  type Box,
+} from "../../src/lib/gamepad/spatial";
 
 function box(left: number, top: number, width = 100, height = 40): Box {
   return { left, top, right: left + width, bottom: top + height };
@@ -46,5 +51,43 @@ describe("closestInDirection", () => {
     expect(
       closestInDirection(box(0, 0), [{ item: "above", box: box(0, -100) }], "down")
     ).toBeNull();
+  });
+});
+
+describe("edgeAnchor", () => {
+  const width = 1000;
+  const height = 800;
+
+  it("continues downward from the top of the screen", () => {
+    const result = closestInDirection(
+      edgeAnchor("down", width, height),
+      [
+        { item: "lower", box: box(400, 600) },
+        { item: "upper", box: box(100, 120) },
+      ],
+      "down"
+    );
+    expect(result?.item).toBe("upper");
+  });
+
+  it("continues upward from the bottom of the screen", () => {
+    const result = closestInDirection(
+      edgeAnchor("up", width, height),
+      [
+        { item: "upper", box: box(100, 120) },
+        { item: "lower", box: box(400, 600) },
+      ],
+      "up"
+    );
+    expect(result?.item).toBe("lower");
+  });
+
+  it("allows sideways movement across the whole screen height", () => {
+    const result = closestInDirection(
+      edgeAnchor("right", width, height),
+      [{ item: "only", box: box(500, 700) }],
+      "right"
+    );
+    expect(result?.item).toBe("only");
   });
 });

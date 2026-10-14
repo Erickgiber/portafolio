@@ -9,7 +9,7 @@ import {
   verticalAxes,
   type Control,
 } from "./controls";
-import { closestInDirection, type NavigationDirection } from "./spatial";
+import { closestInDirection, edgeAnchor, type NavigationDirection } from "./spatial";
 
 export interface GamepadNavigationOptions {
   scrollBy: (delta: number, immediate?: boolean) => void;
@@ -113,6 +113,19 @@ function isReachable(element: HTMLElement): boolean {
   return points.some(([x, y]) => hits(element, x, y));
 }
 
+function isPinned(element: HTMLElement): boolean {
+  for (
+    let node: HTMLElement | null = element;
+    node && node !== document.body;
+    node = node.parentElement
+  ) {
+    if (getComputedStyle(node).position === "fixed") {
+      return true;
+    }
+  }
+  return false;
+}
+
 function scrollableAncestor(element: Element | null): HTMLElement | null {
   for (
     let node = element?.parentElement ?? null;
@@ -173,7 +186,12 @@ export function startGamepadNavigation({ scrollBy, editText }: GamepadNavigation
 
   function focused(): HTMLElement | null {
     const active = document.activeElement;
-    if (!(active instanceof HTMLElement) || active === document.body || !isReachable(active)) {
+    if (
+      !(active instanceof HTMLElement) ||
+      active === document.body ||
+      !inViewport(active.getBoundingClientRect()) ||
+      !isReachable(active)
+    ) {
       return null;
     }
 
@@ -204,31 +222,16 @@ export function startGamepadNavigation({ scrollBy, editText }: GamepadNavigation
     }
   }
 
-  function firstVisible(direction: NavigationDirection): HTMLElement | null {
-    const visible = candidates()
-      .map((element) => ({ element, rect: element.getBoundingClientRect() }))
-      .filter(({ rect }) => inViewport(rect))
-      .sort((a, b) => a.rect.top - b.rect.top || a.rect.left - b.rect.left);
-    const pick = direction === "up" || direction === "left" ? visible.at(-1) : visible[0];
-    return pick?.element ?? null;
-  }
-
   function move(direction: NavigationDirection) {
     const current = focused();
-    if (!current) {
-      const first = firstVisible(direction);
-      if (first) {
-        focus(first);
-      } else {
-        step(direction);
-      }
-      return;
-    }
-
+    const skipPinned = !current && !gamepadLayers.scope();
+    const anchor = current
+      ? current.getBoundingClientRect()
+      : edgeAnchor(direction, window.innerWidth, window.innerHeight);
     const options = candidates()
-      .filter((element) => element !== current)
+      .filter((element) => element !== current && !(skipPinned && isPinned(element)))
       .map((item) => ({ item, box: item.getBoundingClientRect() }));
-    const best = closestInDirection(current.getBoundingClientRect(), options, direction);
+    const best = closestInDirection(anchor, options, direction);
     const tooFar =
       best !== null &&
       !inViewport(best.box as DOMRect) &&

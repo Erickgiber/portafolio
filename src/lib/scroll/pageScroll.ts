@@ -36,7 +36,7 @@ export function scrollPageBy(delta: number, immediate = false) {
     return;
   }
 
-  window.scrollBy({ top: delta, behavior: "instant" });
+  window.scrollBy({ top: delta, behavior: immediate || !motionEnabled() ? "instant" : "smooth" });
 }
 
 export function lockPageScroll(): () => void {

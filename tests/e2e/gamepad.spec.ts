@@ -247,3 +247,29 @@ test("using the mouse hides the controller prompt", async ({ page }) => {
   await page.mouse.move(260, 240);
   await expect(page.getByTestId("gamepad-prompt")).toHaveCount(0);
 });
+
+test("the D-pad keeps going down past the hero instead of jumping back to the header", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await connectGamepad(page, PAD_IDS.xbox);
+  const inHeader = () => page.evaluate(() => !!document.activeElement?.closest("header"));
+
+  let previous = await scrollY(page);
+  let reachedAbout = false;
+  for (let press = 0; press < 14; press++) {
+    await pressButton(page, BUTTON.down);
+    await page.waitForTimeout(250);
+    const current = await scrollY(page);
+    expect(current).toBeGreaterThanOrEqual(previous - 2);
+    if (current > 0) {
+      expect(await inHeader()).toBe(false);
+    }
+    previous = current;
+    const aboutTop = await page
+      .locator("#about")
+      .evaluate((element) => element.getBoundingClientRect().top);
+    reachedAbout ||= aboutTop < 200;
+  }
+  expect(reachedAbout).toBe(true);
+});

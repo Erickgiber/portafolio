@@ -45,6 +45,19 @@ export function directionalScore(
   return Math.max(0, primary) + orthogonal * ORTHOGONAL_WEIGHT;
 }
 
+export function edgeAnchor(direction: NavigationDirection, width: number, height: number): Box {
+  switch (direction) {
+    case "down":
+      return { top: -1, bottom: 0, left: 0, right: width };
+    case "up":
+      return { top: height, bottom: height + 1, left: 0, right: width };
+    case "right":
+      return { top: 0, bottom: height, left: -1, right: 0 };
+    case "left":
+      return { top: 0, bottom: height, left: width, right: width + 1 };
+  }
+}
+
 export function closestInDirection<T>(
   from: Box,
   candidates: ReadonlyArray<{ item: T; box: Box }>,

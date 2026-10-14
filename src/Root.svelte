@@ -2,6 +2,7 @@
   import { fade } from "svelte/transition";
   import App from "./App.svelte";
   import VitralPage from "./VitralPage.svelte";
+  import GamepadHub from "./lib/components/GamepadHub.svelte";
   import { router } from "./lib/stores/router.svelte";
 
   router.start();
@@ -16,3 +17,5 @@
     {/if}
   </div>
 {/key}
+
+<GamepadHub />

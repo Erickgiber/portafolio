@@ -2,10 +2,13 @@
   import { onMount, tick } from "svelte";
   import { i18nStore } from "../stores/i18n.svelte";
   import LanguageToggle from "./LanguageToggle.svelte";
+  import GamepadIndicator from "./GamepadIndicator.svelte";
+  import { gamepadLayers } from "../stores/gamepadLayers.svelte";
   import Logo from "./Logo.svelte";
 
   let { darkMode, toggleTheme } = $props();
   let isMenuOpen = $state(false);
+  let mobileMenu = $state<HTMLDivElement>();
   let activeSection = $state("");
   let t = $derived(i18nStore.t);
 
@@ -75,6 +78,26 @@
   }
 
   $effect(() => {
+    if (!isMenuOpen) {
+      return;
+    }
+
+    return gamepadLayers.push({
+      scope: () => mobileMenu,
+      exclusive: true,
+      actions: {
+        back: { label: () => i18nStore.t.gamepad.legend.close, run: () => (isMenuOpen = false) },
+      },
+    });
+  });
+
+  function closeMenuOnEscape(event: KeyboardEvent) {
+    if (isMenuOpen && event.key === "Escape") {
+      isMenuOpen = false;
+    }
+  }
+
+  $effect(() => {
     if (activeSection) {
       updateGlowPosition();
     } else {
@@ -122,6 +145,8 @@
     }, 850);
   }
 </script>
+
+<svelte:window onkeydown={closeMenuOnEscape} />
 
 <header class="fixed top-0 left-0 right-0 z-50 px-3 sm:px-6 pt-3 sm:pt-4 pointer-events-none">
   <div class="max-w-6xl mx-auto pointer-events-auto">
@@ -207,16 +232,17 @@
 
       <!-- Actions / Toggles -->
       <div class="flex items-center gap-2">
-        <!-- Language Switcher -->
-        <LanguageToggle />
-
-        <!-- Theme Toggle with tooltip -->
         <div
-          class="flex items-center p-0.5 rounded-full bg-muted/50 dark:bg-muted/30 backdrop-blur-md ring-1 ring-black/[0.03] dark:ring-white/[0.06]"
+          class="flex items-center gap-0.5 p-0.5 rounded-full bg-muted/50 dark:bg-muted/30 backdrop-blur-md ring-1 ring-black/[0.04] dark:ring-white/[0.08]"
         >
+          <GamepadIndicator />
+          <!-- Language Switcher -->
+          <LanguageToggle />
+
+          <!-- Theme Toggle with tooltip -->
           <button
             onclick={toggleTheme}
-            class="group relative p-2 rounded-full hover:bg-background/80 dark:hover:bg-card text-muted-foreground hover:text-foreground transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            class="group relative grid place-items-center w-8 h-8 rounded-full hover:bg-background/80 dark:hover:bg-card text-muted-foreground hover:text-foreground transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             aria-label={darkMode ? t.theme.switchToLight : t.theme.switchToDark}
           >
             {#if darkMode}
@@ -263,7 +289,8 @@
         <button
           onclick={() => (isMenuOpen = !isMenuOpen)}
           class="md:hidden p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-          aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
+          aria-label={isMenuOpen ? t.ui.closeMenu : t.ui.openMenu}
+          aria-expanded={isMenuOpen}
         >
           {#if isMenuOpen}
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -291,9 +318,10 @@
     <!-- Mobile Floating Menu Modal -->
     {#if isMenuOpen}
       <div
+        bind:this={mobileMenu}
         class="md:hidden mt-2 p-3 rounded-2xl bg-background/85 dark:bg-background/80 backdrop-blur-2xl shadow-xl ring-1 ring-black/[0.04] dark:ring-white/[0.08] animate-mobile-menu-enter origin-top flex flex-col space-y-1"
         role="menu"
-        aria-label="Mobile navigation"
+        aria-label={t.ui.mobileNavigation}
       >
         <button
           onclick={() => scrollToSection("about")}

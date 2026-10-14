@@ -2,6 +2,8 @@
   import { cubicOut } from "svelte/easing";
   import { fade, scale } from "svelte/transition";
   import { tick } from "svelte";
+  import { gamepadLayers } from "../stores/gamepadLayers.svelte";
+  import { i18nStore } from "../stores/i18n.svelte";
 
   type Props = {
     open: boolean;
@@ -13,15 +15,24 @@
   let { open, title = "Auto-respuesta (vista previa)", srcdoc, onClose }: Props = $props();
 
   let closeButton = $state<HTMLButtonElement | null>(null);
+  let dialog = $state<HTMLDivElement>();
 
   $effect(() => {
     if (!open) return;
     tick().then(() => closeButton?.focus());
+    return gamepadLayers.push({
+      scope: () => dialog,
+      exclusive: true,
+      actions: {
+        back: { label: () => i18nStore.t.gamepad.legend.close, run: onClose },
+      },
+    });
   });
 </script>
 
 {#if open}
   <div
+    bind:this={dialog}
     class="fixed inset-0 z-[80] flex items-start justify-center p-4 md:p-6"
     role="dialog"
     aria-modal="true"
@@ -34,7 +45,7 @@
     <button
       type="button"
       class="absolute inset-0 bg-background/70 backdrop-blur-sm"
-      aria-label="Cerrar modal"
+      aria-label={i18nStore.t.ui.closeDialog}
       onclick={onClose}
       transition:fade={{ duration: 160 }}
     ></button>
@@ -49,7 +60,7 @@
           bind:this={closeButton}
           type="button"
           class="p-2 rounded-lg hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring"
-          aria-label="Cerrar"
+          aria-label={i18nStore.t.ui.close}
           onclick={onClose}
         >
           <svg

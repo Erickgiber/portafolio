@@ -1,3 +1,5 @@
+import type { GamepadBrand } from "../gamepad/brand";
+
 export type Locale = "es" | "en";
 
 export interface ProjectTranslation {
@@ -107,6 +109,45 @@ export interface Translations {
     en: string;
     selectLanguage: string;
     switchTo: string;
+  };
+  ui: {
+    close: string;
+    closeDialog: string;
+    openMenu: string;
+    closeMenu: string;
+    mobileNavigation: string;
+  };
+  gamepad: {
+    connected: Record<GamepadBrand, string>;
+    disconnected: string;
+    legendLabel: string;
+    legend: {
+      move: string;
+      scroll: string;
+      sections: string;
+      press: string;
+      open: string;
+      write: string;
+      close: string;
+      top: string;
+      portfolio: string;
+      language: string;
+      theme: string;
+      delete: string;
+      space: string;
+      cursor: string;
+      image: string;
+      zoom: string;
+      pan: string;
+    };
+    keyboard: {
+      title: string;
+      shift: string;
+      space: string;
+      backspace: string;
+      newline: string;
+      done: string;
+    };
   };
 }
 
@@ -293,6 +334,50 @@ export const translations: Record<Locale, Translations> = {
       selectLanguage: "Cambiar idioma",
       switchTo: "Cambiar a Inglés (EN)",
     },
+    ui: {
+      close: "Cerrar",
+      closeDialog: "Cerrar ventana",
+      openMenu: "Abrir menú",
+      closeMenu: "Cerrar menú",
+      mobileNavigation: "Navegación móvil",
+    },
+    gamepad: {
+      connected: {
+        xbox: "Mando de Xbox conectado",
+        playstation: "Mando de PlayStation conectado",
+        nintendo: "Mando de Nintendo Switch conectado",
+        generic: "Mando conectado",
+      },
+      disconnected: "Mando desconectado",
+      legendLabel: "Controles del mando",
+      legend: {
+        move: "Moverse",
+        scroll: "Desplazar",
+        sections: "Sección",
+        press: "Pulsar",
+        open: "Abrir",
+        write: "Escribir",
+        close: "Cerrar",
+        top: "Ir arriba",
+        portfolio: "Portafolio",
+        language: "Idioma",
+        theme: "Tema",
+        delete: "Borrar",
+        space: "Espacio",
+        cursor: "Cursor",
+        image: "Imagen",
+        zoom: "Zoom",
+        pan: "Mover imagen",
+      },
+      keyboard: {
+        title: "Teclado",
+        shift: "Mayúsculas",
+        space: "Espacio",
+        backspace: "Borrar",
+        newline: "Nueva línea",
+        done: "Listo",
+      },
+    },
   },
   en: {
     nav: {
@@ -474,6 +559,50 @@ export const translations: Record<Locale, Translations> = {
       en: "English",
       selectLanguage: "Change language",
       switchTo: "Switch to Spanish (ES)",
+    },
+    ui: {
+      close: "Close",
+      closeDialog: "Close window",
+      openMenu: "Open menu",
+      closeMenu: "Close menu",
+      mobileNavigation: "Mobile navigation",
+    },
+    gamepad: {
+      connected: {
+        xbox: "Xbox controller connected",
+        playstation: "PlayStation controller connected",
+        nintendo: "Nintendo Switch controller connected",
+        generic: "Controller connected",
+      },
+      disconnected: "Controller disconnected",
+      legendLabel: "Controller controls",
+      legend: {
+        move: "Move",
+        scroll: "Scroll",
+        sections: "Section",
+        press: "Press",
+        open: "Open",
+        write: "Type",
+        close: "Close",
+        top: "Go to top",
+        portfolio: "Portfolio",
+        language: "Language",
+        theme: "Theme",
+        delete: "Delete",
+        space: "Space",
+        cursor: "Cursor",
+        image: "Image",
+        zoom: "Zoom",
+        pan: "Pan image",
+      },
+      keyboard: {
+        title: "Keyboard",
+        shift: "Shift",
+        space: "Space",
+        backspace: "Backspace",
+        newline: "New line",
+        done: "Done",
+      },
     },
   },
 };

@@ -29,13 +29,17 @@ function readState(): HistoryState {
   };
 }
 
-function scrollToHash(hash: string): boolean {
+function jumpTo(top: number) {
+  window.scrollTo({ top, behavior: "instant" });
+}
+
+function scrollToHash(hash: string, behavior: ScrollBehavior = "auto"): boolean {
   if (!hash) {
     return false;
   }
 
   const target = document.getElementById(decodeURIComponent(hash.slice(1)));
-  target?.scrollIntoView();
+  target?.scrollIntoView({ behavior });
   return target !== null;
 }
 
@@ -76,12 +80,11 @@ function createRouter() {
 
     rememberScroll();
     history.pushState({ index: readState().index + 1, scrollY: 0 }, "", url.pathname + url.search + url.hash);
+    jumpTo(0);
     route = next;
-    afterRender(() => {
-      if (!scrollToHash(url.hash)) {
-        window.scrollTo(0, 0);
-      }
-    });
+    if (url.hash) {
+      afterRender(() => scrollToHash(url.hash, "instant"));
+    }
   }
 
   function back(fallbackHref: string) {
@@ -105,8 +108,11 @@ function createRouter() {
     }
 
     const { scrollY } = readState();
+    if (next !== route) {
+      jumpTo(0);
+    }
     route = next;
-    afterRender(() => window.scrollTo(0, scrollY));
+    afterRender(() => jumpTo(scrollY));
   }
 
   function handleClick(event: MouseEvent) {
@@ -145,7 +151,7 @@ function createRouter() {
     window.addEventListener("pagehide", rememberScroll);
     const { scrollY } = readState();
     if (scrollY > 0 && !location.hash) {
-      afterRender(() => window.scrollTo(0, scrollY));
+      afterRender(() => jumpTo(scrollY));
     }
   }
 

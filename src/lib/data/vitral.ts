@@ -1,4 +1,5 @@
 import type { Locale } from "../i18n/translations";
+import type { ViewerCopy } from "../viewer/types";
 
 export type VitralFeature = {
   icon: string;
@@ -10,6 +11,13 @@ export type VitralShot = {
   image: string;
   title: string;
   text: string;
+};
+
+export type VitralUnits = {
+  megabytes: string;
+  megabytesPerSecond: string;
+  minutes: string;
+  seconds: string;
 };
 
 export type VitralCopy = {
@@ -37,6 +45,16 @@ export type VitralCopy = {
   requirements: string;
   licenseNote: string;
   mobileNote: string;
+  units: VitralUnits;
+  screenshotAlt: string;
+  scrollHint: string;
+  scrollLabel: string;
+  tipsLink: string;
+  handleOpen: string;
+  handleClose: string;
+  homeShot: VitralShot;
+  viewer: ViewerCopy;
+  openImage: string;
   featuresTitle: string;
   features: VitralFeature[];
   shotsTitle: string;
@@ -68,13 +86,42 @@ export const vitralCopy: Record<Locale, VitralCopy> = {
     retry: "Reintentar",
     failed: "La descarga se interrumpió. Revisa tu conexión y vuelve a intentarlo.",
     canceled: "Descarga cancelada.",
-    leaveWhileBusy: "La descarga de Vitral sigue en curso. Si sales de esta página se cancelará. ¿Salir de todos modos?",
+    leaveWhileBusy:
+      "La descarga de Vitral sigue en curso. Si sales de esta página se cancelará. ¿Salir de todos modos?",
     version: "Versión",
     size: "Tamaño",
     remaining: "restante",
     requirements: "Windows 10 u 11 de 64 bits · Mando Xbox, PlayStation o Switch",
     licenseNote: "Vitral se activa con una clave de licencia.",
-    mobileNote: "Vitral es un programa para PC. Abre esta página desde tu computadora para descargarlo.",
+    mobileNote:
+      "Vitral es un programa para PC. Abre esta página desde tu computadora para descargarlo.",
+    units: {
+      megabytes: "MB",
+      megabytesPerSecond: "MB/s",
+      minutes: "min",
+      seconds: "s",
+    },
+    screenshotAlt: "Pantalla de inicio de Vitral con la biblioteca de juegos",
+    scrollHint: "Desliza para descubrir más",
+    scrollLabel: "Ir al contenido",
+    tipsLink: "Consejos para que el botón central abra solo Vitral",
+    handleOpen: "Arrastra hacia arriba o toca para ver el contenido",
+    handleClose: "Arrastra hacia abajo o toca para volver al inicio",
+    homeShot: {
+      image: "/vitral/home.webp",
+      title: "Pantalla de inicio",
+      text: "Tu biblioteca con carátulas y fondos.",
+    },
+    viewer: {
+      label: "Visor de imágenes",
+      close: "Cerrar visor",
+      previous: "Imagen anterior",
+      next: "Imagen siguiente",
+      zoomIn: "Acercar",
+      zoomOut: "Alejar",
+      counter: "{current} de {total}",
+    },
+    openImage: "Ver imagen ampliada",
     featuresTitle: "Todo lo que esperas de una consola",
     features: [
       {
@@ -133,7 +180,8 @@ export const vitralCopy: Record<Locale, VitralCopy> = {
       "Escribe tu clave de licencia, elige tu nombre y empieza a jugar.",
     ],
     tipsTitle: "Consejos para usarlo mejor",
-    tipsLead: "El botón central del mando lo usan varios programas a la vez. Para que solo abra la guía de Vitral:",
+    tipsLead:
+      "El botón central del mando lo usan varios programas a la vez. Para que solo abra la guía de Vitral:",
     tips: [
       {
         icon: "mdi:steam",
@@ -173,6 +221,33 @@ export const vitralCopy: Record<Locale, VitralCopy> = {
     requirements: "64-bit Windows 10 or 11 · Xbox, PlayStation or Switch controller",
     licenseNote: "Vitral is activated with a license key.",
     mobileNote: "Vitral is a PC program. Open this page on your computer to download it.",
+    units: {
+      megabytes: "MB",
+      megabytesPerSecond: "MB/s",
+      minutes: "min",
+      seconds: "s",
+    },
+    screenshotAlt: "Vitral home screen with the game library",
+    scrollHint: "Scroll to discover more",
+    scrollLabel: "Go to content",
+    tipsLink: "Tips so the home button opens only Vitral",
+    handleOpen: "Drag up or tap to see the content",
+    handleClose: "Drag down or tap to go back to the top",
+    homeShot: {
+      image: "/vitral/home.webp",
+      title: "Home screen",
+      text: "Your library with covers and backgrounds.",
+    },
+    viewer: {
+      label: "Image viewer",
+      close: "Close viewer",
+      previous: "Previous image",
+      next: "Next image",
+      zoomIn: "Zoom in",
+      zoomOut: "Zoom out",
+      counter: "{current} of {total}",
+    },
+    openImage: "View larger image",
     featuresTitle: "Everything you expect from a console",
     features: [
       {
@@ -231,7 +306,8 @@ export const vitralCopy: Record<Locale, VitralCopy> = {
       "Type your license key, choose your name and start playing.",
     ],
     tipsTitle: "Tips for a better experience",
-    tipsLead: "Several programs listen to the controller's home button. To make it open only the Vitral guide:",
+    tipsLead:
+      "Several programs listen to the controller's home button. To make it open only the Vitral guide:",
     tips: [
       {
         icon: "mdi:steam",

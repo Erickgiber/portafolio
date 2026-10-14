@@ -273,6 +273,25 @@ html {
   scroll-behavior: smooth;
 }
 
+html[data-input="gamepad"] :focus {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 4px;
+  animation: gamepad-focus 0.32s cubic-bezier(0.2, 1.3, 0.4, 1);
+}
+
+@keyframes gamepad-focus {
+  from {
+    outline-color: transparent;
+    outline-offset: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-input="gamepad"] :focus {
+    animation: none;
+  }
+}
+
 /* Desactiva scroll anchoring globalmente (previene micro saltos cuando
    elementos arriba cambian su altura incrementalmente, como el efecto typewriter) */
 html,

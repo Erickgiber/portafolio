@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Icon from "@iconify/svelte";
   import { i18nStore } from "../stores/i18n.svelte";
 
   let currentLocale = $derived(i18nStore.locale);
@@ -13,20 +14,15 @@
   <button
     type="button"
     onclick={handleClick}
-    class="group relative flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-muted/50 dark:bg-muted/30 hover:bg-background/80 dark:hover:bg-card backdrop-blur-md ring-1 ring-black/[0.04] dark:ring-white/[0.08] text-xs font-semibold text-foreground/90 hover:text-primary active:scale-95 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary select-none cursor-pointer"
+    class="group relative flex items-center gap-1.5 h-8 px-2.5 rounded-full hover:bg-background/80 dark:hover:bg-card text-xs font-semibold text-foreground/90 hover:text-primary active:scale-95 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary select-none cursor-pointer"
     aria-label={t.lang.switchTo}
   >
-    {#if currentLocale === "es"}
-      <span class="text-sm leading-none transition-transform duration-200 group-hover:scale-110"
-        >🇪🇸</span
-      >
-      <span class="tracking-wider text-xs font-bold text-primary">ES</span>
-    {:else}
-      <span class="text-sm leading-none transition-transform duration-200 group-hover:scale-110"
-        >🇺🇸</span
-      >
-      <span class="tracking-wider text-xs font-bold text-primary">EN</span>
-    {/if}
+    <Icon
+      icon={currentLocale === "es" ? "circle-flags:es" : "circle-flags:us"}
+      class="w-4 h-4 shrink-0 transition-transform duration-200 group-hover:scale-110"
+      aria-hidden="true"
+    />
+    <span class="tracking-wider text-xs font-bold text-primary">{currentLocale.toUpperCase()}</span>
 
     <!-- Tooltip -->
     <span

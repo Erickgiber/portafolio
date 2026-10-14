@@ -11,7 +11,8 @@
   import { motionEnabled, scrollPageTo, useSmoothScroller } from "./lib/scroll/pageScroll";
   import { gamepadStore } from "./lib/stores/gamepad.svelte";
   import type { ViewerImage } from "./lib/viewer/types";
-  import { formatBolivars, loadBolivarRate } from "./lib/checkout/rate";
+  import { formatMoney } from "./lib/checkout/rate";
+  import { checkoutAvailable, loadConfig } from "./lib/checkout/api";
   import { checkoutCopy, fill } from "./lib/data/checkout";
   import { vitralCopy } from "./lib/data/vitral";
   import {
@@ -71,7 +72,7 @@
   let drag: CurtainDrag | null = null;
   let suppressClick = false;
   let viewerIndex = $state<number | null>(null);
-  let monthlyBolivars = $state<number | null>(null);
+  let monthlyLocal = $state<{ amount: number; currency: string; country: string } | null>(null);
 
   const copy = $derived(vitralCopy[i18nStore.locale]);
   const purchaseCopy = $derived(checkoutCopy[i18nStore.locale]);
@@ -103,9 +104,19 @@
   onMount(() => {
     themeStore.initTheme();
     isMobile = MOBILE_PATTERN.test(navigator.userAgent);
-    loadBolivarRate().then((rate) => {
-      monthlyBolivars = rate ? Math.round(MONTHLY_PRICE_USD * rate.ves * 100) / 100 : null;
-    });
+    if (checkoutAvailable) {
+      loadConfig()
+        .then(({ local }) => {
+          monthlyLocal = local
+            ? {
+                amount: Math.round(MONTHLY_PRICE_USD * local.rate * 100) / 100,
+                currency: local.currency,
+                country: local.country,
+              }
+            : null;
+        })
+        .catch(() => (monthlyLocal = null));
+    }
     loadManifest()
       .then((found) => (manifest = found))
       .catch(() => {});
@@ -535,10 +546,15 @@
             >
               <div class="flex flex-wrap items-end justify-between gap-2">
                 <p class="text-lg font-extrabold">{purchaseCopy.perMonth}</p>
-                {#if monthlyBolivars !== null}
-                  <p class="text-sm font-semibold text-primary" data-testid="vitral-price-ves">
+                {#if monthlyLocal}
+                  <p class="text-sm font-semibold text-primary" data-testid="vitral-price-local">
                     {fill(purchaseCopy.approx, {
-                      amount: formatBolivars(monthlyBolivars, i18nStore.locale),
+                      amount: formatMoney(
+                        monthlyLocal.amount,
+                        monthlyLocal.currency,
+                        i18nStore.locale,
+                        monthlyLocal.country
+                      ),
                     })}
                   </p>
                 {/if}

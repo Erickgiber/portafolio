@@ -61,6 +61,7 @@ async function mockApi(page: Page, state: { current: Purchase }) {
           monthOptions: [1, 3, 6, 12],
           paypal: { ready: false, clientId: "", planId: "", environment: "sandbox" },
           rate: { ves: RATE, date: "2026-10-14" },
+          local: { country: "VE", currency: "VES", rate: RATE, date: "2026-10-14" },
           banks: [
             { code: "0134", name: "Banesco" },
             { code: "0191", name: "BNC Banco Nacional de Crédito" },
@@ -174,10 +175,12 @@ test("PayPal is offered only when the server has it configured", async ({ page }
   await expect(page.getByTestId("method-paypal")).toBeDisabled();
 });
 
-test("the Vitral page shows the price in bolívares and links to the checkout", async ({ page }) => {
+test("the Vitral page shows the price in the visitor's currency and links to the checkout", async ({
+  page,
+}) => {
   await mockApi(page, { current: purchase() });
   await page.goto("/vitral/");
-  await expect(page.getByTestId("vitral-price-ves")).toContainText("73");
+  await expect(page.getByTestId("vitral-price-local")).toContainText("73");
   await page.getByTestId("gift-license").click();
   await expect(page).toHaveURL(/\/vitral\/comprar\//);
   await expect(page.getByTestId("step-details")).toBeVisible();

@@ -6,13 +6,18 @@ import type {
   PurchaseStatus,
 } from "./state";
 
+import { browserCountry } from "./rate";
+
 export type Bank = { code: string; name: string };
+
+export type LocalPrice = { country: string; currency: string; rate: number; date: string };
 
 export type CheckoutConfig = {
   priceUsd: number;
   monthOptions: number[];
   paypal: { ready: boolean; clientId: string; planId: string; environment: "sandbox" | "live" };
   rate: { ves: number; date: string } | null;
+  local: LocalPrice | null;
   banks: Bank[];
 };
 
@@ -91,12 +96,15 @@ function isConfig(value: Partial<CheckoutConfig>): value is CheckoutConfig {
     typeof value.priceUsd === "number" &&
     typeof value.paypal?.ready === "boolean" &&
     Array.isArray(value.banks) &&
-    Array.isArray(value.monthOptions)
+    Array.isArray(value.monthOptions) &&
+    (value.local === null || typeof value.local?.currency === "string")
   );
 }
 
 export async function loadConfig(signal?: AbortSignal): Promise<CheckoutConfig> {
-  const config = await request<Partial<CheckoutConfig>>("/api/checkout/config", { signal });
+  const country = typeof navigator === "undefined" ? "" : browserCountry(navigator.language);
+  const query = country ? `?country=${country}` : "";
+  const config = await request<Partial<CheckoutConfig>>(`/api/checkout/config${query}`, { signal });
   if (!isConfig(config)) {
     throw new CheckoutError("server_error");
   }

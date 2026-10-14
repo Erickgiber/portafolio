@@ -1,63 +1,38 @@
-const RATES_URL = "https://open.er-api.com/v6/latest/USD";
-const CACHE_KEY = "vitral_ves_rate_v1";
-const CACHE_MS = 30 * 60_000;
-const REQUEST_TIMEOUT_MS = 6_000;
-
-export type BolivarRate = { ves: number; date: string };
-
-function cached(): (BolivarRate & { fetchedAt: number }) | null {
-  try {
-    const saved = JSON.parse(sessionStorage.getItem(CACHE_KEY) ?? "null");
-    return saved && Number.isFinite(saved.ves) && Date.now() - saved.fetchedAt < CACHE_MS
-      ? saved
-      : null;
-  } catch {
-    return null;
-  }
+function numberLocale(locale: string, country?: string): string {
+  const language = locale === "en" ? "en" : "es";
+  return country ? `${language}-${country}` : language === "en" ? "en-US" : "es-VE";
 }
 
-export async function loadBolivarRate(): Promise<BolivarRate | null> {
-  const saved = cached();
-  if (saved) {
-    return { ves: saved.ves, date: saved.date };
-  }
-
+export function formatMoney(
+  amount: number,
+  currency: string,
+  locale: string,
+  country?: string
+): string {
   try {
-    const response = await fetch(RATES_URL, { signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS) });
-    const payload = (await response.json()) as {
-      result?: string;
-      rates?: Record<string, number>;
-      time_last_update_unix?: number;
-    };
-    const ves = Number(payload.rates?.VES);
-    if (!response.ok || payload.result !== "success" || !Number.isFinite(ves) || ves <= 0) {
-      return null;
-    }
-
-    const date = new Date((payload.time_last_update_unix ?? Date.now() / 1000) * 1000)
-      .toISOString()
-      .slice(0, 10);
-    try {
-      sessionStorage.setItem(CACHE_KEY, JSON.stringify({ ves, date, fetchedAt: Date.now() }));
-    } catch {}
-    return { ves, date };
+    return new Intl.NumberFormat(numberLocale(locale, country), {
+      style: "currency",
+      currency,
+      maximumFractionDigits: 2,
+    }).format(amount);
   } catch {
-    return null;
+    return `${amount.toFixed(2)} ${currency}`;
   }
 }
 
 export function formatBolivars(amount: number, locale: string): string {
-  return new Intl.NumberFormat(locale === "en" ? "en-US" : "es-VE", {
-    style: "currency",
-    currency: "VES",
-    maximumFractionDigits: 2,
-  }).format(amount);
+  return formatMoney(amount, "VES", locale, "VE");
 }
 
 export function formatDollars(amount: number, locale: string): string {
-  return new Intl.NumberFormat(locale === "en" ? "en-US" : "es-VE", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 2,
-  }).format(amount);
+  return formatMoney(amount, "USD", locale);
+}
+
+export function browserCountry(language: string): string {
+  try {
+    const region = new Intl.Locale(language).maximize().region ?? "";
+    return /^[A-Z]{2}$/.test(region) ? region : "";
+  } catch {
+    return "";
+  }
 }

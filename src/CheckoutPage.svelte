@@ -19,7 +19,7 @@
     type Purchase,
   } from "./lib/checkout/api";
   import { renderSubscriptionButton } from "./lib/checkout/paypal";
-  import { formatBolivars, formatDollars } from "./lib/checkout/rate";
+  import { formatBolivars, formatDollars, formatMoney } from "./lib/checkout/rate";
   import {
     MONTH_OPTIONS,
     STEPS,
@@ -98,6 +98,13 @@
   const months = $derived(draft.method === "paypal" ? 1 : draft.months);
   const totalUsd = $derived(amountUsd(months, priceUsd));
   const totalVes = $derived(rate ? amountVes(totalUsd, rate.ves) : null);
+  const local = $derived(config?.local ?? null);
+  const totalLocal = $derived(local ? amountVes(totalUsd, local.rate) : null);
+  const shownRate = $derived(
+    draft.method === "pago_movil"
+      ? rate && { value: rate.ves, currency: "VES", date: rate.date }
+      : local && { value: local.rate, currency: local.currency, date: local.date }
+  );
   const shownTotal = Tween.of(() => totalUsd, { duration: 450, easing: cubicOut });
   const stepIndex = $derived(
     VISIBLE_STEPS.indexOf(draft.step === "status" ? "payment" : draft.step)
@@ -1289,19 +1296,28 @@
                   {formatBolivars(purchase?.amountVes ?? totalVes, locale)}
                 </p>
               {:else if draft.method === "paypal"}
+                {#if local && totalLocal !== null}
+                  <p
+                    class="text-sm font-semibold text-primary tabular-nums"
+                    data-testid="summary-local"
+                  >
+                    ≈ {formatMoney(totalLocal, local.currency, locale, local.country)}
+                  </p>
+                {/if}
                 <p class="text-xs text-muted-foreground">
                   {fill(copy.summary.monthly, { amount: formatDollars(priceUsd, locale) })}
                 </p>
               {/if}
             </div>
           </div>
-          {#if rate}
-            <p class="mt-3 text-[11px] text-muted-foreground">
+          {#if shownRate}
+            <p class="mt-3 text-[11px] text-muted-foreground" data-testid="summary-rate">
               {fill(copy.rateNote, {
-                rate: rate.ves.toLocaleString(locale === "en" ? "en-US" : "es-VE", {
+                rate: shownRate.value.toLocaleString(locale === "en" ? "en-US" : "es-VE", {
                   maximumFractionDigits: 2,
                 }),
-                date: rate.date,
+                currency: shownRate.currency,
+                date: shownRate.date,
               })}
             </p>
           {/if}

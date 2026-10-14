@@ -161,7 +161,7 @@ export const checkoutCopy: Record<Locale, CheckoutCopy> = {
     lead: "Una licencia por equipo, $2 al mes. Paga con PayPal o con Pago Móvil y recibe tu clave en esta misma página.",
     perMonth: "$2 al mes",
     approx: "≈ {amount} al mes",
-    rateNote: "Tasa de referencia: {rate} Bs por dólar ({date}).",
+    rateNote: "Tasa de referencia: {rate} {currency} por dólar ({date}).",
     steps: { kind: "Tipo", details: "Datos", method: "Pago", payment: "Pagar", status: "Listo" },
     kinds: {
       new: { title: "Para mí", text: "Una licencia nueva a tu nombre." },
@@ -337,7 +337,7 @@ export const checkoutCopy: Record<Locale, CheckoutCopy> = {
     lead: "One license per PC, $2 a month. Pay with PayPal or Pago Móvil and get your key right on this page.",
     perMonth: "$2 a month",
     approx: "≈ {amount} a month",
-    rateNote: "Reference rate: {rate} Bs per dollar ({date}).",
+    rateNote: "Reference rate: {rate} {currency} per dollar ({date}).",
     steps: { kind: "Type", details: "Details", method: "Payment", payment: "Pay", status: "Done" },
     kinds: {
       new: { title: "For me", text: "A new license in your name." },

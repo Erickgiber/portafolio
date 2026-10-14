@@ -1,0 +1,215 @@
+import type { Locale } from "../i18n/translations";
+
+export type VitralFeature = {
+  icon: string;
+  title: string;
+  text: string;
+};
+
+export type VitralShot = {
+  image: string;
+  title: string;
+  text: string;
+};
+
+export type VitralCopy = {
+  pageTitle: string;
+  back: string;
+  badge: string;
+  headline: string;
+  headlineAccent: string;
+  lead: string;
+  download: string;
+  downloading: string;
+  preparing: string;
+  saving: string;
+  done: string;
+  doneHint: string;
+  saveAgain: string;
+  cancel: string;
+  retry: string;
+  failed: string;
+  canceled: string;
+  version: string;
+  size: string;
+  remaining: string;
+  requirements: string;
+  licenseNote: string;
+  mobileNote: string;
+  featuresTitle: string;
+  features: VitralFeature[];
+  shotsTitle: string;
+  shots: VitralShot[];
+  stepsTitle: string;
+  steps: string[];
+  footer: string;
+};
+
+export const vitralCopy: Record<Locale, VitralCopy> = {
+  es: {
+    pageTitle: "Vitral | Tu PC como una consola",
+    back: "Portafolio",
+    badge: "Para Windows 10 y 11",
+    headline: "Tu PC,",
+    headlineAccent: "como una consola",
+    lead: "Vitral pone una pantalla de inicio pensada para el mando sobre tu biblioteca de juegos, y una guía que se abre encima de cualquier juego con el botón central.",
+    download: "Descargar Vitral",
+    downloading: "Descargando",
+    preparing: "Preparando la descarga",
+    saving: "Guardando el instalador",
+    done: "Descarga completa",
+    doneHint: "El instalador ya está en tu carpeta de descargas. Ábrelo para instalar Vitral.",
+    saveAgain: "Guardar otra vez",
+    cancel: "Cancelar",
+    retry: "Reintentar",
+    failed: "La descarga se interrumpió. Revisa tu conexión y vuelve a intentarlo.",
+    canceled: "Descarga cancelada.",
+    version: "Versión",
+    size: "Tamaño",
+    remaining: "restante",
+    requirements: "Windows 10 u 11 de 64 bits · Mando Xbox, PlayStation o Switch",
+    licenseNote: "Vitral se activa con una clave de licencia.",
+    mobileNote: "Vitral es un programa para PC. Abre esta página desde tu computadora para descargarlo.",
+    featuresTitle: "Todo lo que esperas de una consola",
+    features: [
+      {
+        icon: "mdi:controller",
+        title: "Hecho para el mando",
+        text: "Navega tu biblioteca, lanza juegos y cambia ajustes sin tocar el teclado. Los botones en pantalla siguen a tu mando: Xbox, PlayStation o Switch.",
+      },
+      {
+        icon: "mdi:view-dashboard-outline",
+        title: "Una guía sobre cualquier juego",
+        text: "El botón central abre la guía encima de lo que estés jugando: volumen, juegos abiertos, amigos y ajustes, con el juego en pausa.",
+      },
+      {
+        icon: "mdi:record-circle-outline",
+        title: "Capturas y grabación",
+        text: "Graba a 60 fps o captura la pantalla con un atajo del mando, y compártelo por WhatsApp, Discord o cualquier otra app.",
+      },
+      {
+        icon: "mdi:account-group-outline",
+        title: "Amigos e invitaciones",
+        text: "Mira a qué juegan tus amigos, invítalos a tu partida y recibe sus invitaciones como notificaciones.",
+      },
+      {
+        icon: "mdi:steam",
+        title: "Tu biblioteca en un solo sitio",
+        text: "Reúne los juegos de Steam, Epic Games, Xbox y Riot con sus carátulas y fondos.",
+      },
+      {
+        icon: "mdi:cloud-download-outline",
+        title: "Se actualiza solo",
+        text: "Las versiones nuevas llegan desde la nube y se instalan al abrir Vitral, sin perder tus datos.",
+      },
+    ],
+    shotsTitle: "Así se ve",
+    shots: [
+      {
+        image: "/vitral/guide.webp",
+        title: "La guía",
+        text: "Se abre sobre el juego con el botón central.",
+      },
+      {
+        image: "/vitral/details.webp",
+        title: "Detalles del juego",
+        text: "Carátula, descripción y tiempo jugado.",
+      },
+      {
+        image: "/vitral/gallery.webp",
+        title: "Capturas y grabaciones",
+        text: "Tu galería, lista para compartir.",
+      },
+    ],
+    stepsTitle: "Empieza en tres pasos",
+    steps: [
+      "Descarga el instalador con el botón de arriba.",
+      "Ábrelo y elige dónde instalar Vitral.",
+      "Escribe tu clave de licencia, elige tu nombre y empieza a jugar.",
+    ],
+    footer: "Vitral es un proyecto de Erick Ramírez.",
+  },
+  en: {
+    pageTitle: "Vitral | Your PC as a console",
+    back: "Portfolio",
+    badge: "For Windows 10 and 11",
+    headline: "Your PC,",
+    headlineAccent: "as a console",
+    lead: "Vitral puts a home screen made for the controller on top of your game library, and a guide that opens over any game with the home button.",
+    download: "Download Vitral",
+    downloading: "Downloading",
+    preparing: "Preparing the download",
+    saving: "Saving the installer",
+    done: "Download complete",
+    doneHint: "The installer is in your downloads folder. Open it to install Vitral.",
+    saveAgain: "Save again",
+    cancel: "Cancel",
+    retry: "Try again",
+    failed: "The download was interrupted. Check your connection and try again.",
+    canceled: "Download canceled.",
+    version: "Version",
+    size: "Size",
+    remaining: "left",
+    requirements: "64-bit Windows 10 or 11 · Xbox, PlayStation or Switch controller",
+    licenseNote: "Vitral is activated with a license key.",
+    mobileNote: "Vitral is a PC program. Open this page on your computer to download it.",
+    featuresTitle: "Everything you expect from a console",
+    features: [
+      {
+        icon: "mdi:controller",
+        title: "Made for the controller",
+        text: "Browse your library, launch games and change settings without touching the keyboard. On-screen buttons follow your controller: Xbox, PlayStation or Switch.",
+      },
+      {
+        icon: "mdi:view-dashboard-outline",
+        title: "A guide over any game",
+        text: "The home button opens the guide on top of whatever you are playing: volume, open games, friends and settings, with the game paused.",
+      },
+      {
+        icon: "mdi:record-circle-outline",
+        title: "Screenshots and recording",
+        text: "Record at 60 fps or take a screenshot with a controller shortcut, and share it through WhatsApp, Discord or any other app.",
+      },
+      {
+        icon: "mdi:account-group-outline",
+        title: "Friends and invitations",
+        text: "See what your friends are playing, invite them to your game and get their invitations as notifications.",
+      },
+      {
+        icon: "mdi:steam",
+        title: "Your library in one place",
+        text: "Brings together your Steam, Epic Games, Xbox and Riot games with their covers and backgrounds.",
+      },
+      {
+        icon: "mdi:cloud-download-outline",
+        title: "Updates itself",
+        text: "New versions arrive from the cloud and install when Vitral opens, without losing your data.",
+      },
+    ],
+    shotsTitle: "How it looks",
+    shots: [
+      {
+        image: "/vitral/guide.webp",
+        title: "The guide",
+        text: "Opens over the game with the home button.",
+      },
+      {
+        image: "/vitral/details.webp",
+        title: "Game details",
+        text: "Cover, description and time played.",
+      },
+      {
+        image: "/vitral/gallery.webp",
+        title: "Screenshots and recordings",
+        text: "Your gallery, ready to share.",
+      },
+    ],
+    stepsTitle: "Start in three steps",
+    steps: [
+      "Download the installer with the button above.",
+      "Open it and choose where to install Vitral.",
+      "Type your license key, choose your name and start playing.",
+    ],
+    footer: "Vitral is a project by Erick Ramírez.",
+  },
+};

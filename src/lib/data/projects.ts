@@ -16,6 +16,22 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    id: "vitral",
+    title: "Vitral: tu PC como una consola",
+    description:
+      "Programa para Windows que convierte el PC en una consola: pantalla de inicio para el mando, guía sobre cualquier juego, capturas, grabación a 60 fps, amigos e invitaciones.",
+    tech: ["C#", "WPF", "Windows", "Supabase", "PostgreSQL", "SvelteKit", "XInput"],
+    links: [
+      {
+        label: "Descargar",
+        href: "/vitral/",
+        variant: "primary",
+      },
+    ],
+    icon: "mdi:controller",
+    gradientClass: "from-sky-600 to-violet-700",
+  },
+  {
     id: "wallet-track",
     title: "WalletTrack: Control de Gastos",
     description:

@@ -13,6 +13,7 @@
     if (label === "Demo") return t.projects.btnDemo;
     if (label === "Código" || label === "Code") return t.projects.btnCode;
     if (label === "Google Play") return t.projects.btnStore;
+    if (label === "Descargar") return t.projects.btnDownload;
     return label;
   }
 </script>
@@ -74,8 +75,8 @@
                 {#each project.links as link, idx (idx)}
                   <a
                     href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    target={link.href.startsWith("/") ? undefined : "_blank"}
+                    rel={link.href.startsWith("/") ? undefined : "noopener noreferrer"}
                     class={`inline-flex items-center space-x-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg transition-all ${
                       link.variant === "primary"
                         ? "bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm"

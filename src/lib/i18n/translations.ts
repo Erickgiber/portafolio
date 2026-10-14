@@ -55,6 +55,7 @@ export interface Translations {
     btnDemo: string;
     btnCode: string;
     btnStore: string;
+    btnDownload: string;
     items: Record<string, ProjectTranslation>;
   };
   reviews: {
@@ -156,7 +157,13 @@ export const translations: Record<Locale, Translations> = {
       btnDemo: "Demo",
       btnCode: "Código",
       btnStore: "Google Play",
+      btnDownload: "Descargar",
       items: {
+        vitral: {
+          title: "Vitral: tu PC como una consola",
+          description:
+            "Programa para Windows que convierte el PC en una consola: pantalla de inicio para el mando, guía sobre cualquier juego, capturas, grabación a 60 fps, amigos e invitaciones.",
+        },
         "wallet-track": {
           title: "WalletTrack: Control de Gastos",
           description:
@@ -332,7 +339,13 @@ export const translations: Record<Locale, Translations> = {
       btnDemo: "Demo",
       btnCode: "Code",
       btnStore: "Google Play",
+      btnDownload: "Download",
       items: {
+        vitral: {
+          title: "Vitral: your PC as a console",
+          description:
+            "Windows program that turns the PC into a console: a home screen for the controller, a guide over any game, screenshots, 60 fps recording, friends and invitations.",
+        },
         "wallet-track": {
           title: "WalletTrack: Expense Tracker",
           description:

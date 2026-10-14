@@ -1,11 +1,12 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
   import { animationsStore } from "../stores/animations.svelte";
+  let { paused = false }: { paused?: boolean } = $props();
   let animationsEnabled = $derived(animationsStore.animationsEnabled);
 
   let canvas: HTMLCanvasElement | undefined;
   let ctx: CanvasRenderingContext2D | null = null;
-  let raf: number;
+  let raf = 0;
   let lastTime = 0;
 
   interface Particle {
@@ -249,6 +250,22 @@
     raf = requestAnimationFrame(animate);
   }
 
+  function startLoop() {
+    if (!ctx || raf) return;
+    lastTime = 0;
+    raf = requestAnimationFrame(animate);
+  }
+
+  function stopLoop() {
+    cancelAnimationFrame(raf);
+    raf = 0;
+  }
+
+  $effect(() => {
+    if (paused) stopLoop();
+    else startLoop();
+  });
+
   function handleScroll() {
     const current = window.scrollY;
     const delta = current - lastScrollY;
@@ -290,7 +307,7 @@
     mouse.x = innerWidth / 2;
     mouse.y = innerHeight / 2;
     resize();
-    raf = requestAnimationFrame(animate);
+    if (!paused) startLoop();
 
     window.addEventListener("resize", onResize);
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -299,7 +316,7 @@
   });
 
   onDestroy(() => {
-    cancelAnimationFrame(raf);
+    stopLoop();
     window.removeEventListener("resize", onResize);
     window.removeEventListener("scroll", handleScroll);
     window.removeEventListener("pointermove", handlePointerMove);

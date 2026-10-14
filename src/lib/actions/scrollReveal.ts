@@ -1,26 +1,26 @@
 import type { Action } from "svelte/action";
 
-export type ScrollRevealSide = "left" | "right";
+export type ScrollRevealFrom = "up" | "left" | "right";
 
 export interface ScrollRevealOptions {
-  from?: ScrollRevealSide;
-  distance?: number;
-  lag?: number;
+  from?: ScrollRevealFrom;
+  delay?: number;
 }
 
 type Tracked = {
-  node: HTMLElement;
-  from: ScrollRevealSide;
-  distance: number;
-  lag: number;
+  animation: Animation | null;
+  delay: number;
+  from: ScrollRevealFrom;
 };
 
-const DEFAULT_DISTANCE = 96;
-const REVEAL_SPAN = 0.45;
-const MIN_SCALE = 0.94;
+const RISE_PX = 24;
+const SHIFT_PX = 20;
+const DURATION_MS = 750;
+const EASING = "cubic-bezier(0.22, 1, 0.36, 1)";
+const TRIGGER_MARGIN = "0px 0px -12% 0px";
 
-const tracked = new Set<Tracked>();
-let frame = 0;
+const tracked = new Map<Element, Tracked>();
+let observer: IntersectionObserver | null = null;
 
 function motionEnabled(): boolean {
   return (
@@ -29,90 +29,94 @@ function motionEnabled(): boolean {
   );
 }
 
-function easeOutCubic(value: number): number {
-  return 1 - Math.pow(1 - value, 3);
+function startOffset(from: ScrollRevealFrom): string {
+  const shift = from === "left" ? -SHIFT_PX : from === "right" ? SHIFT_PX : 0;
+  return `translate3d(${shift}px, ${RISE_PX}px, 0)`;
 }
 
-function clear(item: Tracked) {
-  item.node.style.removeProperty("transform");
-  item.node.style.removeProperty("opacity");
+function hide(node: Element, item: Tracked) {
+  item.animation = node.animate(
+    [
+      { opacity: 0, transform: startOffset(item.from) },
+      { opacity: 1, transform: "none" },
+    ],
+    { duration: DURATION_MS, delay: item.delay, easing: EASING, fill: "both" }
+  );
+  item.animation.pause();
 }
 
-function update() {
-  frame = 0;
-  if (!motionEnabled()) {
-    tracked.forEach(clear);
+function show(node: Element) {
+  const item = tracked.get(node);
+  observer?.unobserve(node);
+  if (!item?.animation) {
     return;
   }
 
-  const viewport = window.innerHeight;
-  const progresses = Array.from(tracked, (item) => {
-    const entered = (viewport - item.node.getBoundingClientRect().top) / (viewport * REVEAL_SPAN);
-    return Math.min(1, Math.max(0, entered - item.lag));
+  const animation = item.animation;
+  animation.onfinish = () => {
+    animation.cancel();
+    if (item.animation === animation) {
+      item.animation = null;
+    }
+  };
+  animation.play();
+}
+
+function settle() {
+  tracked.forEach((item, node) => {
+    item.animation?.cancel();
+    item.animation = null;
+    observer?.unobserve(node);
   });
-
-  Array.from(tracked).forEach((item, index) => {
-    const eased = easeOutCubic(progresses[index]);
-    const direction = item.from === "left" ? -1 : 1;
-    const offset = (1 - eased) * item.distance * direction;
-    const scale = MIN_SCALE + (1 - MIN_SCALE) * eased;
-    item.node.style.transform =
-      eased === 1 ? "" : `translate3d(${offset.toFixed(2)}px, 0, 0) scale(${scale.toFixed(4)})`;
-    item.node.style.opacity = eased === 1 ? "" : eased.toFixed(4);
-  });
 }
 
-function schedule() {
-  if (!frame) {
-    frame = requestAnimationFrame(update);
-  }
+function connect() {
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          show(entry.target);
+        }
+      });
+    },
+    { rootMargin: TRIGGER_MARGIN }
+  );
+  window.addEventListener("animations:disabled", settle);
 }
 
-function listen() {
-  window.addEventListener("scroll", schedule, { passive: true });
-  window.addEventListener("resize", schedule);
-  window.addEventListener("animations:enabled", schedule);
-  window.addEventListener("animations:disabled", schedule);
-}
-
-function unlisten() {
-  cancelAnimationFrame(frame);
-  frame = 0;
-  window.removeEventListener("scroll", schedule);
-  window.removeEventListener("resize", schedule);
-  window.removeEventListener("animations:enabled", schedule);
-  window.removeEventListener("animations:disabled", schedule);
+function disconnect() {
+  observer?.disconnect();
+  observer = null;
+  window.removeEventListener("animations:disabled", settle);
 }
 
 export const scrollReveal: Action<HTMLElement, ScrollRevealOptions | undefined> = (
   node,
   options = {}
 ) => {
-  const item: Tracked = {
-    node,
-    from: options.from ?? "left",
-    distance: options.distance ?? DEFAULT_DISTANCE,
-    lag: options.lag ?? 0,
-  };
-
-  if (tracked.size === 0) {
-    listen();
+  if (!observer) {
+    connect();
   }
-  tracked.add(item);
-  update();
+
+  const item: Tracked = {
+    animation: null,
+    delay: options.delay ?? 0,
+    from: options.from ?? "up",
+  };
+  tracked.set(node, item);
+
+  if (motionEnabled()) {
+    hide(node, item);
+    observer?.observe(node);
+  }
 
   return {
-    update(next: ScrollRevealOptions = {}) {
-      item.from = next.from ?? "left";
-      item.distance = next.distance ?? DEFAULT_DISTANCE;
-      item.lag = next.lag ?? 0;
-      schedule();
-    },
     destroy() {
-      tracked.delete(item);
-      clear(item);
+      item.animation?.cancel();
+      observer?.unobserve(node);
+      tracked.delete(node);
       if (tracked.size === 0) {
-        unlisten();
+        disconnect();
       }
     },
   };

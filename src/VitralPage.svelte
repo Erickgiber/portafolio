@@ -36,6 +36,10 @@
   const MONTHLY_PRICE_USD = 2;
   const TIPS_SCROLL_GAP = 32;
   const CURTAIN_OPEN_RISE = 0.98;
+  const STAGE_LIFT_PX = 80;
+  const STAGE_SHRINK = 0.07;
+  const STAGE_FADE = 0.85;
+  const CURTAIN_SHRINK = 0.07;
   const SMOOTH_SCROLL_LERP = 0.085;
   const SNAP_DURATION_S = 0.75;
   const DRAG_THRESHOLD_PX = 4;
@@ -61,8 +65,9 @@
   let isMobile = $state(false);
   let controller: AbortController | null = null;
   let installer: Blob | null = null;
-  let page: HTMLDivElement;
+  let stage: HTMLDivElement;
   let curtain: HTMLDivElement;
+  let curtainSurface: HTMLDivElement;
   let tipsPanel: HTMLDivElement;
   let heroHeight = $state(0);
   let viewportHeight = $state(0);
@@ -139,31 +144,58 @@
     };
   });
 
+  function applyCurtainMotion(rise: number) {
+    if (!motionEnabled()) {
+      stage.style.removeProperty("transform");
+      stage.style.removeProperty("opacity");
+      curtainSurface.style.removeProperty("transform");
+      return;
+    }
+
+    const lift = (rise * STAGE_LIFT_PX).toFixed(2);
+    const stageScale = (1 - rise * STAGE_SHRINK).toFixed(4);
+    stage.style.transform = `translate3d(0, -${lift}px, 0) scale(${stageScale})`;
+    stage.style.opacity = (1 - rise * STAGE_FADE).toFixed(3);
+    curtainSurface.style.transform = `scale(${(1 - (1 - rise) * CURTAIN_SHRINK).toFixed(4)})`;
+  }
+
   function trackCurtain() {
     let frame = 0;
+    let appliedRise = -1;
     const update = () => {
       frame = 0;
       const rise = Math.min(
         1,
         Math.max(0, 1 - curtain.getBoundingClientRect().top / window.innerHeight)
       );
-      page.style.setProperty("--curtain", rise.toFixed(4));
       curtainRaised = rise > CUE_HIDE_RISE;
       curtainOpen = rise >= CURTAIN_OPEN_RISE;
+      if (rise !== appliedRise) {
+        appliedRise = rise;
+        applyCurtainMotion(rise);
+      }
     };
     const schedule = () => {
       if (!frame) {
         frame = requestAnimationFrame(update);
       }
     };
+    const refresh = () => {
+      appliedRise = -1;
+      schedule();
+    };
 
     update();
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
+    window.addEventListener("animations:enabled", refresh);
+    window.addEventListener("animations:disabled", refresh);
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
+      window.removeEventListener("animations:enabled", refresh);
+      window.removeEventListener("animations:disabled", refresh);
     };
   }
 
@@ -325,10 +357,9 @@
 <svelte:window bind:innerHeight={viewportHeight} />
 
 <div
-  bind:this={page}
   class="min-h-screen bg-background text-foreground transition-colors duration-300 relative overflow-x-clip z-10"
 >
-  <AnimatedBackground />
+  <AnimatedBackground paused={curtainOpen} />
 
   <section
     bind:clientHeight={heroHeight}
@@ -336,7 +367,7 @@
     class="sticky z-0 w-full min-h-dvh flex flex-col"
     style:top="{heroTop}px"
   >
-    <div class="vitral-stage flex-1 flex flex-col">
+    <div bind:this={stage} class="vitral-stage flex-1 flex flex-col">
       <header class="relative z-20 container mx-auto px-4 py-5 flex items-center justify-between">
         <a
           href="/"
@@ -658,15 +689,15 @@
     <Icon icon="mdi:chevron-double-down" class="vitral-nudge w-5 h-5" aria-hidden="true" />
   </button>
 
-  <div
-    bind:this={curtain}
-    data-testid="vitral-curtain"
-    class="vitral-curtain relative z-10 rounded-t-[2rem] sm:rounded-t-[3.5rem]"
-  >
+  <div bind:this={curtain} data-testid="vitral-curtain" class="relative z-10">
     <div
-      class="vitral-curtain-glow pointer-events-none absolute inset-x-0 top-0 h-96 rounded-t-[inherit]"
+      bind:this={curtainSurface}
+      class="vitral-curtain-surface pointer-events-none absolute inset-0 rounded-t-[2rem] sm:rounded-t-[3.5rem]"
       aria-hidden="true"
-    ></div>
+    >
+      <div class="vitral-curtain-edge absolute inset-x-0 top-0 h-16 rounded-t-[inherit]"></div>
+      <div class="vitral-curtain-glow absolute inset-x-0 top-0 h-96 rounded-t-[inherit]"></div>
+    </div>
     <button
       type="button"
       class="group absolute left-1/2 top-0 z-10 flex w-40 -translate-x-1/2 justify-center pt-4 pb-5 touch-none select-none {dragging
@@ -692,18 +723,15 @@
       <section>
         <h2
           class="text-center text-3xl md:text-4xl font-bold tracking-tight mb-10"
-          use:scrollReveal={{ from: "left" }}
+          use:scrollReveal
         >
           {copy.featuresTitle}
         </h2>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto">
           {#each copy.features as feature, index (feature.icon)}
             <article
-              class="rounded-2xl border border-border/50 dark:border-white/[0.08] bg-card/90 dark:bg-card/60 backdrop-blur-md p-6 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/10 transition-[translate,box-shadow] duration-300"
-              use:scrollReveal={{
-                from: index % 2 === 0 ? "left" : "right",
-                lag: (index % 3) * 0.12,
-              }}
+              class="rounded-2xl border border-border/50 dark:border-white/[0.08] bg-card/90 dark:bg-card/60 p-6 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/10 transition-[translate,box-shadow] duration-300"
+              use:scrollReveal={{ delay: (index % 3) * 90 }}
             >
               <span
                 class="grid place-items-center w-11 h-11 rounded-xl bg-primary/10 text-primary mb-4"
@@ -723,7 +751,7 @@
         <div>
           <h2
             class="text-center lg:text-left text-3xl md:text-4xl font-bold tracking-tight mb-8"
-            use:scrollReveal={{ from: "left" }}
+            use:scrollReveal
           >
             {copy.stepsTitle}
           </h2>
@@ -731,7 +759,7 @@
             {#each copy.steps as step, index (index)}
               <li
                 class="flex items-center gap-4 rounded-2xl border border-border/50 dark:border-white/[0.08] bg-card/90 dark:bg-card/60 p-4"
-                use:scrollReveal={{ from: "left", lag: index * 0.08 }}
+                use:scrollReveal={{ from: "left", delay: index * 70 }}
               >
                 <span
                   class="grid place-items-center w-9 h-9 shrink-0 rounded-full bg-gradient-to-br from-sky-500 to-violet-600 text-white font-bold"
@@ -747,7 +775,7 @@
         <div
           bind:this={tipsPanel}
           class="relative rounded-3xl border border-primary/25 bg-gradient-to-br from-sky-500/[0.07] via-transparent to-violet-600/[0.08] p-6 sm:p-8 shadow-xl shadow-primary/5"
-          use:scrollReveal={{ from: "right", distance: 120 }}
+          use:scrollReveal={{ from: "right", delay: 120 }}
         >
           <div class="flex items-center gap-3 mb-3">
             <span
@@ -781,7 +809,7 @@
       <section class="mt-20 sm:mt-28">
         <h2
           class="text-center text-3xl md:text-4xl font-bold tracking-tight mb-10"
-          use:scrollReveal={{ from: "right" }}
+          use:scrollReveal
         >
           {copy.shotsTitle}
         </h2>
@@ -789,7 +817,7 @@
           {#each copy.shots as shot, index (shot.image)}
             <figure
               class="group rounded-2xl overflow-hidden border border-border/50 dark:border-white/[0.08] bg-card/90 dark:bg-card/60"
-              use:scrollReveal={{ from: index % 2 === 0 ? "left" : "right", lag: index * 0.12 }}
+              use:scrollReveal={{ delay: index * 100 }}
             >
               <button
                 type="button"
@@ -832,37 +860,54 @@
 
 <style>
   .vitral-stage {
-    transform: translate3d(0, calc(var(--curtain, 0) * -5rem), 0)
-      scale(calc(1 - var(--curtain, 0) * 0.07));
-    opacity: calc(1 - var(--curtain, 0) * 0.85);
     transform-origin: 50% 100%;
+    will-change: transform, opacity;
   }
 
-  .vitral-curtain {
-    transform: scale(calc(0.93 + var(--curtain, 1) * 0.07));
-    transform-origin: 50% 0;
-    border-top: 1.5px solid transparent;
-    background:
-      linear-gradient(var(--color-background), var(--color-background)) padding-box,
-      linear-gradient(90deg, #22d3ee, #3b82f6, #a855f7, #ec4899, #a855f7, #3b82f6, #22d3ee) 0 0 /
-        200% 100% border-box;
+  .vitral-curtain-surface {
+    background: var(--color-background);
     box-shadow: 0 -18px 48px -28px rgb(2 6 23 / 0.45);
+    transform-origin: 50% 0;
+    will-change: transform;
+  }
+
+  .vitral-curtain-edge {
+    border-top: 1.5px solid transparent;
+    background: linear-gradient(
+        90deg,
+        #22d3ee,
+        #3b82f6,
+        #a855f7,
+        #ec4899,
+        #a855f7,
+        #3b82f6,
+        #22d3ee
+      )
+      0 0 / 200% 100% border-box;
+    -webkit-mask:
+      linear-gradient(#000 0 0) padding-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) padding-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
     animation: vitral-edge 8s linear infinite;
   }
 
-  .vitral-curtain::before {
+  .vitral-curtain-surface::before {
     content: "";
     position: absolute;
+    z-index: 1;
     top: -2px;
     left: 50%;
-    width: min(70%, 44rem);
+    width: min(75%, 48rem);
     height: 3px;
     translate: -50% 0;
     border-radius: 9999px;
     background: linear-gradient(90deg, transparent, #22d3ee, #a855f7, #ec4899, transparent);
     filter: blur(7px);
     opacity: 0.7;
-    pointer-events: none;
     animation: vitral-bloom 4s ease-in-out infinite alternate;
   }
 
@@ -972,20 +1017,18 @@
 
   @keyframes vitral-edge {
     to {
-      background-position:
-        0 0,
-        -200% 0;
+      background-position: -200% 0;
     }
   }
 
   @keyframes vitral-bloom {
     from {
       opacity: 0.4;
-      width: min(50%, 32rem);
+      scale: 0.66 1;
     }
     to {
       opacity: 0.8;
-      width: min(75%, 48rem);
+      scale: 1 1;
     }
   }
 
@@ -1030,32 +1073,20 @@
     .vitral-shine::before,
     .vitral-bar,
     .vitral-wheel,
-    .vitral-curtain,
-    .vitral-curtain::before,
+    .vitral-curtain-edge,
+    .vitral-curtain-surface::before,
     :global(.vitral-nudge),
     :global(.vitral-pop) {
       animation: none;
     }
 
-    .vitral-tilt,
-    .vitral-stage,
-    .vitral-curtain {
+    .vitral-tilt {
       transform: none;
     }
-
-    .vitral-stage {
-      opacity: 1;
-    }
   }
 
-  :global([data-animations="off"]) .vitral-stage,
-  :global([data-animations="off"]) .vitral-curtain {
-    transform: none;
-    opacity: 1;
-  }
-
-  :global([data-animations="off"]) .vitral-curtain,
-  :global([data-animations="off"]) .vitral-curtain::before,
+  :global([data-animations="off"]) .vitral-curtain-edge,
+  :global([data-animations="off"]) .vitral-curtain-surface::before,
   :global([data-animations="off"]) .vitral-wheel,
   :global([data-animations="off"]) :global(.vitral-nudge) {
     animation: none;

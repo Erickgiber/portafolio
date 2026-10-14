@@ -11,6 +11,8 @@
   import { motionEnabled, scrollPageTo, useSmoothScroller } from "./lib/scroll/pageScroll";
   import { gamepadStore } from "./lib/stores/gamepad.svelte";
   import type { ViewerImage } from "./lib/viewer/types";
+  import { formatBolivars, loadBolivarRate } from "./lib/checkout/rate";
+  import { checkoutCopy, fill } from "./lib/data/checkout";
   import { vitralCopy } from "./lib/data/vitral";
   import {
     downloadInstaller,
@@ -30,6 +32,7 @@
   const SAVE_DELAY_MS = 700;
   const MOBILE_PATTERN = /Android|iPhone|iPad|iPod|Mobile/i;
   const CUE_HIDE_RISE = 0.08;
+  const MONTHLY_PRICE_USD = 2;
   const TIPS_SCROLL_GAP = 32;
   const CURTAIN_OPEN_RISE = 0.98;
   const SMOOTH_SCROLL_LERP = 0.085;
@@ -68,8 +71,10 @@
   let drag: CurtainDrag | null = null;
   let suppressClick = false;
   let viewerIndex = $state<number | null>(null);
+  let monthlyBolivars = $state<number | null>(null);
 
   const copy = $derived(vitralCopy[i18nStore.locale]);
+  const purchaseCopy = $derived(checkoutCopy[i18nStore.locale]);
   const total = $derived(manifest?.size ?? 0);
   const share = $derived(total > 0 ? Math.min(1, loaded / total) : 0);
   const percent = $derived(Math.floor(share * 100));
@@ -98,6 +103,9 @@
   onMount(() => {
     themeStore.initTheme();
     isMobile = MOBILE_PATTERN.test(navigator.userAgent);
+    loadBolivarRate().then((rate) => {
+      monthlyBolivars = rate ? Math.round(MONTHLY_PRICE_USD * rate.ves * 100) / 100 : null;
+    });
     loadManifest()
       .then((found) => (manifest = found))
       .catch(() => {});
@@ -521,6 +529,48 @@
               <span>{copy.requirements}</span>
             </div>
             <p class="mt-2 text-xs text-muted-foreground">{copy.licenseNote}</p>
+            <div
+              class="mt-4 rounded-2xl border border-primary/25 bg-gradient-to-br from-sky-500/[0.08] to-violet-600/[0.08] p-4"
+              data-testid="vitral-pricing"
+            >
+              <div class="flex flex-wrap items-end justify-between gap-2">
+                <p class="text-lg font-extrabold">{purchaseCopy.perMonth}</p>
+                {#if monthlyBolivars !== null}
+                  <p class="text-sm font-semibold text-primary" data-testid="vitral-price-ves">
+                    {fill(purchaseCopy.approx, {
+                      amount: formatBolivars(monthlyBolivars, i18nStore.locale),
+                    })}
+                  </p>
+                {/if}
+              </div>
+              <p class="mt-1 text-xs text-muted-foreground">{purchaseCopy.cta.note}</p>
+              <div class="mt-3 flex flex-wrap gap-2">
+                <a
+                  href="/vitral/comprar/"
+                  class="inline-flex items-center gap-2 rounded-full bg-foreground text-background dark:bg-white dark:text-slate-950 px-4 py-2 text-sm font-bold hover:-translate-y-0.5 transition-transform"
+                  data-testid="buy-license"
+                >
+                  <Icon icon="mdi:key-variant" class="w-4 h-4" />
+                  {purchaseCopy.cta.buy}
+                </a>
+                <a
+                  href="/vitral/comprar/?tipo=gift"
+                  class="inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-sm font-semibold text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+                  data-testid="gift-license"
+                >
+                  <Icon icon="mdi:gift-outline" class="w-4 h-4" />
+                  {purchaseCopy.cta.gift}
+                </a>
+                <a
+                  href="/vitral/comprar/?tipo=renew"
+                  class="inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-sm font-semibold text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+                  data-testid="renew-license"
+                >
+                  <Icon icon="mdi:autorenew" class="w-4 h-4" />
+                  {purchaseCopy.cta.renew}
+                </a>
+              </div>
+            </div>
             <button
               type="button"
               class="group mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-primary cursor-pointer"

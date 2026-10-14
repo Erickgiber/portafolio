@@ -2,6 +2,7 @@
   import { fade } from "svelte/transition";
   import App from "./App.svelte";
   import VitralPage from "./VitralPage.svelte";
+  import CheckoutPage from "./CheckoutPage.svelte";
   import GamepadHub from "./lib/components/GamepadHub.svelte";
   import { router } from "./lib/stores/router.svelte";
 
@@ -12,6 +13,8 @@
   <div in:fade={{ duration: 220 }}>
     {#if router.route === "vitral"}
       <VitralPage />
+    {:else if router.route === "checkout"}
+      <CheckoutPage />
     {:else}
       <App />
     {/if}

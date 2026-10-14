@@ -10,6 +10,7 @@ export default defineConfig({
       input: {
         main: "index.html",
         vitral: "vitral/index.html",
+        checkout: "vitral/comprar/index.html",
       },
     },
   },

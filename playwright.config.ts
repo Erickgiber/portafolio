@@ -20,6 +20,7 @@ export default defineConfig({
     command: `node node_modules/vite/bin/vite.js --host ${HOST} --port ${PORT} --strictPort`,
     url: BASE_URL,
     reuseExistingServer: !process.env.CI,
+    env: { VITE_VITRAL_API_URL: "https://api.vitral.test" },
     timeout: 120_000,
   },
   projects: [

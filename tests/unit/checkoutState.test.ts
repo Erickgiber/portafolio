@@ -206,7 +206,7 @@ describe("purchase history", () => {
 
 describe("private links", () => {
   it("round-trips the purchase access through the URL", () => {
-    const url = purchaseUrl("https://erickgiber.dev/vitral/comprar/", ACCESS);
+    const url = purchaseUrl("https://www.erickgiber.com/vitral/comprar/", ACCESS);
     expect(accessFromUrl(new URL(url).search)).toEqual(ACCESS);
   });
 

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://erickgiber.dev/sitemap.xml
+Sitemap: https://www.erickgiber.com/sitemap.xml

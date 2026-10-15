@@ -2,18 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://erickgiber.dev/</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://erickgiber.dev/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://erickgiber.dev/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://erickgiber.dev/" />
-    <lastmod>2026-10-14T16:35:49.137Z</lastmod>
+    <loc>https://www.erickgiber.com/</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.erickgiber.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.erickgiber.com/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.erickgiber.com/" />
+    <lastmod>2026-10-14T23:03:21.867Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://erickgiber.dev/vitral/</loc>
-    <lastmod>2026-10-14T16:35:49.137Z</lastmod>
+    <loc>https://www.erickgiber.com/vitral/</loc>
+    <lastmod>2026-10-14T23:03:21.867Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.erickgiber.com/vitral/comprar/</loc>
+    <lastmod>2026-10-14T23:03:21.867Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>

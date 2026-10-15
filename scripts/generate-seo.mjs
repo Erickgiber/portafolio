@@ -16,7 +16,7 @@ const siteUrl =
   normalizeSiteUrl(process.env.SITE_URL) ||
   normalizeSiteUrl(process.env.VITE_SITE_URL) ||
   normalizeSiteUrl(process.env.VERCEL_URL) ||
-  "https://erickgiber.dev";
+  "https://www.erickgiber.com";
 
 const publicDir = path.resolve(process.cwd(), "public");
 fs.mkdirSync(publicDir, { recursive: true });

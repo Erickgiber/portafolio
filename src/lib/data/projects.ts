@@ -1,3 +1,5 @@
+import { VITRAL_PRODUCT_HUNT_URL } from "./vitral";
+
 export type ProjectLink = {
   label: "Demo" | "Código" | "Google Play" | "Docs" | "NPM" | string;
   href: string;
@@ -26,6 +28,11 @@ export const projects: Project[] = [
         label: "Descargar",
         href: "/vitral/",
         variant: "primary",
+      },
+      {
+        label: "Product Hunt",
+        href: VITRAL_PRODUCT_HUNT_URL,
+        variant: "muted",
       },
     ],
     icon: "mdi:controller",

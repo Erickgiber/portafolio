@@ -1,6 +1,8 @@
 import type { Locale } from "../i18n/translations";
 import type { ViewerCopy } from "../viewer/types";
 
+export const VITRAL_PRODUCT_HUNT_URL = "https://www.producthunt.com/products/vitral";
+
 export type VitralFeature = {
   icon: string;
   title: string;

@@ -14,7 +14,7 @@
   import { formatMoney } from "./lib/checkout/rate";
   import { checkoutAvailable, loadConfig } from "./lib/checkout/api";
   import { checkoutCopy, fill } from "./lib/data/checkout";
-  import { vitralCopy } from "./lib/data/vitral";
+  import { VITRAL_PRODUCT_HUNT_URL, vitralCopy } from "./lib/data/vitral";
   import {
     downloadInstaller,
     loadManifest,
@@ -411,6 +411,15 @@
               <p class="text-2xl font-bold tracking-tight">Vitral</p>
               <p class="text-xs font-semibold text-primary">{copy.badge}</p>
             </div>
+            <a
+              href={VITRAL_PRODUCT_HUNT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="ml-auto self-start inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold text-muted-foreground bg-muted/40 dark:bg-muted/20 ring-1 ring-black/[0.04] dark:ring-white/[0.08] hover:text-[#da552f] transition-colors"
+            >
+              <Icon icon="simple-icons:producthunt" class="w-3.5 h-3.5" />
+              Product Hunt
+            </a>
           </div>
 
           <h1 class="text-4xl sm:text-5xl xl:text-6xl font-extrabold tracking-tight leading-[1.05]">

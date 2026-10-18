@@ -5,6 +5,7 @@ export type Route = "home" | "vitral" | "checkout" | "rumbo";
 type HistoryState = {
   index: number;
   scrollY: number;
+  previous: Route | null;
 };
 
 type LeaveGuard = () => boolean;
@@ -32,7 +33,12 @@ function readState(): HistoryState {
   return {
     index: typeof state?.index === "number" ? state.index : 0,
     scrollY: typeof state?.scrollY === "number" ? state.scrollY : 0,
+    previous: isRoute(state?.previous) ? state.previous : null,
   };
+}
+
+function isRoute(value: unknown): value is Route {
+  return typeof value === "string" && Object.values(ROUTE_PATHS).includes(value as Route);
 }
 
 function jumpTo(top: number) {
@@ -75,7 +81,7 @@ function createRouter() {
     }
 
     if (next === route && url.pathname === location.pathname && url.hash) {
-      history.pushState({ index: readState().index + 1, scrollY: 0 }, "", url.pathname + url.search + url.hash);
+      history.pushState({ index: readState().index + 1, scrollY: 0, previous: route }, "", url.pathname + url.search + url.hash);
       scrollToHash(url.hash);
       return;
     }
@@ -85,7 +91,7 @@ function createRouter() {
     }
 
     rememberScroll();
-    history.pushState({ index: readState().index + 1, scrollY: 0 }, "", url.pathname + url.search + url.hash);
+    history.pushState({ index: readState().index + 1, scrollY: 0, previous: route }, "", url.pathname + url.search + url.hash);
     jumpTo(0);
     route = next;
     if (url.hash) {
@@ -94,7 +100,9 @@ function createRouter() {
   }
 
   function back(fallbackHref: string) {
-    if (readState().index > 0) {
+    const target = routeFor(new URL(fallbackHref, location.href).pathname);
+    const { index, previous } = readState();
+    if (index > 0 && previous !== null && previous === target) {
       history.back();
     } else {
       navigate(fallbackHref);

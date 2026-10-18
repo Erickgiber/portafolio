@@ -454,7 +454,7 @@
       return;
     }
     event.preventDefault();
-    router.navigate("/vitral/");
+    router.back("/vitral/");
   }
 
   function fieldError(error: string | undefined, text: string) {

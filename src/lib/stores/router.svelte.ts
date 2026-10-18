@@ -1,6 +1,6 @@
 import { tick } from "svelte";
 
-export type Route = "home" | "vitral" | "checkout";
+export type Route = "home" | "vitral" | "checkout" | "rumbo";
 
 type HistoryState = {
   index: number;
@@ -18,6 +18,9 @@ const ROUTE_PATHS: Record<string, Route> = {
   "/vitral/comprar": "checkout",
   "/vitral/comprar/": "checkout",
   "/vitral/comprar/index.html": "checkout",
+  "/rumbo": "rumbo",
+  "/rumbo/": "rumbo",
+  "/rumbo/index.html": "rumbo",
 };
 
 export function routeFor(pathname: string): Route | null {

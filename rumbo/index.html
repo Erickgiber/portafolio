@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/rumbo/icon.png" />
+    <script>
+      (function () {
+        try {
+          if (localStorage.getItem("theme") === "light") {
+            document.documentElement.classList.remove("dark");
+          }
+          const lang = localStorage.getItem("portfolio_lang");
+          if (lang === "es" || lang === "en") {
+            document.documentElement.lang = lang;
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <title>Rumbo | Proton VPN solo para los sitios que elijas</title>
+    <meta
+      name="description"
+      content="Rumbo usa el proxy de Proton VPN solo para los sitios que elijas, desde la bandeja de Windows: se activa con un clic, se inicia con el equipo y se actualiza solo. Descárgalo gratis."
+    />
+    <link rel="canonical" href="%VITE_SITE_URL%/rumbo/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Rumbo | Proton VPN solo para los sitios que elijas" />
+    <meta
+      property="og:description"
+      content="El proxy de Proton VPN, solo para los sitios que elijas y sin convertir tu PC en una VPN completa."
+    />
+    <meta property="og:url" content="%VITE_SITE_URL%/rumbo/" />
+    <meta property="og:image" content="%VITE_SITE_URL%/rumbo/og.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="%VITE_SITE_URL%/rumbo/og.jpg" />
+    <meta name="theme-color" content="#082f49" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

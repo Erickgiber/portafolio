@@ -22,6 +22,11 @@
   let noticeTimer: ReturnType<typeof setTimeout> | undefined;
 
   const legend = $derived(i18nStore.t.gamepad.legend);
+
+  function isProductPage(): boolean {
+    return router.route === "vitral" || router.route === "rumbo";
+  }
+
   const noticeText = $derived(
     notice?.connected
       ? i18nStore.t.gamepad.connected[gamepadStore.brand]
@@ -55,8 +60,8 @@
     const releaseBase = gamepadLayers.push({
       actions: {
         back: {
-          label: () => (router.route === "vitral" ? legend.portfolio : legend.top),
-          run: () => (router.route === "vitral" ? router.back("/") : scrollPageTo(0)),
+          label: () => (isProductPage() ? legend.portfolio : legend.top),
+          run: () => (isProductPage() ? router.back("/") : scrollPageTo(0)),
         },
         west: { label: () => legend.language, run: () => i18nStore.toggleLocale() },
         north: { label: () => legend.theme, run: () => themeStore.toggleTheme() },

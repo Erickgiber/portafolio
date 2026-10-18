@@ -1,5 +1,6 @@
-const MANIFEST_URL =
-  "https://zoaxdegcwadmiwmznvrb.supabase.co/storage/v1/object/public/updates/installer/latest.json";
+const STORAGE_URL = "https://zoaxdegcwadmiwmznvrb.supabase.co/storage/v1/object/public/updates";
+export const VITRAL_MANIFEST_URL = `${STORAGE_URL}/installer/latest.json`;
+export const RUMBO_MANIFEST_URL = `${STORAGE_URL}/rumbo/latest.json`;
 const PART_RETRIES = 3;
 const RETRY_DELAY_MS = 1200;
 const SPEED_WINDOW_MS = 4000;
@@ -24,8 +25,11 @@ export type DownloadProgress = {
   bytesPerSecond: number;
 };
 
-export async function loadManifest(signal?: AbortSignal): Promise<InstallerManifest> {
-  const response = await fetch(`${MANIFEST_URL}?t=${Date.now()}`, { signal, cache: "no-store" });
+export async function loadManifest(
+  signal?: AbortSignal,
+  manifestUrl: string = VITRAL_MANIFEST_URL,
+): Promise<InstallerManifest> {
+  const response = await fetch(`${manifestUrl}?t=${Date.now()}`, { signal, cache: "no-store" });
   if (!response.ok) {
     throw new Error(`Manifest answered ${response.status}`);
   }

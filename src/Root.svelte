@@ -3,6 +3,7 @@
   import App from "./App.svelte";
   import VitralPage from "./VitralPage.svelte";
   import CheckoutPage from "./CheckoutPage.svelte";
+  import RumboPage from "./RumboPage.svelte";
   import GamepadHub from "./lib/components/GamepadHub.svelte";
   import { router } from "./lib/stores/router.svelte";
 
@@ -15,6 +16,8 @@
       <VitralPage />
     {:else if router.route === "checkout"}
       <CheckoutPage />
+    {:else if router.route === "rumbo"}
+      <RumboPage />
     {:else}
       <App />
     {/if}

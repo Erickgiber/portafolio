@@ -39,6 +39,22 @@ export const projects: Project[] = [
     gradientClass: "from-sky-600 to-violet-700",
   },
   {
+    id: "rumbo",
+    title: "Rumbo: Proton VPN solo para los sitios que elijas",
+    description:
+      "Programa de bandeja para Windows que envía por el proxy de Proton VPN solo los dominios elegidos mediante un archivo PAC. Se inicia con Windows, se activa con un clic y se actualiza solo desde la nube.",
+    tech: ["C#", "WinForms", "Windows", "WireGuard", "Supabase", "Drizzle", "GitHub Actions"],
+    links: [
+      {
+        label: "Descargar",
+        href: "/rumbo/",
+        variant: "primary",
+      },
+    ],
+    icon: "mdi:source-branch",
+    gradientClass: "from-teal-600 to-blue-700",
+  },
+  {
     id: "wallet-track",
     title: "WalletTrack: Control de Gastos",
     description:

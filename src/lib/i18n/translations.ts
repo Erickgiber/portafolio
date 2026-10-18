@@ -205,6 +205,11 @@ export const translations: Record<Locale, Translations> = {
           description:
             "Programa para Windows que convierte el PC en una consola: pantalla de inicio para el mando, guía sobre cualquier juego, capturas, grabación a 60 fps, amigos e invitaciones.",
         },
+        rumbo: {
+          title: "Rumbo: Proton VPN solo para los sitios que elijas",
+          description:
+            "Programa de bandeja para Windows que envía por el proxy de Proton VPN solo los dominios elegidos mediante un archivo PAC. Se inicia con Windows, se activa con un clic y se actualiza solo desde la nube.",
+        },
         "wallet-track": {
           title: "WalletTrack: Control de Gastos",
           description:
@@ -430,6 +435,11 @@ export const translations: Record<Locale, Translations> = {
           title: "Vitral: your PC as a console",
           description:
             "Windows program that turns the PC into a console: a home screen for the controller, a guide over any game, screenshots, 60 fps recording, friends and invitations.",
+        },
+        rumbo: {
+          title: "Rumbo: Proton VPN only for the sites you choose",
+          description:
+            "Windows tray program that sends only the chosen domains through the Proton VPN proxy using a PAC file. It starts with Windows, turns on with one click and updates itself from the cloud.",
         },
         "wallet-track": {
           title: "WalletTrack: Expense Tracker",

@@ -6,19 +6,25 @@
     <xhtml:link rel="alternate" hreflang="es" href="https://www.erickgiber.com/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.erickgiber.com/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.erickgiber.com/" />
-    <lastmod>2026-10-14T23:03:21.867Z</lastmod>
+    <lastmod>2026-10-18T03:01:51.719Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.erickgiber.com/vitral/</loc>
-    <lastmod>2026-10-14T23:03:21.867Z</lastmod>
+    <lastmod>2026-10-18T03:01:51.719Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.erickgiber.com/rumbo/</loc>
+    <lastmod>2026-10-18T03:01:51.719Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.erickgiber.com/vitral/comprar/</loc>
-    <lastmod>2026-10-14T23:03:21.867Z</lastmod>
+    <lastmod>2026-10-18T03:01:51.719Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

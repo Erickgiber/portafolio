@@ -3,6 +3,8 @@ import type { ViewerCopy } from "../viewer/types";
 import type { VitralFeature, VitralShot, VitralUnits } from "./vitral";
 
 export const PROTON_DOWNLOADS_URL = "https://account.protonvpn.com/downloads";
+export const PROTON_SIGNUP_URL =
+  "https://account.protonvpn.com/signup?plan=free&ref=free-plan-upsell-modal-1-usd-continue-free";
 
 export type RumboCopy = {
   pageTitle: string;
@@ -49,6 +51,8 @@ export type RumboCopy = {
   guideLead: string;
   guide: VitralFeature[];
   guideAction: string;
+  signupLink: string;
+  signupAction: string;
   footer: string;
 };
 
@@ -172,7 +176,7 @@ export const rumboCopy: Record<Locale, RumboCopy> = {
       {
         icon: "mdi:login",
         title: "Entra en tu cuenta de Proton",
-        text: "Abre account.protonvpn.com con tu cuenta, aunque sea la gratuita, y ve a Descargas.",
+        text: "Abre account.protonvpn.com con tu cuenta, aunque sea la gratuita, y ve a Descargas. Si aún no tienes una, créala gratis con el botón de abajo.",
       },
       {
         icon: "mdi:server-network",
@@ -186,6 +190,8 @@ export const rumboCopy: Record<Locale, RumboCopy> = {
       },
     ],
     guideAction: "Abrir las descargas de Proton VPN",
+    signupLink: "¿No tienes cuenta de Proton VPN? Créala gratis",
+    signupAction: "Crear una cuenta gratis",
     footer: "Rumbo es un proyecto de Erick Ramírez. No está afiliado a Proton AG.",
   },
   en: {
@@ -305,7 +311,7 @@ export const rumboCopy: Record<Locale, RumboCopy> = {
       {
         icon: "mdi:login",
         title: "Sign in to Proton",
-        text: "Open account.protonvpn.com with your account, even the free one, and go to Downloads.",
+        text: "Open account.protonvpn.com with your account, even the free one, and go to Downloads. If you don't have one yet, create it for free with the button below.",
       },
       {
         icon: "mdi:server-network",
@@ -319,6 +325,8 @@ export const rumboCopy: Record<Locale, RumboCopy> = {
       },
     ],
     guideAction: "Open Proton VPN downloads",
+    signupLink: "No Proton VPN account? Create one for free",
+    signupAction: "Create a free account",
     footer: "Rumbo is a project by Erick Ramírez. It is not affiliated with Proton AG.",
   },
 };

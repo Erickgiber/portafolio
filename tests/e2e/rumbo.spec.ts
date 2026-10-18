@@ -48,6 +48,13 @@ test("the guide link brings the Proton steps into view", async ({ page }) => {
     "href",
     "https://account.protonvpn.com/downloads"
   );
+  for (const id of ["rumbo-signup-link", "rumbo-signup-hero"]) {
+    await expect(page.getByTestId(id)).toHaveAttribute(
+      "href",
+      "https://account.protonvpn.com/signup?plan=free&ref=free-plan-upsell-modal-1-usd-continue-free"
+    );
+    await expect(page.getByTestId(id)).toHaveAttribute("target", "_blank");
+  }
 });
 
 test("follows the selected language", async ({ page }) => {

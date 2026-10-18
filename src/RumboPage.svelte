@@ -11,7 +11,7 @@
   import { motionEnabled, scrollPageTo, useSmoothScroller } from "./lib/scroll/pageScroll";
   import { gamepadStore } from "./lib/stores/gamepad.svelte";
   import type { ViewerImage } from "./lib/viewer/types";
-  import { PROTON_DOWNLOADS_URL, rumboCopy } from "./lib/data/rumbo";
+  import { PROTON_DOWNLOADS_URL, PROTON_SIGNUP_URL, rumboCopy } from "./lib/data/rumbo";
   import {
     downloadInstaller,
     loadManifest,
@@ -555,18 +555,31 @@
             <p class="mt-2 text-xs text-muted-foreground" data-testid="rumbo-free-note">
               {copy.freeNote}
             </p>
-            <button
-              type="button"
-              class="group mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-primary cursor-pointer"
-              onclick={() => scrollToElement(guidePanel, GUIDE_SCROLL_GAP)}
-            >
-              <Icon icon="mdi:key-outline" class="w-4 h-4 shrink-0" />
-              <span class="group-hover:underline">{copy.guideLink}</span>
-              <Icon
-                icon="mdi:arrow-down"
-                class="w-3.5 h-3.5 shrink-0 transition-transform group-hover:translate-y-0.5"
-              />
-            </button>
+            <div class="mt-3 flex flex-wrap gap-x-5 gap-y-2">
+              <button
+                type="button"
+                class="group inline-flex items-center gap-1.5 text-xs font-semibold text-primary cursor-pointer"
+                onclick={() => scrollToElement(guidePanel, GUIDE_SCROLL_GAP)}
+              >
+                <Icon icon="mdi:key-outline" class="w-4 h-4 shrink-0" />
+                <span class="group-hover:underline">{copy.guideLink}</span>
+                <Icon
+                  icon="mdi:arrow-down"
+                  class="w-3.5 h-3.5 shrink-0 transition-transform group-hover:translate-y-0.5"
+                />
+              </button>
+              <a
+                href={PROTON_SIGNUP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group inline-flex items-center gap-1.5 text-xs font-semibold text-primary"
+                data-testid="rumbo-signup-hero"
+              >
+                <Icon icon="mdi:account-plus-outline" class="w-4 h-4 shrink-0" />
+                <span class="group-hover:underline">{copy.signupLink}</span>
+                <Icon icon="mdi:open-in-new" class="w-3.5 h-3.5 shrink-0" />
+              </a>
+            </div>
           </div>
         </div>
 
@@ -742,16 +755,28 @@
               </div>
             {/each}
           </div>
-          <a
-            href={PROTON_DOWNLOADS_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="mt-5 inline-flex items-center gap-2 rounded-full bg-foreground text-background dark:bg-white dark:text-slate-950 px-4 py-2 text-sm font-bold hover:-translate-y-0.5 transition-transform"
-            data-testid="rumbo-proton-link"
-          >
-            <Icon icon="mdi:open-in-new" class="w-4 h-4" />
-            {copy.guideAction}
-          </a>
+          <div class="mt-5 flex flex-wrap gap-2">
+            <a
+              href={PROTON_SIGNUP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-teal-500 to-blue-600 text-white px-4 py-2 text-sm font-bold shadow-lg shadow-cyan-600/20 hover:-translate-y-0.5 transition-transform"
+              data-testid="rumbo-signup-link"
+            >
+              <Icon icon="mdi:account-plus-outline" class="w-4 h-4" />
+              {copy.signupAction}
+            </a>
+            <a
+              href={PROTON_DOWNLOADS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 rounded-full bg-foreground text-background dark:bg-white dark:text-slate-950 px-4 py-2 text-sm font-bold hover:-translate-y-0.5 transition-transform"
+              data-testid="rumbo-proton-link"
+            >
+              <Icon icon="mdi:open-in-new" class="w-4 h-4" />
+              {copy.guideAction}
+            </a>
+          </div>
         </div>
       </section>
 

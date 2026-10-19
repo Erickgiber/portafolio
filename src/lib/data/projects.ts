@@ -66,6 +66,11 @@ export const projects: Project[] = [
         href: "https://play.google.com/store/apps/details?id=com.wallettrack.giber",
         variant: "primary",
       },
+      {
+        label: "wallettrack.app",
+        href: "https://wallettrack.app",
+        variant: "muted",
+      },
     ],
     icon: "mdi:google-play",
     gradientClass: "from-emerald-600 to-teal-700",

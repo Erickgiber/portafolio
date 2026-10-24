@@ -9,8 +9,6 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: "index.html",
-        vitral: "vitral/index.html",
-        checkout: "vitral/comprar/index.html",
         rumbo: "rumbo/index.html",
       },
     },

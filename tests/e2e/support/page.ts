@@ -2,12 +2,12 @@ import { expect, type Page } from "@playwright/test";
 
 export async function curtainTop(page: Page): Promise<number> {
   return page
-    .getByTestId("vitral-curtain")
+    .getByTestId("rumbo-curtain")
     .evaluate((element) => element.getBoundingClientRect().top);
 }
 
 export async function curtainStops(page: Page) {
-  return page.getByTestId("vitral-curtain").evaluate((element) => {
+  return page.getByTestId("rumbo-curtain").evaluate((element) => {
     const open = element.getBoundingClientRect().top + window.scrollY;
     return { open, closed: Math.max(0, open - window.innerHeight) };
   });

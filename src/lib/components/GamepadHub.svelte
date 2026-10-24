@@ -24,7 +24,7 @@
   const legend = $derived(i18nStore.t.gamepad.legend);
 
   function isProductPage(): boolean {
-    return router.route === "vitral" || router.route === "rumbo";
+    return router.route === "rumbo";
   }
 
   const noticeText = $derived(

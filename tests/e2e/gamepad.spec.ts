@@ -24,13 +24,13 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("shows nothing until a controller connects", async ({ page }) => {
-  await page.goto("/vitral/");
+  await page.goto("/rumbo/");
   await expect(page.getByTestId("gamepad-indicator")).toHaveCount(0);
   await expect(page.getByTestId("gamepad-legend")).toHaveCount(0);
 });
 
 test("detects an Xbox controller and shows its own buttons", async ({ page }) => {
-  await page.goto("/vitral/");
+  await page.goto("/rumbo/");
   await connectGamepad(page, PAD_IDS.xbox);
 
   await expect(page.getByTestId("gamepad-indicator")).toHaveAttribute("data-brand", "xbox");
@@ -48,7 +48,7 @@ test("detects an Xbox controller and shows its own buttons", async ({ page }) =>
 });
 
 test("uses PlayStation symbols for a DualSense", async ({ page }) => {
-  await page.goto("/vitral/");
+  await page.goto("/rumbo/");
   await connectGamepad(page, PAD_IDS.playstation);
   await expect(page.getByTestId("gamepad-indicator")).toHaveAttribute("data-brand", "playstation");
   const legend = page.getByTestId("gamepad-legend");
@@ -78,7 +78,7 @@ test("shows the indicator in the portfolio header too and hides it on disconnect
 });
 
 test("the D-pad moves focus and a prompt with the confirm button follows it", async ({ page }) => {
-  await page.goto("/vitral/");
+  await page.goto("/rumbo/");
   await connectGamepad(page, PAD_IDS.xbox);
   await pressButton(page, BUTTON.down);
 
@@ -99,20 +99,20 @@ test("the D-pad moves focus and a prompt with the confirm button follows it", as
 });
 
 test("the prompt names the action of the focused element", async ({ page }) => {
-  await page.goto("/vitral/");
+  await page.goto("/rumbo/");
   await connectGamepad(page, PAD_IDS.xbox);
   await pressButton(page, BUTTON.down);
-  await page.getByTestId("vitral-hero-shot").focus();
+  await page.getByTestId("rumbo-hero-shot").focus();
   await expect(page.getByTestId("gamepad-prompt-label")).toHaveText("Abrir");
 
-  await page.getByRole("button", { name: /Consejos para que el botón central/ }).focus();
+  await page.getByRole("button", { name: /Cómo conseguir tu archivo de Proton VPN/ }).focus();
   await expect(page.getByTestId("gamepad-prompt-label")).toHaveText("Pulsar");
 });
 
 test("confirm opens the viewer, shoulders browse, west zooms and back closes", async ({ page }) => {
-  await page.goto("/vitral/");
+  await page.goto("/rumbo/");
   await connectGamepad(page, PAD_IDS.xbox);
-  await page.getByTestId("vitral-hero-shot").focus();
+  await page.getByTestId("rumbo-hero-shot").focus();
 
   await pressButton(page, BUTTON.south);
   await expect(page.getByTestId("image-viewer")).toBeVisible();
@@ -135,13 +135,13 @@ test("confirm opens the viewer, shoulders browse, west zooms and back closes", a
 
   await pressButton(page, BUTTON.east);
   await expect(page.getByTestId("image-viewer")).toBeHidden();
-  await expect(page.getByTestId("vitral-hero-shot")).toBeFocused();
+  await expect(page.getByTestId("rumbo-hero-shot")).toBeFocused();
 });
 
 test("Nintendo controllers confirm with A on the right and go back with B", async ({ page }) => {
-  await page.goto("/vitral/");
+  await page.goto("/rumbo/");
   await connectGamepad(page, PAD_IDS.nintendo);
-  await page.getByTestId("vitral-hero-shot").focus();
+  await page.getByTestId("rumbo-hero-shot").focus();
 
   await pressButton(page, BUTTON.south);
   await expect(page.getByTestId("image-viewer")).toHaveCount(0);
@@ -154,7 +154,7 @@ test("Nintendo controllers confirm with A on the right and go back with B", asyn
 });
 
 test("the stick scrolls the page fast enough", async ({ page }) => {
-  await page.goto("/vitral/");
+  await page.goto("/rumbo/");
   await connectGamepad(page, PAD_IDS.xbox);
   const before = await scrollY(page);
   await holdAxis(page, LEFT_STICK_Y, 1, 700);
@@ -166,7 +166,7 @@ test("the stick scrolls the page fast enough", async ({ page }) => {
 });
 
 test("north toggles the theme and west toggles the language", async ({ page }) => {
-  await page.goto("/vitral/");
+  await page.goto("/rumbo/");
   await connectGamepad(page, PAD_IDS.xbox);
   const html = page.locator("html");
   const wasDark = await html.evaluate((element) => element.classList.contains("dark"));
@@ -182,8 +182,8 @@ test("north toggles the theme and west toggles the language", async ({ page }) =
   await expect(page.getByTestId("gamepad-legend")).toContainText("Language");
 });
 
-test("back on the Vitral page returns to the portfolio", async ({ page }) => {
-  await page.goto("/vitral/");
+test("back on the Rumbo page returns to the portfolio", async ({ page }) => {
+  await page.goto("/rumbo/");
   await connectGamepad(page, PAD_IDS.xbox);
   await expect(page.getByTestId("gamepad-legend").locator('[data-legend="back"]')).toContainText(
     "Portafolio"
@@ -239,7 +239,7 @@ test("text fields open an on-screen keyboard that types into the form", async ({
 });
 
 test("using the mouse hides the controller prompt", async ({ page }) => {
-  await page.goto("/vitral/");
+  await page.goto("/rumbo/");
   await connectGamepad(page, PAD_IDS.xbox);
   await pressButton(page, BUTTON.down);
   await expect(page.getByTestId("gamepad-prompt")).toBeVisible();

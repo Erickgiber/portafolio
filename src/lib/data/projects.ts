@@ -1,4 +1,4 @@
-import { VITRAL_PRODUCT_HUNT_URL } from "./vitral";
+const VITRAL_PRODUCT_HUNT_URL = "https://www.producthunt.com/products/vitral";
 
 export type ProjectLink = {
   label: "Demo" | "Código" | "Google Play" | "Docs" | "NPM" | string;
@@ -26,7 +26,7 @@ export const projects: Project[] = [
     links: [
       {
         label: "Descargar",
-        href: "/vitral/",
+        href: "https://vitral.space/",
         variant: "primary",
       },
       {

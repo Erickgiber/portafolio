@@ -45,7 +45,7 @@ async function scale(page: Page): Promise<number> {
 }
 
 async function openViewer(page: Page, cdp: CDPSession) {
-  const shot = page.getByTestId("vitral-hero-shot");
+  const shot = page.getByTestId("rumbo-hero-shot");
   await shot.scrollIntoViewIfNeeded();
   const box = (await shot.boundingBox())!;
   await tap(cdp, box.x + box.width / 2, box.y + box.height / 2);
@@ -56,7 +56,7 @@ let cdp: CDPSession;
 
 test.beforeEach(async ({ page }) => {
   cdp = await page.context().newCDPSession(page);
-  await page.goto("/vitral/");
+  await page.goto("/rumbo/");
 });
 
 test("the hero spans the full width without horizontal scroll", async ({ page }) => {
@@ -114,7 +114,7 @@ test("pinching zooms the image without changing it", async ({ page }) => {
 test("the curtain handle follows a touch drag", async ({ page }) => {
   const { closed } = await curtainStops(page);
   await scrollInstantly(page, closed + 180);
-  const handle = (await page.getByTestId("vitral-curtain-handle").boundingBox())!;
+  const handle = (await page.getByTestId("rumbo-curtain-handle").boundingBox())!;
   const start = { x: handle.x + handle.width / 2, y: handle.y + handle.height / 2 };
   await gesture(page, cdp, [{ from: start, to: { x: start.x, y: start.y - 260 } }], 12);
   await expectCurtainOpen(page);

@@ -2,7 +2,7 @@ import { expect, test, type Page } from "@playwright/test";
 import { scrollY } from "./support/page";
 
 async function openFromHero(page: Page) {
-  await page.getByTestId("vitral-hero-shot").click();
+  await page.getByTestId("rumbo-hero-shot").click();
   await expect(page.getByTestId("image-viewer")).toBeVisible();
 }
 
@@ -11,14 +11,14 @@ async function scale(page: Page): Promise<number> {
 }
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/vitral/");
+  await page.goto("/rumbo/");
 });
 
 test("opens on the clicked image with its title", async ({ page }) => {
   await openFromHero(page);
   await expect(page.getByTestId("viewer-counter")).toHaveText("1 de 4");
-  await expect(page.getByTestId("viewer-title")).toHaveText("Pantalla de inicio");
-  await expect(page.getByTestId("viewer-image")).toHaveAttribute("src", "/vitral/home.webp");
+  await expect(page.getByTestId("viewer-title")).toHaveText("Inicio");
+  await expect(page.getByTestId("viewer-image")).toHaveAttribute("src", "/rumbo/home.webp");
   await expect(page.getByRole("dialog", { name: "Visor de imágenes" })).toBeVisible();
 });
 
@@ -30,7 +30,7 @@ test("navigates with the keyboard, the arrows and the thumbnails, wrapping aroun
 
   await page.keyboard.press("ArrowRight");
   await expect(counter).toHaveText("2 de 4");
-  await expect(page.getByTestId("viewer-title")).toHaveText("La guía");
+  await expect(page.getByTestId("viewer-title")).toHaveText("Tus sitios");
 
   await page.getByTestId("viewer-next").click();
   await expect(counter).toHaveText("3 de 4");
@@ -52,7 +52,7 @@ test("closes with Escape and returns focus to the image that opened it", async (
   await openFromHero(page);
   await page.keyboard.press("Escape");
   await expect(page.getByTestId("image-viewer")).toBeHidden();
-  await expect(page.getByTestId("vitral-hero-shot")).toBeFocused();
+  await expect(page.getByTestId("rumbo-hero-shot")).toBeFocused();
 });
 
 test("zooms with the buttons, the keyboard and the mouse wheel", async ({ page }) => {
@@ -136,17 +136,17 @@ test("keeps keyboard focus trapped inside", async ({ page }) => {
 });
 
 test("opens from the screenshots inside the curtain", async ({ page }) => {
-  const shot = page.getByTestId("vitral-shot").nth(1);
+  const shot = page.getByTestId("rumbo-shot").nth(1);
   await shot.scrollIntoViewIfNeeded();
   await shot.click();
   await expect(page.getByTestId("viewer-counter")).toHaveText("3 de 4");
-  await expect(page.getByTestId("viewer-title")).toHaveText("Detalles del juego");
+  await expect(page.getByTestId("viewer-title")).toHaveText("Claves de Proton VPN");
 });
 
 test("viewer texts follow the selected language", async ({ page }) => {
   await page.getByRole("button", { name: /Cambiar a Inglés/ }).click();
   await openFromHero(page);
   await expect(page.getByTestId("viewer-counter")).toHaveText("1 of 4");
-  await expect(page.getByTestId("viewer-title")).toHaveText("Home screen");
+  await expect(page.getByTestId("viewer-title")).toHaveText("Home");
   await expect(page.getByTestId("viewer-close")).toHaveAttribute("aria-label", "Close viewer");
 });

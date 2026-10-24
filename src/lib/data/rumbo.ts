@@ -1,10 +1,28 @@
 import type { Locale } from "../i18n/translations";
 import type { ViewerCopy } from "../viewer/types";
-import type { VitralFeature, VitralShot, VitralUnits } from "./vitral";
 
 export const PROTON_DOWNLOADS_URL = "https://account.protonvpn.com/downloads";
 export const PROTON_SIGNUP_URL =
   "https://account.protonvpn.com/signup?plan=free&ref=free-plan-upsell-modal-1-usd-continue-free";
+
+export type RumboFeature = {
+  icon: string;
+  title: string;
+  text: string;
+};
+
+export type RumboShot = {
+  image: string;
+  title: string;
+  text: string;
+};
+
+export type RumboUnits = {
+  megabytes: string;
+  megabytesPerSecond: string;
+  minutes: string;
+  seconds: string;
+};
 
 export type RumboCopy = {
   pageTitle: string;
@@ -31,25 +49,25 @@ export type RumboCopy = {
   requirements: string;
   freeNote: string;
   mobileNote: string;
-  units: VitralUnits;
+  units: RumboUnits;
   screenshotAlt: string;
   scrollHint: string;
   scrollLabel: string;
   guideLink: string;
   handleOpen: string;
   handleClose: string;
-  homeShot: VitralShot;
+  homeShot: RumboShot;
   viewer: ViewerCopy;
   openImage: string;
   featuresTitle: string;
-  features: VitralFeature[];
+  features: RumboFeature[];
   shotsTitle: string;
-  shots: VitralShot[];
+  shots: RumboShot[];
   stepsTitle: string;
   steps: string[];
   guideTitle: string;
   guideLead: string;
-  guide: VitralFeature[];
+  guide: RumboFeature[];
   guideAction: string;
   signupLink: string;
   signupAction: string;

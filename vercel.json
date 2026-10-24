@@ -1,0 +1,22 @@
+{
+  "redirects": [
+    { "source": "/vitral", "destination": "https://vitral.space/", "permanent": true },
+    { "source": "/vitral/", "destination": "https://vitral.space/", "permanent": true },
+    { "source": "/vitral/index.html", "destination": "https://vitral.space/", "permanent": true },
+    {
+      "source": "/vitral/comprar",
+      "destination": "https://vitral.space/comprar/",
+      "permanent": true
+    },
+    {
+      "source": "/vitral/comprar/",
+      "destination": "https://vitral.space/comprar/",
+      "permanent": true
+    },
+    {
+      "source": "/vitral/comprar/index.html",
+      "destination": "https://vitral.space/comprar/",
+      "permanent": true
+    }
+  ]
+}

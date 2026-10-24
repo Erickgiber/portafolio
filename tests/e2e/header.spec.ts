@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 const LANGUAGE_BUTTON = /Cambiar a Inglés|Switch to Spanish/;
 const THEME_BUTTON = /modo (claro|oscuro)|(light|dark) mode/i;
 
-for (const path of ["/", "/vitral/"]) {
+for (const path of ["/", "/rumbo/"]) {
   test(`header controls share the same height on ${path}`, async ({ page }) => {
     await page.goto(path);
     const language = page.getByRole("button", { name: LANGUAGE_BUTTON }).first();
@@ -29,9 +29,9 @@ for (const path of ["/", "/vitral/"]) {
 }
 
 test("language toggle switches the page language", async ({ page }) => {
-  await page.goto("/vitral/");
+  await page.goto("/rumbo/");
   await expect(page.locator("html")).toHaveAttribute("lang", "es");
   await page.getByRole("button", { name: LANGUAGE_BUTTON }).first().click();
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
-  await expect(page.getByRole("heading", { level: 1 })).toContainText("Your PC,");
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("only where you need it");
 });

@@ -12,34 +12,6 @@ async function backToPortfolio(page: Page) {
   await expect(page.getByRole("heading", { name: "Proyectos Destacados" })).toBeAttached();
 }
 
-test("portfolio → Vitral → buy → back → portfolio ends on the portfolio", async ({ page }) => {
-  await page.goto("/");
-  await openFromLink(page, "/vitral/");
-  await expect(page).toHaveURL(/\/vitral\/$/);
-
-  await page.getByTestId("buy-license").click();
-  await expect(page).toHaveURL(/\/vitral\/comprar\/$/);
-
-  await page.locator('a[href="/vitral/"]').first().click();
-  await expect(page).toHaveURL(/\/vitral\/$/);
-
-  await backToPortfolio(page);
-  await page.goForward();
-  await expect(page).toHaveURL(/\/vitral\/$/);
-});
-
-test("opening the purchase page directly still leads back to the portfolio", async ({ page }) => {
-  await page.goto("/vitral/comprar/");
-  await page.locator('a[href="/vitral/"]').first().click();
-  await expect(page).toHaveURL(/\/vitral\/$/);
-
-  await backToPortfolio(page);
-  await page.goBack();
-  await expect(page).toHaveURL(/\/vitral\/$/);
-  await page.goBack();
-  await expect(page).toHaveURL(/\/vitral\/comprar\/$/);
-});
-
 test("portfolio → Rumbo → portfolio returns to the same place", async ({ page }) => {
   await page.goto("/");
   await openFromLink(page, "/rumbo/");
@@ -58,14 +30,17 @@ test("opening Rumbo directly leads back to the portfolio", async ({ page }) => {
   await expect(page).toHaveURL(/\/rumbo\/$/);
 });
 
-test("moving between both products never loops", async ({ page }) => {
+test("going to Rumbo twice never loops", async ({ page }) => {
   await page.goto("/");
   await openFromLink(page, "/rumbo/");
   await backToPortfolio(page);
-  await openFromLink(page, "/vitral/");
-  await page.getByTestId("buy-license").click();
-  await page.locator('a[href="/vitral/"]').first().click();
-  await backToPortfolio(page);
   await openFromLink(page, "/rumbo/");
   await backToPortfolio(page);
+});
+
+test("the Vitral card opens vitral.space in a new tab", async ({ page }) => {
+  await page.goto("/");
+  const link = page.locator('a[href="https://vitral.space/"]');
+  await expect(link).toHaveCount(1);
+  await expect(link).toHaveAttribute("target", "_blank");
 });
